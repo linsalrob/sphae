@@ -1,0 +1,7 @@
+name: spades
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - mash>=2.3
