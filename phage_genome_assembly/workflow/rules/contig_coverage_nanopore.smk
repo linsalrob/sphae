@@ -25,7 +25,7 @@ rule contig_coverage_unicycler_nano:
 
 rule contig_coverage_flye_nano:
     input:
-        contigs = os.path.join(ASSEMBLY, "{sample}-flye/assembly.fasta"),
+        contigs = os.path.join(POLISHING,"{sample}-medaka", "consensus.fasta"),
         s= os.path.join(QCDIR, "{sample}-filtlong.fastq")
     output:
         tsv = os.path.join(ASSEMBLY, "{sample}-flye", "{sample}-contigs.tsv")

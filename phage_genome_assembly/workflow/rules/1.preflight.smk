@@ -88,3 +88,8 @@ onerror:
     """Print an error message"""
     sys.stderr.write('\n\nERROR: phage_genomes failed to finish.\n\n')
 
+""" LONG READ POLISHING
+"""
+
+MEDAKA_MODEL = config["medakaModel"]
+POLISHING = os.path.join(OUTDIR, 'polishing')

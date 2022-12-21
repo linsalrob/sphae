@@ -31,6 +31,12 @@ elif config['sequencing'] == 'paired':
 #added assembler but not using it 
 #allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-metaspades", "contigs.fasta"), sample=SAMPLES))
 
+#polishing
+if config['sequencing'] == 'longread':
+    allTargets.append(expand(os.path.join(POLISHING, "{sample}-medaka", "consensus.fasta"), sample=SAMPLES))
+
+
+
 #coverage
 if config['sequencing'] == 'paired':
     allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-spades", "{sample}-contigs.tsv"), sample=SAMPLES))
