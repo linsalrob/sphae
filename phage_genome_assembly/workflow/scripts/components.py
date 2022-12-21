@@ -175,6 +175,6 @@ def main(assembler, graph, contigs, paths, output):
 
 
 
-main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.paths, snakemake.output.out)
+main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.path, snakemake.output.out)
 
 
