@@ -15,11 +15,13 @@ rule medaka:
     resources:
         mem_mb=32000,
         time=120
+    log:
+        os.path.join(logs, "medaka_{sample}.log")
     threads:
         16
     shell:
         """
-        medaka_consensus -i {input.fastq} -d {input.fasta} -o {output.dir} -m {params.model}  -t {threads}
+        medaka_consensus -i {input.fastq} -d {input.fasta} -o {output.dir} -m {params.model}  -t {threads} 2> {log}
         """
 
 
