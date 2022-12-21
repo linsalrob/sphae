@@ -18,9 +18,9 @@ This workflow is divided into three sections
 ## Install 
 Steps for installing this workflow 
 
-    git clone https://github.com/npbhavya/phage-genomes.git
-    cd phage-genomes
-    python setup.py install 
+    git clone https://github.com/linsalrob/spae.git
+    cd spae
+    pip install -e .
     #confirm the workflow is installed by running the below command 
     phage_genome_assembly --help
   

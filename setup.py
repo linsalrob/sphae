@@ -31,7 +31,7 @@ setup(
                    "Click==8.1.3"],
  entry_points={
   'console_scripts': [
-    'phage_genome_assembly=phage_genome_assembly.__main__:main'
+    'spae=phage_genome_assembly.__main__:main'
   ]},
  include_package_data=True,
 )
