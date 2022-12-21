@@ -11,12 +11,8 @@ rule join_assembly_stats_spades:
     output:
         tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_spades.tsv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
 
 
 rule join_assembly_stats_megahit:
@@ -27,9 +23,5 @@ rule join_assembly_stats_megahit:
     output:
         tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.tsv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi        
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
