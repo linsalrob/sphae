@@ -174,6 +174,6 @@ def main(assembler, graph, contigs, paths, output):
     print("Thanks for using components.py... Bye...!")
 
 
-main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.path, snakemake.output.out)
+main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.path, snakemake.params.o)
 
 
