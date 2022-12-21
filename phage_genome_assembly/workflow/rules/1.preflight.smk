@@ -93,3 +93,6 @@ onerror:
 MEDAKA_MODEL = config['medakaModel']
 POLISHING = os.path.join(OUTDIR, 'polishing')
 
+""" TMP Dir
+"""
+TMPDIR = config['temp_dir']
