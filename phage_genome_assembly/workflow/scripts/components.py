@@ -174,5 +174,7 @@ def main(assembler, graph, contigs, paths, output):
     print("Thanks for using components.py... Bye...!")
 
 
-if __name__ == "__main__":
-    main()
+
+main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.paths, snakemake.output.out)
+
+
