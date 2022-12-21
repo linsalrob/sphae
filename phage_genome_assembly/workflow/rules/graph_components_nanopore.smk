@@ -31,7 +31,7 @@ rule components_flye_nano:
     output:
         os.path.join(ASSEMBLY, "{sample}-flye", "graph_seq_details_flye.tsv"),
     params:
-        script_dir = "../scripts"
+        script_dir = "../scripts",
         o = os.path.join(ASSEMBLY, "{sample}-flye")
     log:
         os.path.join(logs, "components_flye_{sample}.log")
