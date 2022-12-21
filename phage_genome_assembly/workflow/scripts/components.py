@@ -28,42 +28,42 @@ __email__ = "vijini.mallawaarachchi@anu.edu.au"
 # -------------------------------------------------------------------
 
 
-@click.command()
-@click.option(
-    "--assembler",
-    "-a",
-    required=True,
-    help="assembler name (flye, spades or unicycler)",
-    type=click.Choice(["flye", "spades", "megahit", "unicycler"], case_sensitive=False),
-)
-@click.option(
-    "--graph",
-    "-g",
-    required=True,
-    help="path to the assembly graph file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--contigs",
-    "-c",
-    required=True,
-    help="path to the contigs file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--paths",
-    "-p",
-    required=False,
-    help="path to the contig paths file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--output",
-    "-o",
-    required=True,
-    help="path to the output folder",
-    type=click.Path(exists=True),
-)
+# @click.command()
+# @click.option(
+#     "--assembler",
+#     "-a",
+#     required=True,
+#     help="assembler name (flye, spades or unicycler)",
+#     type=click.Choice(["flye", "spades", "megahit", "unicycler"], case_sensitive=False),
+# )
+# @click.option(
+#     "--graph",
+#     "-g",
+#     required=True,
+#     help="path to the assembly graph file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--contigs",
+#     "-c",
+#     required=True,
+#     help="path to the contigs file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--paths",
+#     "-p",
+#     required=False,
+#     help="path to the contig paths file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--output",
+#     "-o",
+#     required=True,
+#     help="path to the output folder",
+#     type=click.Path(exists=True),
+# )
 def main(assembler, graph, contigs, paths, output):
 
     # Get contig lengths
@@ -172,7 +172,6 @@ def main(assembler, graph, contigs, paths, output):
         print("Exiting components.py... Bye...!")
 
     print("Thanks for using components.py... Bye...!")
-
 
 
 main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.path, snakemake.output.out)
