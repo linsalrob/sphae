@@ -24,5 +24,3 @@ rule join_assembly_stats_flye:
     conda: "../envs/graph.yaml"
     script:
         os.path.join('..', 'scripts', 'joining_stats.py')
-    script:
-        os.path.join('..', 'scripts', 'joining_stats.py')
