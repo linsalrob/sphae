@@ -90,6 +90,6 @@ onerror:
 
 """ LONG READ POLISHING
 """
-MEDAKA_MODEL = config["medakaModel"]
+MEDAKA_MODEL = config['medakaModel']
 POLISHING = os.path.join(OUTDIR, 'polishing')
 
