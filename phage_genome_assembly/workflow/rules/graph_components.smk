@@ -26,10 +26,10 @@ rule components_megahit:
         graph = os.path.join(ASSEMBLY, "{sample}-megahit", "{sample}.fastg"),
         path =  os.path.join(ASSEMBLY, "{sample}-megahit", "{sample}.fastg") # don't actually need this for components.py with megahit but to ensure script runs
     output:
-        os.path.join(ASSEMBLY, "{sample}-megahit", "graph_seq_details_megahit.tsv"),
-        assembler = 'megahit'
+        os.path.join(ASSEMBLY, "{sample}-megahit", "graph_seq_details_megahit.tsv")
     params:
-        o = os.path.join(ASSEMBLY, "{sample}-megahit")
+        o = os.path.join(ASSEMBLY, "{sample}-megahit"),
+        assembler = 'megahit'
     conda: "../envs/graph.yaml"
     log:
         os.path.join(logs, "components_megahit_{sample}.log")
