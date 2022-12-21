@@ -11,12 +11,8 @@ rule join_assembly_stats_unicycler:
     output:
         tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.tsv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
 
 rule join_assembly_stats_flye:
     input:
@@ -26,9 +22,7 @@ rule join_assembly_stats_flye:
     output:
         tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.tsv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
