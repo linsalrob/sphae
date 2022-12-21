@@ -23,10 +23,10 @@ rule viralverify_unicycler_nano:
 
 rule viralverify_flye_nano:
     input:
-        contigs = os.path.join(POLISHING,"{sample}-medaka", "consensus.fasta"),
+        contigs = os.path.join(ASSEMBLY, "{sample}-flye/assembly.fasta"),
         db= os.path.join(DATABASES, "Pfam35.0", "Pfam-A.hmm.gz")
     output:
-        out = os.path.join(ASSEMBLY, "{sample}-viralverify-flye", "consensus_result_table.csv")
+        out = os.path.join(ASSEMBLY, "{sample}-viralverify-flye", "assembly_result_table.csv")
     log:
         os.path.join(logs, "viralverify_flye_nano_{sample}.log")
     conda: "../envs/viralverify.yaml"
