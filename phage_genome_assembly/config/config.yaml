@@ -1,0 +1,7 @@
+# config settings the user is allowed to tweak
+input: "infile"
+outdir: "output"
+temp_dir: "tmp"
+
+#Databases 
+customDatabaseDirectory: "databases"

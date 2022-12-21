@@ -1,0 +1,33 @@
+name: PhageTerm_env_py3
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - backports
+  - backports.functools_lru_cache
+  - backports_abc
+  - cycler
+  - libwebp-base
+  - lz4-c
+  - matplotlib-base
+  - matplotlib
+  - numpy
+  - openssl
+  - pandas
+  - patsy
+  - pillow
+  - pip
+  - pyparsing
+  - python=3.7
+  - python-dateutil
+  - python_abi
+  - pytz
+  - readline
+  - reportlab
+  - scikit-learn
+  - scipy
+  - setuptools
+  - singledispatch
+  - statsmodels
+  - tk
+  - tornado
