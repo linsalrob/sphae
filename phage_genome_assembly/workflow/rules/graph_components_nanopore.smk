@@ -31,6 +31,7 @@ rule components_flye_nano:
     output:
         os.path.join(ASSEMBLY, "{sample}-flye", "graph_seq_details_flye.tsv"),
     params:
+        script_dir = "../scripts"
         o = os.path.join(ASSEMBLY, "{sample}-flye")
     log:
         os.path.join(logs, "components_flye_{sample}.log")
@@ -40,6 +41,6 @@ rule components_flye_nano:
     shell:
         """
             if [[ -s {input.contigs} ]]; then
-                python phage_genome_assembly/workflow/scripts/components.py -a flye -c {input.contigs} -p {input.path} -g {input.graph} -o {params.o} 2> {log}
+                python {params.script_dir}/components.py -a flye -c {input.contigs} -p {input.path} -g {input.graph} -o {params.o} 2> {log}
             fi
         """

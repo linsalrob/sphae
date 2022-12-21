@@ -37,7 +37,7 @@ Steps for installing this workflow
     
 ## Running the workflow
 
-### Step 1) Assembling phage genoems 
+### Step 1) Assembling phage genomes 
 
 **Steps in this section of workflow**
 Pure isolate phages seqeunced on Illumina (paired end) and Nanopore (long read) sequencing technology are processed through the following steps
