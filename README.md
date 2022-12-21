@@ -22,7 +22,7 @@ Steps for installing this workflow
     cd spae
     pip install -e .
     #confirm the workflow is installed by running the below command 
-    phage_genome_assembly --help
+    spae --help
   
  
 ## Installing databases
@@ -33,7 +33,7 @@ Steps for installing this workflow
 
   This is done automagically when the below command is run. 
   
-    phage_genome_assembly install database 
+    spae install database 
     
 ## Running the workflow
 
@@ -54,13 +54,13 @@ The final ouput is tab separated file providing the summary for each sample asse
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
 
     #For illumina reads, place the reads both forward and reverse reads to one directory
-    phage_genome_assembly run --input test/illumina-subset --output example --profile slurm 
+    spae run --input test/illumina-subset --output example --profile slurm 
 
     #For nanopore reads, place the reads, one file per sample in a directory
-    phage_genome_assembly run --input test/nanopore-subset --preprocess longread --output example 
+    spae run --input test/nanopore-subset --preprocess longread --output example 
 
     #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
-    phage_genome_assembly run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
+    spae run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
 
 **Output**
 
@@ -106,7 +106,7 @@ This section runs coverm again on the contigs to get read coverage across the co
 
 **Commands to run**
 
-      phage_genome_assembly contig --input test/nanopore-subset --preprocess longread --output ../example --phage-contigs ../example/phage_contigs/ --profile slurm
+      spae contig --input test/nanopore-subset --preprocess longread --output ../example --phage-contigs ../example/phage_contigs/ --profile slurm
 
 **Output**
 
@@ -147,7 +147,7 @@ Runs Pharokka to annotate the genomes.
 
 Save the phage genomes to a new directory (in this case, I named the directory phage-final)
   
-      phage_genome_assembly annotate --phage ../example/phage-final/ --output ../example --profile slurm
+      spae annotate --phage ../example/phage-final/ --output ../example --profile slurm
 
 **Output**
 
