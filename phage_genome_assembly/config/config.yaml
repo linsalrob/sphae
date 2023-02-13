@@ -6,5 +6,5 @@ temp_dir: "/tmp"
 #Databases 
 customDatabaseDirectory: "databases"
 medakaModel: "r941_min_sup_g507"
-flyeModel: "nano-hq"
+flyeModel: "--nano-hq"
 
