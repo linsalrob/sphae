@@ -92,6 +92,7 @@ onerror:
 """
 MEDAKA_MODEL = config['medakaModel']
 POLISHING = os.path.join(OUTDIR, 'polishing')
+FLYE_MODEL = config['flyeModel']
 
 """ TMP Dir
 """

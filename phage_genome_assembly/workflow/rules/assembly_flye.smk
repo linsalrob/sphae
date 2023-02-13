@@ -11,7 +11,8 @@ rule flye:
         gfa = os.path.join(ASSEMBLY, "{sample}-flye", "assembly_graph.gfa"),
         path= os.path.join(ASSEMBLY, "{sample}-flye", "assembly_info.txt")
     params:
-        out= os.path.join(ASSEMBLY, "{sample}-flye")
+        out= os.path.join(ASSEMBLY, "{sample}-flye"),
+        model = FLYE_MODEL
     log:
         os.path.join(logs, "flye_{sample}.log")
     conda:
@@ -20,5 +21,5 @@ rule flye:
         mem_mb=64000
     shell:
         """
-            flye --nano-corr {input} --threads {threads} --out-dir {params.out} 2> {log}
+            flye {params.model} {input} --threads {threads} --out-dir {params.out} 2> {log}
         """
