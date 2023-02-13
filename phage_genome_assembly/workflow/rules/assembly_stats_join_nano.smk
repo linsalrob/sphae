@@ -9,7 +9,7 @@ rule join_assembly_stats_unicycler:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-unicycler_nano", "assembly_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-nanopore-unicycler", "graph_seq_details_unicycler.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.csv")
     conda: "../envs/graph.yaml"
     script:
         os.path.join('..', 'scripts', 'joining_stats.py')
@@ -20,7 +20,7 @@ rule join_assembly_stats_flye:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-flye", "assembly_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-flye", "graph_seq_details_flye.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.csv")
     conda: "../envs/graph.yaml"
     script:
         os.path.join('..', 'scripts', 'joining_stats.py')

@@ -20,7 +20,7 @@ def consolidate(coverage, viral_check, graph_comp, out):
     o.to_csv(out, encoding='utf-8')
 
 
-consolidate(snakemake.input.coverm, snakemake.input.viralverify, snakemake.input.comp, snakemake.output.tsv)
+consolidate(snakemake.input.coverm, snakemake.input.viralverify, snakemake.input.comp, snakemake.output.csv)
 
 
 
