@@ -21,5 +21,5 @@ rule flye:
         mem_mb=64000
     shell:
         """
-            flye {params.model} {input} --threads {threads} --out-dir {params.out} 2> {log}
+            flye {params.model} {input} --threads {threads} --out-dir {params.out} --asm-coverage 100 2> {log}
         """
