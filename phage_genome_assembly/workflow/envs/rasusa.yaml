@@ -1,0 +1,7 @@
+name: rasusa
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - rasusa>=0.6.0

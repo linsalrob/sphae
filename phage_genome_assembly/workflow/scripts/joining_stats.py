@@ -20,12 +20,17 @@ def consolidate(coverage, viral_check, graph_comp, out):
     o.to_csv(out, encoding='utf-8')
 
 
+consolidate(snakemake.input.coverm, snakemake.input.viralverify, snakemake.input.comp, snakemake.output.csv)
 
-if __name__=='__main__' :
-    parser=argparse.ArgumentParser(description="Joining the stats tables with converage, graph components and viralverify results")
-    parser.add_argument ('-c', dest='coverm', help='Enter the coverm result filename')
-    parser.add_argument ('-v', dest='viralverify', help= 'Enter the viralverify results file')
-    parser.add_argument ('-g', dest='graph', help= 'Enter the graph components tsv file')
-    parser.add_argument ('-o', dest='output', help= 'Enter the output file name')
-    results=parser.parse_args()
-    consolidate(results.coverm, results.viralverify, results.graph, results.output)
+
+
+
+
+# if __name__=='__main__' :
+#     parser=argparse.ArgumentParser(description="Joining the stats tables with converage, graph components and viralverify results")
+#     parser.add_argument ('-c', dest='coverm', help='Enter the coverm result filename')
+#     parser.add_argument ('-v', dest='viralverify', help= 'Enter the viralverify results file')
+#     parser.add_argument ('-g', dest='graph', help= 'Enter the graph components tsv file')
+#     parser.add_argument ('-o', dest='output', help= 'Enter the output file name')
+#     results=parser.parse_args()
+#     consolidate(results.coverm, results.viralverify, results.graph, results.output)

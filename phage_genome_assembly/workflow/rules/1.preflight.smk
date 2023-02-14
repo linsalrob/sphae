@@ -45,12 +45,12 @@ elif config['sequencing'] == 'longread':
     print(f"Nanopore fastq files run through QC using filtlong, the outputs are saved to, {QCDIR}\n")
     SAMPLES,EXTENSIONS, =glob_wildcards(os.path.join(READDIR, '{sample}.{extn}'))
     if len(SAMPLES) ==0:
-        sys.stderr.write(f"We did not find any fastq files in {SAMPLES2}. Is this the right read dir?\n")
+        sys.stderr.write(f"We did not find any fastq files in {SAMPLES}. Is this the right read dir?\n")
         sys.stderr.write(f"If the files are there, but running into an error, check filepaths\n")
         sys.exit(0)
     if len(set(EXTENSIONS)) != 1:
         sys.stderr.write("FATAL: You have more than one type of file extension\n\t")
-        sys.stderr.write("\n\t".join(set(EXTENSIONS2)))
+        sys.stderr.write("\n\t".join(set(EXTENSIONS)))
         sys.stderr.write("\nWe don't know how to handle these\n")
         sys.exit(0)
 
@@ -88,3 +88,12 @@ onerror:
     """Print an error message"""
     sys.stderr.write('\n\nERROR: phage_genomes failed to finish.\n\n')
 
+""" LONG READ POLISHING
+"""
+MEDAKA_MODEL = config['medakaModel']
+POLISHING = os.path.join(OUTDIR, 'polishing')
+FLYE_MODEL = config['flyeModel']
+
+""" TMP Dir
+"""
+TMPDIR = config['temp_dir']

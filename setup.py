@@ -26,12 +26,12 @@ setup(
  author="Bhavya Papudeshi",
  author_email="npbhavya13@gmail.com",
  py_modules=['phage_genome_assembly'],
- install_requires=["snakemake==7.14.0",
+ install_requires=["snakemake>=7.14.0",
                    "pyyaml==6.0",
                    "Click==8.1.3"],
  entry_points={
   'console_scripts': [
-    'phage_genome_assembly=phage_genome_assembly.__main__:main'
+    'spae=phage_genome_assembly.__main__:main'
   ]},
  include_package_data=True,
 )

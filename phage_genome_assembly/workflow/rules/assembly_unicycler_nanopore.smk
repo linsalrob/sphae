@@ -4,7 +4,7 @@ Running unicycler on nanopore reads separately
 """
 rule unicyler_nanopore:
     input:
-        s= os.path.join(QCDIR, "{sample}-filtlong.fastq"),
+        s= os.path.join(QCDIR, "{sample}-rasusa.fastq"),
     params:
         out= os.path.join(ASSEMBLY, "{sample}-nanopore-unicycler")
     output:

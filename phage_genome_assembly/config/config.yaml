@@ -1,7 +1,10 @@
 # config settings the user is allowed to tweak
 input: "infile"
 outdir: "output"
-temp_dir: "tmp"
+temp_dir: "/tmp"
 
 #Databases 
 customDatabaseDirectory: "databases"
+medakaModel: "r941_min_sup_g507"
+flyeModel: "--nano-hq"
+
