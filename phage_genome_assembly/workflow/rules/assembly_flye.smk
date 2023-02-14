@@ -4,7 +4,7 @@ Running flye on nanopore reads
 """
 rule flye:
     input:
-        os.path.join(QCDIR, "{sample}-filtlong.fastq")
+        os.path.join(QCDIR, "{sample}-rasusa.fastq")
     threads: 10
     output:
         fasta = os.path.join(ASSEMBLY, "{sample}-flye", "assembly.fasta"),
