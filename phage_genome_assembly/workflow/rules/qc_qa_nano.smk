@@ -14,5 +14,5 @@ rule filtlong:
     shell:
         """
             export LC_ALL=en_US.UTF-8
-            filtlong --min_length 1000 --keep_percent 95 {input.i} > {output.o} 2> {log}
+            filtlong --min_length 1000 --target_bases 10000000 {input.i} > {output.o} 2> {log}
         """
