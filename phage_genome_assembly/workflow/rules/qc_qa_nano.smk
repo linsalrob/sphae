@@ -19,7 +19,7 @@ rule filtlong:
 
 rule rasusa:
     input:
-        i= oos.path.join(QCDIR, "{sample}-filtlong.fastq")
+        i= os.path.join(QCDIR, "{sample}-filtlong.fastq")
     output:
         o= os.path.join(QCDIR, "{sample}-rasusa.fastq")
     conda: "../envs/rasusa.yaml"
