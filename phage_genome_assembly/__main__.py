@@ -8,7 +8,7 @@ https://github.com/beardymcjohnface/Snaketool/wiki/Customising-your-Snaketool
 import os
 import click
 
-from .util import snake_base, print_version, copy_config, run_snakemake, OrderedCommands, print_citation
+from .util import snake_base, get_version, copy_config, run_snakemake, OrderedCommands, print_citation
 
 
 def common_options(func):
@@ -34,9 +34,12 @@ def common_options(func):
     return func
 
 
-@click.group(cls=OrderedCommands)
+@click.group(cls=OrderedCommands, context_settings=dict(help_option_names=["-h", "--help"]))
+@click.version_option(get_version(), "-v", "--version", is_flag=True)
 def cli():
-    """For more options, run:
+    """Assembling pure culture phages from both Illumina and Nanopore sequencing technology
+    \b
+    For more options, run:
     spae command --help"""
     pass
 
@@ -286,7 +289,6 @@ cli.add_command(citation)
 
 
 def main():
-    print_version()
     cli()
 
 

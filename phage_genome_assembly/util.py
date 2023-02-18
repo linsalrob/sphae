@@ -27,6 +27,12 @@ def print_version():
     click.echo('\n' + 'phage_genome_assembly version ' + version + '\n', err=True)
 
 
+def get_version():
+    with open(snake_base("phage_genome_assembly.VERSION"), "r") as f:
+        version = f.readline()
+    return version
+
+
 def print_citation():
     with open(snake_base('phage_genome_assembly.CITATION'), 'r') as f:
         for line in f:
