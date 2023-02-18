@@ -6,7 +6,7 @@ The assembly graph file  should be provided as inputs.
 
 """
 
-import click
+# import click
 
 from graph_utils import build_utils
 
@@ -16,7 +16,7 @@ __credits__ = "Vijini Mallawaarachchi"
 __license__ = "BSD-3"
 __type__ = "Support Script"
 __maintainer__ = "Vijini Mallawaarachchi"
-__email__ = "vijini.mallawaarachchi@anu.edu.au"
+__email__ = "viji.mallawaarachchi@gmail.com"
 
 # Sample command
 # -------------------------------------------------------------------
@@ -174,6 +174,10 @@ def main(assembler, graph, contigs, paths, output):
     print("Thanks for using components.py... Bye...!")
 
 
-main(snakemake.params.assembler, snakemake.input.graph, snakemake.input.contigs, snakemake.input.path, snakemake.params.o)
-
-
+main(
+    snakemake.params.assembler,
+    snakemake.input.graph,
+    snakemake.input.contigs,
+    snakemake.input.path,
+    snakemake.params.o,
+)
