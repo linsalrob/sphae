@@ -16,12 +16,14 @@ rule contig_coverage_unicycler_nano:
     resources:
         mem_mb=64000
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-nanopore-coverm_temp")
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm contig --single {input.s} --reference {input.contigs} -o {output.tsv} -t {threads} 2> {log} 
+                rm -rf {params.tmpdir}
             fi
         """
 
@@ -36,13 +38,15 @@ rule contig_coverage_flye_nano:
     conda: "../envs/coverm.yaml"
     threads: 10
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-flye-coverm_temp")
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm contig --single {input.s} --reference {input.contigs} -o {output.tsv} -t {threads} 2> {log}
+                rm -rf {params.tmpdir}
             fi
         """
