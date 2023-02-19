@@ -14,14 +14,16 @@ rule contig_coverage_spades:
     conda: "../envs/coverm.yaml"
     threads: 10
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-spades-coverm_temp")
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm contig -1 {input.r1} -2 {input.r2} --reference {input.contigs} -o {output.tsv} -t {threads} 2> {log}
+                rm -rf {params.tmpdir}
             fi
         """
 
@@ -37,13 +39,15 @@ rule contig_coverage_megahit:
     conda: "../envs/coverm.yaml"
     threads: 10
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-megahit-coverm_temp")
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm contig -1 {input.r1} -2 {input.r2} --reference {input.contigs} -o {output.tsv} -t {threads} 2> {log}
+                rm -rf {params.tmpdir}
             fi
         """
