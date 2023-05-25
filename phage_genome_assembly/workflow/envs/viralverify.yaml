@@ -1,7 +1,0 @@
-name: viralverify
-channels:
-    - conda-forge
-    - bioconda
-    - defaults
-dependencies:
-    - viralverify>=1.1
