@@ -14,12 +14,14 @@ rule genome_coverage_nanopore:
         os.path.join(logs, "coverm_ref_nanopore_{sample}.log")
     conda: "../envs/coverm.yaml"
     threads: 10
+    params:
+        tmpdir = TMPDIR
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
-                export TMPDIR=/scratch/user/nala0006/tmp
+                export TMPDIR={params.tmpdir}
                 coverm genome --single {input.s} --genome-fasta-files {input.contigs} -o {output.tsv} -m coverage_histogram -t {threads} --bam-file-cache-directory {params.bam_dir} 2> {log}
             fi
         """

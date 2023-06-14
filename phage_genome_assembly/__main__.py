@@ -1,5 +1,5 @@
 """
-Entrypoint for phage_genome_assembly
+Entrypoint for spae
 
 Check out the wiki for a detailed look at customising this file:
 https://github.com/beardymcjohnface/Snaketool/wiki/Customising-your-Snaketool
@@ -8,7 +8,7 @@ https://github.com/beardymcjohnface/Snaketool/wiki/Customising-your-Snaketool
 import os
 import click
 
-from .util import snake_base, print_version, copy_config, run_snakemake, OrderedCommands, print_citation
+from .util import snake_base, get_version, copy_config, run_snakemake, OrderedCommands, print_citation
 
 
 def common_options(func):
@@ -17,7 +17,7 @@ def common_options(func):
     """
     options = [
         click.option('--output', help='Output directory', type=click.Path(),
-                     default='phage_genome_assembly.out', show_default=True),
+                     default='spae.out', show_default=True),
         click.option('--configfile', default='config.yaml', help='Custom config file', show_default=True),
         click.option('--threads', help='Number of threads to use', default=1, show_default=True),
         click.option('--use-conda/--no-use-conda', default=True, help='Use conda for Snakemake rules',
@@ -34,10 +34,13 @@ def common_options(func):
     return func
 
 
-@click.group(cls=OrderedCommands)
+@click.group(cls=OrderedCommands, context_settings=dict(help_option_names=["-h", "--help"]))
+@click.version_option(get_version(), "-v", "--version", is_flag=True)
 def cli():
-    """For more options, run:
-    phage_genome_assembly command --help"""
+    """Assembling pure culture phages from both Illumina and Nanopore sequencing technology
+    \b
+    For more options, run:
+    spae command --help"""
     pass
 
 
@@ -46,21 +49,21 @@ help_msg_extra = """
 INSTALLING DATABASES REQUIRED
 This command downloads the databases to the directory 'database' 
 \b
-phage_genome_assembly install 
+spae install 
 \b
 \b
 CLUSTER EXECUTION:
-phage_genome_assembly run ... --profile [profile]
+spae run ... --profile [profile]
 For information on Snakemake profiles see:
 https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
 \b
 RUN EXAMPLES:
-Required:           phage_genome_assembly run --input [file]
-Specify threads:    phage_genome_assembly run ... --threads [threads]
-Disable conda:      phage_genome_assembly run ... --no-use-conda 
-Change defaults:    phage_genome_assembly run ... --snake-default="-k --nolock"
-Add Snakemake args: phage_genome_assembly run ... --dry-run --keep-going --touch
-Specify targets:    phage_genome_assembly run ... all print_targets
+Required:           spae run --input [file]
+Specify threads:    spae run ... --threads [threads]
+Disable conda:      spae run ... --no-use-conda 
+Change defaults:    spae run ... --snake-default="-k --nolock"
+Add Snakemake args: spae run ... --dry-run --keep-going --touch
+Specify targets:    spae run ... all print_targets
 Available targets:
     all             Run everything (default)
 \b
@@ -68,17 +71,17 @@ Available targets:
 PHAGE CONTIG QUALITY CHECK
 Step 2 of the workflow checking the quality of the assembled contigs
 \b
-phage_genome_assembly contig ... --profile [profile]
+spae contig ... --profile [profile]
 For information on Snakemake profiles see:
 https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
 \b
 RUN EXAMPLES:
-Required:           phage_genome_assembly contig --input [file] --contigs [file]
-Specify threads:    phage_genome_assembly contig ... --threads [threads]
-Disable conda:      phage_genome_assembly contig ... --no-use-conda 
-Change defaults:    phage_genome_assembly contig ... --snake-default="-k --nolock"
-Add Snakemake args: phage_genome_assembly contig ... --dry-run --keep-going --touch
-Specify targets:    phage_genome_assembly contig ... all genomes
+Required:           spae contig --input [file] --contigs [file]
+Specify threads:    spae contig ... --threads [threads]
+Disable conda:      spae contig ... --no-use-conda 
+Change defaults:    spae contig ... --snake-default="-k --nolock"
+Add Snakemake args: spae contig ... --dry-run --keep-going --touch
+Specify targets:    spae contig ... all genomes
 Available targets:
     all             Run everything (default)
 \b
@@ -86,17 +89,17 @@ Available targets:
 PHAGE TAXA ASSIGNMENT
 Step 3 of the workflow checking the quality of the assembled contigs
 \b
-phage_genome_assembly taxa ... --profile [profile]
+spae taxa ... --profile [profile]
 For information on Snakemake profiles see:
 https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
 \b
 RUN EXAMPLES:
-Required:           phage_genome_assembly taxa --phage [file]
-Specify threads:    phage_genome_assembly taxa ... --threads [threads]
-Disable conda:      phage_genome_assembly taxa ... --no-use-conda 
-Change defaults:    phage_genome_assembly taxa ... --snake-default="-k --nolock"
-Add Snakemake args: phage_genome_assembly taxa ... --dry-run --keep-going --touch
-Specify targets:    phage_genome_assembly taxa ... all 
+Required:           spae taxa --phage [file]
+Specify threads:    spae taxa ... --threads [threads]
+Disable conda:      spae taxa ... --no-use-conda 
+Change defaults:    spae taxa ... --snake-default="-k --nolock"
+Add Snakemake args: spae taxa ... --dry-run --keep-going --touch
+Specify targets:    spae taxa ... all 
 Available targets:
     all             Run everything (default)
 \b
@@ -104,17 +107,17 @@ Available targets:
 PHAGE ANNOTATION
 Step 4 of the workflow checking the quality of the assembled contigs
 \b
-phage_genome_assembly annotate ... --profile [profile]
+spae annotate ... --profile [profile]
 For information on Snakemake profiles see:
 https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
 \b
 RUN EXAMPLES:
-Required:           phage_genome_assembly annotate --phage [file]
-Specify threads:    phage_genome_assembly annotate ... --threads [threads]
-Disable conda:      phage_genome_assembly annotate ... --no-use-conda 
-Change defaults:    phage_genome_assembly annotate ... --snake-default="-k --nolock"
-Add Snakemake args: phage_genome_assembly annotate ... --dry-run --keep-going --touch
-Specify targets:    phage_genome_assembly annotate ... all 
+Required:           spae annotate --phage [file]
+Specify threads:    spae annotate ... --threads [threads]
+Disable conda:      spae annotate ... --no-use-conda 
+Change defaults:    spae annotate ... --snake-default="-k --nolock"
+Add Snakemake args: spae annotate ... --dry-run --keep-going --touch
+Specify targets:    spae annotate ... all 
 Available targets:
     all             Run everything (default)
 \b
@@ -146,7 +149,7 @@ def install(configfile, threads, use_conda, conda_prefix, snake_default, **kwarg
 @common_options
 def run(_input, preprocess, configfile, output, threads, use_conda, conda_prefix, snake_default,
         snake_args, **kwargs):
-    """Run phage_genome_assembly"""
+    """Run spae"""
 
     # copy default config file if missing
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
@@ -286,7 +289,6 @@ cli.add_command(citation)
 
 
 def main():
-    print_version()
     cli()
 
 

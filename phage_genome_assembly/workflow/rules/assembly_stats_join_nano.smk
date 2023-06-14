@@ -9,14 +9,10 @@ rule join_assembly_stats_unicycler:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-unicycler_nano", "assembly_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-nanopore-unicycler", "graph_seq_details_unicycler.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.csv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
 
 rule join_assembly_stats_flye:
     input:
@@ -24,11 +20,7 @@ rule join_assembly_stats_flye:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-flye", "assembly_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-flye", "graph_seq_details_flye.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.csv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')

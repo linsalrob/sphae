@@ -47,6 +47,10 @@ elif config['sequencing'] == 'paired':
     include: "rules/assembly_spades.smk"
     include: "rules/assembly_megahit.smk"
 
+### polishing 
+if config['sequencing'] == 'longread':
+    include: "rules/polishing_medaka.smk"
+
 #not running this assembler, but its there 
 #include: "rules/assembly_metaspades.smk"
 

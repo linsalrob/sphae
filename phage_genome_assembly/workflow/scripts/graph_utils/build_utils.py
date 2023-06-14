@@ -4,6 +4,14 @@ from Bio import SeqIO
 from igraph import *
 from collections import defaultdict
 
+__author__ = "Vijini Mallawaarachchi"
+__copyright__ = "Copyright 2019, GraphBin Project"
+__credits__ = "Vijini Mallawaarachchi"
+__license__ = "BSD-3"
+__type__ = "Support Script"
+__maintainer__ = "Vijini Mallawaarachchi"
+__email__ = "viji.mallawaarachchi@gmail.com"
+
 # -------------------------------------------------------------------
 # Bidirectional map
 # -------------------------------------------------------------------

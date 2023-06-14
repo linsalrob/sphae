@@ -31,6 +31,12 @@ elif config['sequencing'] == 'paired':
 #added assembler but not using it 
 #allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-metaspades", "contigs.fasta"), sample=SAMPLES))
 
+#polishing
+if config['sequencing'] == 'longread':
+    allTargets.append(expand(os.path.join(POLISHING, "{sample}-medaka", "consensus.fasta"), sample=SAMPLES))
+
+
+
 #coverage
 if config['sequencing'] == 'paired':
     allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-spades", "{sample}-contigs.tsv"), sample=SAMPLES))
@@ -57,8 +63,8 @@ elif config['sequencing'] == 'longread':
 
 #assembly stats
 if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_spades.tsv"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.tsv"), sample=SAMPLES))
+    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_spades.csv"), sample=SAMPLES))
+    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.csv"), sample=SAMPLES))
 elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.tsv"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.tsv"), sample=SAMPLES))
+    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_unicycler.csv"), sample=SAMPLES))
+    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.csv"), sample=SAMPLES))

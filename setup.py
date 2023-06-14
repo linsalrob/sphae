@@ -5,6 +5,16 @@ def get_version():
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'phage_genome_assembly', 'phage_genome_assembly.VERSION')) as f:
         return f.readline().strip()
 
+def get_description():
+    with open("README.md", "r") as fh:
+        long_description = fh.read()
+    return long_description
+
+
+def get_data_files():
+    data_files = [(".", ["README.md"])]
+    return data_files
+
 CLASSIFIERS = [
     "Environment :: Console",
     "Environment :: MacOS X",
@@ -20,18 +30,21 @@ CLASSIFIERS = [
 ]
 
 setup(
- name='phage_genome_assembly',
- description="Assembling pure culture phages from both Illumina and Nanopore sequencing technology",
- version=get_version(),
- author="Bhavya Papudeshi",
- author_email="npbhavya13@gmail.com",
- py_modules=['phage_genome_assembly'],
- install_requires=["snakemake==7.14.0",
-                   "pyyaml==6.0",
-                   "Click==8.1.3"],
- entry_points={
+  name='phage_genome_assembly',
+  description="Assembling pure culture phages from both Illumina and Nanopore sequencing technology",
+  long_description=get_description(),
+  long_description_content_type="text/markdown",
+  version=get_version(),
+  author="Bhavya Papudeshi",
+  author_email="npbhavya13@gmail.com",
+  data_files=get_data_files(),
+  py_modules=['phage_genome_assembly'],
+  install_requires=["snakemake>=7.14.0",
+                    "pyyaml==6.0",
+                    "Click==8.1.3"],
+  entry_points={
   'console_scripts': [
-    'phage_genome_assembly=phage_genome_assembly.__main__:main'
+    'spae=phage_genome_assembly.__main__:main'
   ]},
- include_package_data=True,
+  include_package_data=True,
 )

@@ -6,7 +6,7 @@ The assembly graph file  should be provided as inputs.
 
 """
 
-import click
+# import click
 
 from graph_utils import build_utils
 
@@ -16,7 +16,7 @@ __credits__ = "Vijini Mallawaarachchi"
 __license__ = "BSD-3"
 __type__ = "Support Script"
 __maintainer__ = "Vijini Mallawaarachchi"
-__email__ = "vijini.mallawaarachchi@anu.edu.au"
+__email__ = "viji.mallawaarachchi@gmail.com"
 
 # Sample command
 # -------------------------------------------------------------------
@@ -28,42 +28,42 @@ __email__ = "vijini.mallawaarachchi@anu.edu.au"
 # -------------------------------------------------------------------
 
 
-@click.command()
-@click.option(
-    "--assembler",
-    "-a",
-    required=True,
-    help="assembler name (flye, spades or unicycler)",
-    type=click.Choice(["flye", "spades", "megahit", "unicycler"], case_sensitive=False),
-)
-@click.option(
-    "--graph",
-    "-g",
-    required=True,
-    help="path to the assembly graph file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--contigs",
-    "-c",
-    required=True,
-    help="path to the contigs file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--paths",
-    "-p",
-    required=False,
-    help="path to the contig paths file",
-    type=click.Path(exists=True),
-)
-@click.option(
-    "--output",
-    "-o",
-    required=True,
-    help="path to the output folder",
-    type=click.Path(exists=True),
-)
+# @click.command()
+# @click.option(
+#     "--assembler",
+#     "-a",
+#     required=True,
+#     help="assembler name (flye, spades or unicycler)",
+#     type=click.Choice(["flye", "spades", "megahit", "unicycler"], case_sensitive=False),
+# )
+# @click.option(
+#     "--graph",
+#     "-g",
+#     required=True,
+#     help="path to the assembly graph file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--contigs",
+#     "-c",
+#     required=True,
+#     help="path to the contigs file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--paths",
+#     "-p",
+#     required=False,
+#     help="path to the contig paths file",
+#     type=click.Path(exists=True),
+# )
+# @click.option(
+#     "--output",
+#     "-o",
+#     required=True,
+#     help="path to the output folder",
+#     type=click.Path(exists=True),
+# )
 def main(assembler, graph, contigs, paths, output):
 
     # Get contig lengths
@@ -174,5 +174,10 @@ def main(assembler, graph, contigs, paths, output):
     print("Thanks for using components.py... Bye...!")
 
 
-if __name__ == "__main__":
-    main()
+main(
+    snakemake.params.assembler,
+    snakemake.input.graph,
+    snakemake.input.contigs,
+    snakemake.input.path,
+    snakemake.params.o,
+)

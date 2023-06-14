@@ -9,14 +9,10 @@ rule join_assembly_stats_spades:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-spades", "contigs_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-spades", "graph_seq_details_spades.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_spades.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_spades.csv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
 
 
 rule join_assembly_stats_megahit:
@@ -25,11 +21,7 @@ rule join_assembly_stats_megahit:
         viralverify = os.path.join(ASSEMBLY, "{sample}-viralverify-megahit", "{sample}.contigs_result_table.csv"),
         comp = os.path.join(ASSEMBLY, "{sample}-megahit", "graph_seq_details_megahit.tsv")
     output:
-        tsv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.tsv")
+        csv = os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.csv")
     conda: "../envs/graph.yaml"
-    shell:
-        """
-            if [[ -s {input.coverm} ]]; then
-                python phage_genome_assembly/workflow/scripts/joining_stats.py -c {input.coverm} -v {input.viralverify} -g {input.comp} -o {output.tsv}
-            fi        
-        """
+    script:
+        os.path.join('..', 'scripts', 'joining_stats.py')
