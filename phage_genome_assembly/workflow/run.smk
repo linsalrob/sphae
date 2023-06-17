@@ -41,18 +41,13 @@ elif config['sequencing'] == 'longread':
 
 #add the assembler you choose here, hopefully I have the assembler added as snakemake file already
 if config['sequencing'] == 'longread':
-    include: "rules/assembly_unicycler_nanopore.smk"
     include: "rules/assembly_flye.smk"
 elif config['sequencing'] == 'paired':
-    include: "rules/assembly_spades.smk"
     include: "rules/assembly_megahit.smk"
 
 ### polishing 
 if config['sequencing'] == 'longread':
     include: "rules/polishing_medaka.smk"
-
-#not running this assembler, but its there 
-#include: "rules/assembly_metaspades.smk"
 
 #automating picking the phage contigs - circular graphs with high coverage from the assembly results
 # Step 1: calculating coverage of all the contigs assembled using coverm 
