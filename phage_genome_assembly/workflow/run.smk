@@ -45,10 +45,6 @@ if config['sequencing'] == 'longread':
 elif config['sequencing'] == 'paired':
     include: "rules/assembly_megahit.smk"
 
-### polishing 
-if config['sequencing'] == 'longread':
-    include: "rules/polishing_medaka.smk"
-
 #automating picking the phage contigs - circular graphs with high coverage from the assembly results
 # Step 1: calculating coverage of all the contigs assembled using coverm 
 if config['sequencing'] == 'paired':

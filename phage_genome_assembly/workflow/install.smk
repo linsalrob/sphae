@@ -20,8 +20,6 @@ include: "rules/1.preflight-database.smk"
 allDatabaseFiles = []
 
 allDatabaseFiles.append(os.path.join(databaseDir, config['pfam_file']))
-#allDatabaseFiles.append(os.path.join(databaseDir, 'terminase-db2022.zip'))
-allDatabaseFiles.append(os.path.join(databaseDir, 'pharokka_db', 'phrogs_db.index'))
 
 """RUN SNAKEMAKE"""
 rule all:
@@ -38,36 +36,4 @@ rule pfam_download:
     shell:
         """
             curl -Lo {output} {params.url}
-        """
-
-#rule  terminase_download:
-#    params:
-#        url= os.path.join(config['terminase'])
-#    output:
-#        o=os.path.join(databaseDir, 'terminase-db2022.zip'),
-#    shell:
-#        """
-#            curl -Lo {output.o} {params.url}
-#            unzip {output.o} -d {databaseDir}
-#        """
-
-rule  pharokka_download:
-    params: 
-        pharokka=os.path.join(databaseDir, 'pharokka_db')
-    output:
-        out=os.path.join(databaseDir, 'pharokka_db', 'phrogs_db.index')
-    conda: "envs/pharokka.yaml"
-    shell:
-        """
-            install_databases.py -o {params.pharokka}
-        """
-
-rule refseq_mash:
-    params:
-        refseq = os.path.join(databaseDir, 'mash_index')
-    output:
-        out=os.path.join(databaseDir, 'mash_index', 'refseq.genomes.k21s1000.msh')
-    shell:
-        """
-            wget {params.refseq}
         """
