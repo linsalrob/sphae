@@ -1,4 +1,4 @@
-# Phage genome toolkit 
+# Phage genome toolkit  - *Crassvirales version*
 **Phage genome assembly and annotation**
 
 This workflow is divided into three sections
@@ -13,7 +13,7 @@ This workflow is divided into three sections
 
   Go through the coverage of the phage contigs to confirm there is even coverage. Pick a represenative contig for each sample across assemblies that seems like the highest quality
   
-3) Annotation: Running Pharokka 
+3) Annotation: Running crassUS[https://github.com/dcarrillox/CrassUS/tree/docs]. CrassUS was developed specifically for annotating genomes from the Crassvirales order, incorporating a focused database including known Crassvirales genomes. This program generates a table of taxa annotations, functional annotations, the presence of direct terminal repeats (DTR), and average nucleotide identities of the most similar reference genomes. Taxonomic annotations from CrassUS were used, as they follow the ICTV (22,28) *Crassvirales* order demarcation criteria to determine taxonomy. 
 
 ## Install 
 Steps for installing this workflow 
@@ -28,9 +28,7 @@ Steps for installing this workflow
 ## Installing databases
   This workflow requires the 
   - Pfam35.0 database to run viral_verify for contig classification. 
-  - large terminase subunit sequences, BLAST database 
-  - Pharokka databases 
-
+  
   This is done automagically when the below command is run. 
   
     spae install database 
@@ -42,7 +40,7 @@ Steps for installing this workflow
 **Steps in this section of workflow**
 Pure isolate phages seqeunced on Illumina (paired end) and Nanopore (long read) sequencing technology are processed through the following steps
   - quality control (Illumina: prinseq++, Nanopore: Filtlong)
-  - assembly (Illumina: SPAdes and Megahit, Nanopore: Flye and Unicycler)
+  - assembly (Illumina: Megahit, Nanopore: Flye)
   - assembly statistics: 
       - read coverage of each contig (CoverM), 
       - contig classification as bacterial/plasmid/viral (viral verify)
@@ -73,7 +71,7 @@ Each of these files shold contain the 12 columns with the folowing titles and re
 |1    | 2     |    3                                     | 4       |  5       | 6         |  7        |   8      |  9     |  10       |  11 | 12      |
 |-----|-------|------------------------------------------|---------|----------|-----------|-----------|----------|--------|-----------|-----|---------|
 |Index| Contig| assembly.fasta/reads-filtlong.fastq Mean |Length_x |Circular_x|Connections|Contig name|Prediction|Length_y|Circular_y|Score|Pfam hits|
-|0    |contig_1|43.97074                                 |100739   |False     |0          |contig_1   |Virus     |100739  |-         |40.06|Glucosaminidase HNH_3 UDG Asp_protease_2 NUMOD4 GIY-YIG Band_7 Ribonuc_red_lgC DUF1599 Radical_SAM Helicase_C DUF3799 dUTPase Thy1 Toprim_2 NUMOD1 DUF5675 DNA_pol_A_exo1 VWA ThiF AAA_33 NUMOD3 DNA_pol_A |
+|0    |contig_1|43.97074                                 |100739   |False     |0          |contig_1   |Virus     |100739  |-         |40.06| DNA_pol_A |
 
 ### Manual step
 
@@ -137,19 +135,45 @@ From the output files, pick one phage contig per sample. These are the contigs t
   
   Move the representative assembly from recircular-rc to its own directory (For instance: Phage-contigs-final)
   
+**Polishing the nanopore assemblies with Illumina reads**
+
+This step was performed since the Nanopore error rate is higher than Illumina, so polishing with the Illumina reads can correct for these error. 
+
+For polishing, we ran Polca (https://github.com/alekseyzimin/masurca). First install the code 
+
+      conda install -c bioconda masurca
+      polca.sh -a read.fasta -r 'reads_R1.fastq reads_R2.fastq.gz' -t 16 -m 1G
+
 ### Step 3) Annotation 
 
 **Annotate the phage genomes**
+We ran crassUS here, https://github.com/dcarrillox/CrassUS/tree/docs. 
 
-Runs Pharokka to annotate the genomes. 
+The code 
 
-**Command**
+      #Installation
+      #link, https://crassus.readthedocs.io/en/latest/getting_started/installation.html 
+      git clone https://github.com/dcarrillox/CrassUS.git
+      cd CrassUS
 
-Save the phage genomes to a new directory (in this case, I named the directory phage-final)
-  
-      spae annotate --phage ../example/phage-final/ --output ../example --profile slurm
+      #Note the long notation --file flag; -f will not work.
+      conda create -n crassus --file=conda-linux-64.lock
 
-**Output**
+      #Activate it - use the name you gave above, if it is different
+      conda activate crassus
 
-The output will be saved to "example/pharokka" directory
+      #The (crassus) prefix shows we have activated it
+      # Check the snakemake version
+      snakemake --version
+      
+Generate a samplesheet, 
 
+  |analysis_id	|sample_id	|fasta|
+  |--------|------|-----|
+  |my_analysis	|sample_1	|/path/to/sample_1/sample_1.fasta|
+  |my_analysis	|sample_2	|/path/to/sample_2/sample_2.fasta|
+  |my_analysis	|sample_3	|/path/to/sample_3/sample_3.fasta|
+
+Running crassUS 
+
+      snakemake -j 16 --use-conda --conda-frontend mamba --use-singularity
