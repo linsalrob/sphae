@@ -4,6 +4,7 @@ databases/
 phage_genome_assembly/.snakemake
 phage_genome_assembly/databases
 phage_genome_assembly/phage_genome_assembly.egg-info
+phage_genome_assembly.egg-info
 logs_slurm/
 
 # Byte-compiled / optimized / DLL files

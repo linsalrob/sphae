@@ -20,7 +20,7 @@ include: "rules/1.preflight-database.smk"
 allDatabaseFiles = []
 
 allDatabaseFiles.append(os.path.join(databaseDir, config['pfam_file']))
-allDatabaseFiles.append(os.path.join(databaseDir, 'terminase-db2022.zip'))
+#allDatabaseFiles.append(os.path.join(databaseDir, 'terminase-db2022.zip'))
 allDatabaseFiles.append(os.path.join(databaseDir, 'pharokka_db', 'phrogs_db.index'))
 
 """RUN SNAKEMAKE"""
@@ -40,16 +40,16 @@ rule pfam_download:
             curl -Lo {output} {params.url}
         """
 
-rule  terminase_download:
-    params:
-        url= os.path.join(config['terminase'])
-    output:
-        o=os.path.join(databaseDir, 'terminase-db2022.zip'),
-    shell:
-        """
-            curl -Lo {output.o} {params.url}
-            unzip {output.o} -d {databaseDir}
-        """
+#rule  terminase_download:
+#    params:
+#        url= os.path.join(config['terminase'])
+#    output:
+#        o=os.path.join(databaseDir, 'terminase-db2022.zip'),
+#    shell:
+#        """
+#            curl -Lo {output.o} {params.url}
+#            unzip {output.o} -d {databaseDir}
+#        """
 
 rule  pharokka_download:
     params: 
