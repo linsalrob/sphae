@@ -1,7 +1,5 @@
 # Phage genome toolkit 
 **Phage genome assembly and annotation**
-<img src="[URL_OF_IMAGE](https://github.com/linsalrob/spae/blob/crass/GitHub-picture.png)" alt="Overview of the workflow">
-
 This workflow is divided into three sections
 1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
   Often there are other bacterial, plasmid and prophage contigs along with the phage isolates assembled from the sequences. If there are lots of contigs assembled, then the end of this section requires a manual step. 
