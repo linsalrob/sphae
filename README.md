@@ -1,6 +1,9 @@
 # Phage genome toolkit  - *Crassvirales version*
 **Phage genome assembly and annotation**
 
+![Overview of the workflow]([URL_OF_IMAGE](https://github.com/linsalrob/spae/blob/crass/GitHub-picture.png){:width="10" height="20"}
+
+
 This workflow is divided into three sections
 1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
   Often there are other bacterial, plasmid and prophage contigs along with the phage isolates assembled from the sequences. If there are lots of contigs assembled, then the end of this section requires a manual step. 
