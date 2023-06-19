@@ -1,8 +1,7 @@
 # Phage genome toolkit  - *Crassvirales version*
 **Phage genome assembly and annotation**
 
-![Overview of the workflow]([URL_OF_IMAGE](https://github.com/linsalrob/spae/blob/crass/GitHub-picture.png){:width="10" height="20"}
-
+![Overview of the workflow](https://github.com/linsalrob/spae/blob/crass/GitHub-picture.png){:width="300px" height="200px"}
 
 This workflow is divided into three sections
 1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
