@@ -4,7 +4,7 @@ Generating a table and bam files with read coverage of the phage contig
 #rule to build the bam files 
 rule genome_coverage_illumina:
     input:
-        contigs = os.path.join(OUTDIR, "recircular-rc", "{sample}.fasta"),
+        contigs = os.path.join(GENOMEDIR, "{sample}.fasta"),
         r1= os.path.join(QCDIR, "{sample}_good_out_R1.fastq"),
         r2= os.path.join(QCDIR, "{sample}_good_out_R2.fastq")
     output:
@@ -17,14 +17,16 @@ rule genome_coverage_illumina:
     conda: "../envs/coverm.yaml"
     threads: 10
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-contigs-megahit-coverm_temp")
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm genome -1 {input.r1} -2 {input.r2} --genome-fasta-files {input.contigs} -o {output.tsv} -m coverage_histogram -t {threads} --bam-file-cache-directory {params.bam_dir} 2> {log}
+                rm -rf {params.tmpdir}
             fi
         """
 

@@ -85,6 +85,10 @@ if (os.path.exists(OUTDIR)==True):
             
         GENOMEDIR = os.path.join(OUTDIR, PHAGECONTIGS)
 
+""" TMP Dir
+"""
+TMPDIR = config['temp_dir']
+
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
 """

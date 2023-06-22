@@ -1,14 +1,10 @@
-contigs: ../Steno_phage_output/phage_contigs_all/
+contigs: ../Steno_phage_output_ASM/polished-contigs
 customDatabaseDirectory: databases
-input: ../Steno_bacteria
+flyeModel: --nano-hq
+input: ../Steno_phages
+medakaModel: r941_min_sup_g507
 outdir: output
-output: ../crassphage
-phage: ../crassphage/phage_finalset
+output: ../Steno_phage_output_ASM
+phage: ../Steno_phage_output_ASM/polished-contigs
 sequencing: longread
-temp_dir: tmp
-medakaModel: "r941_min_sup_g507"
-flyeModel: "--nano-hq"
-
-
-
-
+temp_dir: /tmp

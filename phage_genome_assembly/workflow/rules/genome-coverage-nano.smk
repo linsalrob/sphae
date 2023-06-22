@@ -3,7 +3,7 @@ Generating a table and bam files with read coverage of the phage contig
 """
 rule genome_coverage_nanopore:
     input:
-        contigs = os.path.join(OUTDIR, "recircular-rc", "{sample}.fasta"),
+        contigs = os.path.join(GENOMEDIR, "{sample}.fasta"),
         s= os.path.join(QCDIR, "{sample}-filtlong.fastq")
     output:
         tsv = os.path.join(OUTDIR, "coverage", "{sample}-NanoReads.tsv"),
@@ -15,14 +15,16 @@ rule genome_coverage_nanopore:
     conda: "../envs/coverm.yaml"
     threads: 10
     params:
-        tmpdir = TMPDIR
+        tmpdir = os.path.join(TMPDIR, "{sample}-contigs-flye-coverm_temp")
     resources:
         mem_mb=64000
     shell:
         """
             if [[ -s {input.contigs} ]]; then
+                mkdir -p {params.tmpdir}
                 export TMPDIR={params.tmpdir}
                 coverm genome --single {input.s} --genome-fasta-files {input.contigs} -o {output.tsv} -m coverage_histogram -t {threads} --bam-file-cache-directory {params.bam_dir} 2> {log}
+                rm -rf {params.tmpdir}
             fi
         """
 
@@ -30,9 +32,9 @@ localrules: index_bam
 #indexing the bam files generated 
 rule index_bam:
     input:
-        bam= os.path.join(OUTDIR, "coverage", "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam")
+        bam= os.path.join(OUTDIR, "coverage", "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam")
     output:
-        out=os.path.join(OUTDIR, "coverage", "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam.bai")
+        out= os.path.join(OUTDIR, "coverage", "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam.bai")
     conda: "../envs/samtools.yaml"
     shell:
         """

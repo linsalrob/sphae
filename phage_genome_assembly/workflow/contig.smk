@@ -28,11 +28,13 @@ Add rules files with the include directive here, or add rules AFTER rule 'all'.
 
 #The rest only if phage genomes have been assembled already
 #Recircularise
-include: "rules/recircular.smk"
+#include: "rules/recircular.smk"
 
 #phage contigs assessment
-include: "rules/genome-coverage.smk"
-include: "rules/genome-coverage-nano.smk"
+if config['sequencing'] == 'paired':
+    include: "rules/genome-coverage.smk"
+elif config['sequencing'] == 'longread':
+    include: "rules/genome-coverage-nano.smk"
 
 
 """RUN SNAKEMAKE!"""
