@@ -8,7 +8,31 @@ https://github.com/beardymcjohnface/Snaketool/wiki/Customising-your-Snaketool
 import os
 import click
 
-from .util import snake_base, get_version, copy_config, run_snakemake, OrderedCommands, print_citation
+from snaketool_utils.cli_utils import OrderedCommands, run_snakemake, copy_config, echo_click
+
+
+def snake_base(rel_path):
+    """Get the filepath to a Snaketool system file (relative to __main__.py)"""
+    return os.path.join(os.path.dirname(os.path.realpath(__file__)), rel_path)
+
+
+def get_version():
+    with open(snake_base("phage_genome_assembly.VERSION"), "r") as f:
+        version = f.readline()
+    return version
+
+
+def print_citation():
+    with open(snake_base("phage_genome_assembly.CITATION"), "r") as f:
+        for line in f:
+            echo_click(line)
+
+
+def default_to_output(ctx, param, value):
+    """Callback for click options; places value in output directory unless specified"""
+    if param.default == value:
+        return os.path.join(ctx.params["output"], value)
+    return value
 
 
 def common_options(func):
@@ -18,7 +42,8 @@ def common_options(func):
     options = [
         click.option('--output', help='Output directory', type=click.Path(),
                      default='spae.out', show_default=True),
-        click.option('--configfile', default='config.yaml', help='Custom config file', show_default=True),
+        click.option("--configfile", default="spae.config.yaml", show_default=False, callback=default_to_output,
+                     help="Custom config file [default: (outputDir)/spae.config.yaml]",),
         click.option('--threads', help='Number of threads to use', default=1, show_default=True),
         click.option('--use-conda/--no-use-conda', default=True, help='Use conda for Snakemake rules',
                      show_default=True),
@@ -27,6 +52,7 @@ def common_options(func):
         click.option('--snake-default', multiple=True,
                      default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'],
                      help="Customise Snakemake runtime args", show_default=True),
+        click.option("--log", default="spae.log", callback=default_to_output, hidden=True,),
         click.argument('snake_args', nargs=-1)
     ]
     for option in reversed(options):
@@ -124,145 +150,109 @@ Available targets:
 \b
 """
 
-@click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 
+@click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @common_options
-def install(configfile, threads, use_conda, conda_prefix, snake_default, **kwargs ):
-    """
-    The install function for databases
-    """
-    print("Checking and installing databases for atavide to directory")
+def install(**kwargs ):
+    """The install function for databases"""
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'install.smk')),   # Full path to Snakefile
-        configfile=snake_base(os.path.join('config', 'databases.yaml')),
-        snake_default_args=snake_default,
-        use_conda=use_conda,
+        system_config=snake_base(os.path.join('config', 'databases.yaml')),
+        **kwargs
     )
+
 
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--input', '_input', help='Input file/directory', type=str, required=True)
 @click.option('--preprocess', help="sequencing method", default='paired', show_default=True,
                      type=click.Choice(['paired', 'longread']))
-
 @common_options
-def run(_input, preprocess, configfile, output, threads, use_conda, conda_prefix, snake_default,
-        snake_args, **kwargs):
+def run(**kwargs):
     """Run spae"""
-
-    # copy default config file if missing
-    copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     # Config to add or update in configfile
     merge_config = {
-        'input': _input,
-        'output': output,
-        'sequencing': preprocess,
+        'input': kwargs["_input"],
+        'output': kwargs["output"],
+        'sequencing': kwargs["preprocess"],
         }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'run.smk')),   # Full path to Snakefile
-        configfile=configfile,
+        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
-        threads=threads,
-        use_conda=use_conda,
-        conda_prefix=conda_prefix,
-        snake_default_args=snake_default,
-        snake_extra=snake_args,
+        **kwargs
     )
+
 
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--input', '_input', help='Input file/directory', type=str, required=True)
 @click.option('--preprocess', help="sequencing method", default='paired', show_default=True,
                      type=click.Choice(['paired', 'longread']))
 @click.option('--phage-contigs', '_contigs', help="phage contigs picked from assemblies", required=True)
-
 @common_options
-def contig(_input, _contigs, preprocess, configfile, output, threads, use_conda, conda_prefix, snake_default,
-        snake_args, **kwargs):
+def contig(**kwargs):
     """Run phage_contig_quality_check"""
-
-    # copy default config file if missing
-    copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     # Config to add or update in configfile
     merge_config = {
-        'input': _input,
-        'output': output,
-        'sequencing': preprocess,
-        'contigs': _contigs,
+        'input': kwargs["_input"],
+        'output': kwargs["output"],
+        'sequencing': kwargs["preprocess"],
+        'contigs': kwargs["_contigs"],
         }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'contig.smk')),   # Full path to Snakefile
-        configfile=configfile,
+        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
-        threads=threads,
-        use_conda=use_conda,
-        conda_prefix=conda_prefix,
-        snake_default_args=snake_default,
-        snake_extra=snake_args,
+        **kwargs
     )
+
 
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--phage', '_phage', help='Input file/directory', type=str, required=True)
-
 @common_options
-def annotate(_phage, configfile, output, threads, use_conda, conda_prefix, snake_default,
-        snake_args, **kwargs):
+def annotate(**kwargs):
     """Run phage_contig_quality_check"""
-
-    # copy default config file if missing
-    copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     # Config to add or update in configfile
     merge_config = {
-        'phage': _phage,
-        'output': output,
+        'phage': kwargs["_phage"],
+        'output': kwarags["output"],
         }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'annotate.smk')),   # Full path to Snakefile
-        configfile=configfile,
+        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
-        threads=threads,
-        use_conda=use_conda,
-        conda_prefix=conda_prefix,
-        snake_default_args=snake_default,
-        snake_extra=snake_args,
+        **kwargs
     )
+
 
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--phage', '_phage', help='Input file/directory', type=str, required=True)
-
 @common_options
-def taxa(_phage, configfile, output, threads, use_conda, conda_prefix, snake_default,
-        snake_args, **kwargs):
+def taxa(**kwargs):
     """Run phage_contig_quality_check"""
-
-    # copy default config file if missing
-    copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     # Config to add or update in configfile
     merge_config = {
-        'phage': _phage,
-        'output': output,
+        'phage': kwargs["_phage"],
+        'output': kwargs["output"],
         }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'taxa.smk')),   # Full path to Snakefile
-        configfile=configfile,
+        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
-        threads=threads,
-        use_conda=use_conda,
-        conda_prefix=conda_prefix,
-        snake_default_args=snake_default,
-        snake_extra=snake_args,
+        **kwargs
     )
 
 
