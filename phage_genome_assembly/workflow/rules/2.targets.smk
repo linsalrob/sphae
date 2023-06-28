@@ -1,57 +1,55 @@
-"""
-Declare your targets here!
-A separate file is ideal if you have lots of target files to create, or need some python logic to determine
-the targets to declare. This example shows targets that are dependent on the input file type.
-"""
-allTargets =[]
+import attrmap as ap
+import attrmap.utils as au
 
 
-#QC_QA
-if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(QCDIR, "{sample}_good_out_R1.fastq"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(QCDIR, "{sample}_good_out_R2.fastq"), sample=SAMPLES))
-elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(QCDIR, "{sample}-filtlong.fastq"), sample=SAMPLES))
+targets = ap.AttrMap()
 
 
-#assembly
-if config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-flye", "assembly.fasta"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-flye", "assembly_graph.gfa"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-flye", "assembly_info.txt"), sample=SAMPLES))
-elif config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-megahit", "{sample}.contigs.fa"), sample=SAMPLES))
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-megahit", "{sample}.fastg"), sample=SAMPLES))
+targets.db = []
 
-#added assembler but not using it 
-#allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-metaspades", "contigs.fasta"), sample=SAMPLES))
-
-#polishing
-if config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(POLISHING, "{sample}-medaka", "consensus.fasta"), sample=SAMPLES))
+targets.db.append(os.path.join(dir.db, config.db.pfam_file))
+targets.db.append(os.path.join(dir.db, 'pharokka_db', 'phrogs_db.index'))
 
 
+targets.qc = []
 
-#coverage
-if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-megahit", "{sample}-contigs.tsv"), sample=SAMPLES))
-elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-flye", "{sample}-contigs.tsv"), sample=SAMPLES))
+if config.args.sequencing == 'paired':
+    targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}.paired.{r12}.fastq.gz"), sample=samples.names, r12=["R1","R2","S"]))
+elif config.args.sequencing == 'longread':
+    targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}.single.fastq.gz"), sample=samples.names))
 
-#viralverify
-if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-viralverify-megahit", "{sample}.contigs_result_table.csv"), sample=SAMPLES))
-elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-viralverify-flye", "assembly_result_table.csv"), sample=SAMPLES))
 
-#graph components 
-if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-megahit", "graph_seq_details_megahit.tsv"), sample=SAMPLES))
-elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-flye", "graph_seq_details_flye.tsv"), sample=SAMPLES))
+targets.assemble = []
 
-#assembly stats
-if config['sequencing'] == 'paired':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_megahit.csv"), sample=SAMPLES))
-elif config['sequencing'] == 'longread':
-    allTargets.append(expand(os.path.join(ASSEMBLY, "{sample}-assembly-stats_flye.csv"), sample=SAMPLES))
+if config.args.sequencing == 'paired':
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}", "final.contigs.fa"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}", "final.fastg"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}", "results", "sample_coverage.tsv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}", "final.contigs_result_table.csv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}", "graph_seq_details_megahit.tsv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv"),sample=samples.names))
+elif config.args.sequencing == 'longread':
+    targets.assemble.append(expand(os.path.join(dir.flye, "{sample}", "assembly{file}"),sample=samples.names, file=[".fasta", "_graph.gfa", "_info.txt"]))
+    targets.assemble.append(expand(os.path.join(dir.flye, "{sample}", "consensus.fasta"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.flye, "{sample}", "results", "sample_coverage.tsv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.flye,"{sample}","{file}"),sample=samples.names, file=["assembly_result_table.csv","graph_seq_details_flye.tsv"]))
+    targets.assemble.append(expand(os.path.join(dir.assembly,"{sample}-assembly-stats_flye.csv"),sample=samples.names))
+
+
+targets.annotate = []
+
+targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}", "pharokka.gff"), sample=samples.names))
+
+
+targets.coverage = []
+
+if config.args.sequencing == 'paired':
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam.bai"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "{sample}-Ill-bedtools-genomecov.tsv"), sample=samples.names))
+elif config.args.sequencing == 'longread':
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam.bai"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "{sample}-Nano-bedtools-genomecov.tsv"), sample=samples.names))

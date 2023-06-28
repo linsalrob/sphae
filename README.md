@@ -1,4 +1,6 @@
 # Phage genome toolkit 
+
+
 **Phage genome assembly and annotation**
 This workflow is divided into three sections
 1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
@@ -69,10 +71,20 @@ For each sample there should be a tab separated file for each assembler. For ins
 
 Each of these files shold contain the 12 columns with the folowing titles and results for each contig assembled. This was a test run, so only one contig was assembled. 
 
-|1    | 2     |    3                                     | 4       |  5       | 6         |  7        |   8      |  9     |  10       |  11 | 12      |
-|-----|-------|------------------------------------------|---------|----------|-----------|-----------|----------|--------|-----------|-----|---------|
-|Index| Contig| assembly.fasta/reads-filtlong.fastq Mean |Length_x |Circular_x|Connections|Contig name|Prediction|Length_y|Circular_y|Score|Pfam hits|
-|0    |contig_1|43.97074                                 |100739   |False     |0          |contig_1   |Virus     |100739  |-         |40.06|Glucosaminidase HNH_3 UDG Asp_protease_2 NUMOD4 GIY-YIG Band_7 Ribonuc_red_lgC DUF1599 Radical_SAM Helicase_C DUF3799 dUTPase Thy1 Toprim_2 NUMOD1 DUF5675 DNA_pol_A_exo1 VWA ThiF AAA_33 NUMOD3 DNA_pol_A |
+Column | Value | Example
+--- | --- | ---
+1 | Index | 0
+2 | Contig | contig_1
+3 | assembly.fasta/reads-filtlong.fastq Mean | 43.97074
+4 | Length_x | 100739
+5 | Circular_x | False
+6 | Connections | 0
+7 | Contig name | contig_1
+8 | prediction | Virus
+9 | Length_y | 100739
+10 | Circular_y | -
+11 | score | 40.06
+12 | Pfam hits | Glucosaminidase HNH_3 UDG Asp_protease_2 NUMOD4 GIY-YIG Band_7 Ribonuc_red_lgC DUF1599 Radical_SAM Helicase_C DUF3799 dUTPase Thy1 Toprim_2 NUMOD1 DUF5675 DNA_pol_A_exo1 VWA ThiF AAA_33 NUMOD3 DNA_pol_A
 
 ### Manual step
 
@@ -112,17 +124,17 @@ This section runs coverm again on the contigs to get read coverage across the co
 The final output is saved to "example/coverage" directory. This directory includes the following files:
   - tab separated files: includes the number of reads in bases that map to a particular position on the contigs.
   
-  | Sample | Genome | coverage | Bases |
-  | ---  | ---  |----       | -- |
-  | Reads  | Test   | 0        | 0 |
+| Sample | Genome | coverage | Bases |
+| --- | --- |---| --- |
+| Reads | Test | 0        | 0 |
   
-  - *.bam drirectory containing two files 
-    - bam files
-    - *-bedtools-genomecov.tsv
-    
-     |Genome~Contig name | Genome position | Read coverage|
-     | ---- | --- | ---|
-     |Test~1 | 1 | 1200 |
+- *.bam drirectory containing two files 
+  - bam files
+  - *-bedtools-genomecov.tsv
+
+|Genome~Contig name | Genome position | Read coverage|
+| --- | --- | --- |
+ |Test~1 | 1 | 1200 |
      
 ### Manual step
 

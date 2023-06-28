@@ -1,19 +1,65 @@
+import attrmap as ap
+import attrmap.utils as au
 
-configfile: os.path.join(workflow.basedir, '../', 'config', 'config.yaml')
 
-outTouch = os.path.join(config['output'], config['input'])
+"""Parse config"""
+configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
+configfile: os.path.join(workflow.basedir, "..", "config", "databases.yaml")
+config = ap.AttrMap(config)
 
-# Mark target rules
+
+"""Rules"""
+include: os.path.join("rules", "1.preflight.smk")
+include: os.path.join("rules", "2.targets.smk")
+include: os.path.join("rules", "3.qc_qa.smk")
+include: os.path.join("rules", "4.assembly.smk")
+include: os.path.join("rules", "5.components.smk")
+include: os.path.join("rules", "5.coverage.smk")
+include: os.path.join("rules", "5.viralverify.smk")
+include: os.path.join("rules", "6.stat_join.smk")
+include: os.path.join("rules", "7.pharokka.smk")
+
+
+"""Mark target rules"""
 target_rules = []
 def targetRule(fn):
     assert fn.__name__.startswith('__')
     target_rules.append(fn.__name__[2:])
     return fn
 
+
 @targetRule
 rule all:
     input:
-        outTouch
+        targets.qc,
+        targets.assemble,
+        # targets.annotate,
+        # targets.coverage,
+
+
+@targetRule
+rule qc:
+    input:
+        targets.qc,
+
+
+@targetRule
+rule assemble:
+    input:
+        targets.assemble,
+
+
+@targetRule
+rule coverage:
+    input:
+        targets.coverage,
+
+
+@targetRule
+rule annotate:
+    input:
+        targets.annotate,
+
 
 @targetRule
 rule print_targets:
@@ -21,7 +67,3 @@ rule print_targets:
         print("\nTop level rules are: \n", file=sys.stderr)
         print("* " + "\n* ".join(target_rules) + "\n\n", file=sys.stderr)
 
-
-rule yeet:
-    output:
-        touch(outTouch)
