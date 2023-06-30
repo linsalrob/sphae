@@ -1,0 +1,8 @@
+name: koverage
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - pip
+    - pip:
+        - koverage>=0.1.3

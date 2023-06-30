@@ -1,0 +1,8 @@
+name: trimnami
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - pip
+    - pip:
+        - trimnami>=0.0.1
