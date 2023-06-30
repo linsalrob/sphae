@@ -64,7 +64,7 @@ __email__ = "viji.mallawaarachchi@gmail.com"
 #     help="path to the output folder",
 #     type=click.Path(exists=True),
 # )
-def main(assembler, graph, contigs, output):
+def main(assembler, graph, contigs, path, output):
 
     # Get contig lengths
     # -------------------------------------------------------------------
@@ -81,7 +81,7 @@ def main(assembler, graph, contigs, output):
         graph_to_contig_map,
         self_looped_nodes,
     ) = build_utils.build_assembly_graph(
-        assembler, graph, contigs, contigs, is_directed=False
+        assembler, graph, contigs, path, is_directed=False
     )
 
     # Get reverse contig mapping for megahit
@@ -178,5 +178,6 @@ main(
     snakemake.params.assembler,
     snakemake.input.graph,
     snakemake.input.contigs,
+    snakemake.input.path,
     snakemake.params.o,
 )

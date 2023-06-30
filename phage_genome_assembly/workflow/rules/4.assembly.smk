@@ -3,10 +3,10 @@ rule flye:
     input:
         os.path.join(dir.nanopore, "{sample}.single.fastq.gz")
     threads:
-        config.resources.assemble.cpu
+        config.resources.bigjob.cpu
     resources:
-        mem_mb=config.resources.assemble.mem,
-        time=config.resources.assemble.time
+        mem_mb=config.resources.bigjob.mem,
+        time=config.resources.bigjob.time
     output:
         fasta = os.path.join(dir.flye, "{sample}", "assembly.fasta"),
         gfa = os.path.join(dir.flye, "{sample}", "assembly_graph.gfa"),
@@ -44,10 +44,10 @@ rule medaka:
         model = config.params.medaka,
         dir= directory(os.path.join(dir.flye,"{sample}"))
     threads:
-        config.resources.assemble.cpu
+        config.resources.bigjob.cpu
     resources:
-        mem_mb=config.resources.assemble.mem,
-        time=config.resources.assemble.time
+        mem_mb=config.resources.bigjob.mem,
+        time=config.resources.bigjob.time
     log:
         os.path.join(dir.log, "medaka.{sample}.log")
     benchmark:
@@ -79,10 +79,10 @@ rule megahit:
     benchmark:
         os.path.join(dir.bench, "megahit.{sample}.txt")
     threads:
-        config.resources.assemble.cpu
+        config.resources.bigjob.cpu
     resources:
-        mem_mb=config.resources.assemble.mem,
-        time=config.resources.assemble.time
+        mem_mb=config.resources.bigjob.mem,
+        time=config.resources.bigjob.time
     conda:
         os.path.join(dir.env, "megahit.yaml")
     shell:

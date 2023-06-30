@@ -18,6 +18,7 @@ include: os.path.join("rules", "5.coverage.smk")
 include: os.path.join("rules", "5.viralverify.smk")
 include: os.path.join("rules", "6.stat_join.smk")
 include: os.path.join("rules", "7.pharokka.smk")
+include: os.path.join("rules", "7.coverage_genome.smk")
 
 
 """Mark target rules"""

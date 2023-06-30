@@ -12,7 +12,7 @@ def consolidate(coverage, viral_check, graph_comp, out):
     cov=pd.read_csv(coverage, sep="\t")
     vv=pd.read_csv(viral_check)
     gcp=pd.read_csv(graph_comp, sep="\t")
-    tmp=cov.join(gcp.set_index("Contig"), on ="Contig")
+    tmp=cov.join(gcp.set_index("ContigID"), on ="Contig")
     #print (vv)
     o=pd.merge(tmp, vv, how="inner", left_on="Contig", right_on="Contig name")
     

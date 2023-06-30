@@ -5,4 +5,4 @@ channels:
 dependencies:
     - pip
     - pip:
-        - koverage>=0.1.1
+        - koverage>=0.1.3

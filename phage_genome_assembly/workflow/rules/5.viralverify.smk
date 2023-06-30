@@ -12,10 +12,10 @@ rule viralverify_megahit:
     params:
         out = os.path.join(dir.megahit, "{sample}")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     log:
         os.path.join(dir.log, "viralverify_megahit.{sample}.log")
     benchmark:
@@ -29,7 +29,7 @@ rule viralverify_megahit:
                 --hmm {input.db} \
                 -o {params.out} \
                 -t {threads} \
-                2> {log}
+                &> {log}
         fi
         """
 
@@ -45,10 +45,10 @@ rule viralverify_flye_nano:
     params:
         out = os.path.join(dir.flye, "{sample}")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     log:
         os.path.join(dir.log, "viralverify_flye_nano.{sample}.log")
     benchmark:
@@ -62,6 +62,6 @@ rule viralverify_flye_nano:
                 --hmm {input.db} \
                 -o {params.out} \
                 -t {threads} \
-                2> {log}
+                &> {log}
         fi
         """

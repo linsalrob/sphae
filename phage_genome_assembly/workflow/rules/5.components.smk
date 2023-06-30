@@ -5,6 +5,7 @@ Getting the components from the assembly graph
 rule components_megahit:
     input:
         contigs = os.path.join(dir.megahit, "{sample}", "final.contigs.fa"),
+        path = os.path.join(dir.megahit, "{sample}", "final.contigs.fa"),
         graph = os.path.join(dir.megahit, "{sample}", "final.fastg"),
     output:
         os.path.join(dir.megahit, "{sample}", "graph_seq_details_megahit.tsv")
@@ -18,10 +19,10 @@ rule components_megahit:
     benchmark:
         os.path.join(dir.bench, "components_megahit.{sample}.txt")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     script:
         os.path.join(dir.script, 'components.py')
 
@@ -43,9 +44,9 @@ rule components_flye_nano:
     conda:
         os.path.join(dir.env, "graph.yaml")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     script:
         os.path.join(dir.script, 'components.py')

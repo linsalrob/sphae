@@ -44,12 +44,12 @@ targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}", "pharokka.
 targets.coverage = []
 
 if config.args.sequencing == 'paired':
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads.tsv"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "coverm-genome.{sample}_good_out_R1.fastq.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-illuminaReads-bam", "{sample}-Ill-bedtools-genomecov.tsv"), sample=samples.names))
+    cov_dir = dir.megahit
 elif config.args.sequencing == 'longread':
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads.tsv"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "coverm-genome.{sample}-filtlong.fastq.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(dir.cov, "{sample}-NanoReads-bam", "{sample}-Nano-bedtools-genomecov.tsv"), sample=samples.names))
+    cov_dir = dir.flye
+
+targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "results", "sample_coverage.tsv"), sample=samples.names))
+targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam"), sample=samples.names))
+targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam.bai"), sample=samples.names))
+targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp", "{sample}.gencov.tsv"), sample=samples.names))
+

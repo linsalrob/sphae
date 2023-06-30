@@ -11,10 +11,10 @@ rule pharokka:
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb = config.resources.job.mem,
-        time = config.resources.job.time
+        mem_mb = config.resources.smalljob.mem,
+        time = config.resources.smalljob.time
     log:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:

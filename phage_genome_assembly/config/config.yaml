@@ -10,12 +10,12 @@ args:
   temp_dir:
 
 resources:
-  job:
+  smalljob:
     cpu: 8
     mem: 16000
     time: 480
-  assemble:
-    cpu: 16
+  bigjob:
+    cpu: 32
     mem: 64000
     time: 480
 

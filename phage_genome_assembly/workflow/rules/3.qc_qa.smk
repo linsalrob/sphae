@@ -21,10 +21,10 @@ rule trimnami:
     conda:
         os.path.join(dir.env, "trimnami.yaml")
     threads:
-        config.resources.job.cpu
+        config.resources.bigjob.cpu
     resources:
-        mem_mb = config.resources.job.mem,
-        time = config.resources.job.time
+        mem_mb = config.resources.bigjob.mem,
+        time = config.resources.bigjob.time
     params:
         dir = dir.out,
         trimmer = lambda wildcards: "prinseq" if config.args.sequencing == "paired" else "nanopore",

@@ -47,7 +47,7 @@ setup(
         "snakemake>=7.14.0",
         "pyyaml==6.0",
         "Click==8.1.3",
-        "metasnek>=0.0.3"
+        "metasnek>=0.0.4"
     ],
     entry_points={
         'console_scripts': [

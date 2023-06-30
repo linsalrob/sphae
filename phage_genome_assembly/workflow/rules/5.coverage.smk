@@ -32,10 +32,10 @@ rule contig_coverage_megahit:
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     log:
         os.path.join(dir.log, "contig_coverage_megahit.{sample}.log")
     benchmark:
@@ -62,10 +62,10 @@ rule contig_coverage_flye_nano:
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
-        config.resources.job.cpu
+        config.resources.smalljob.cpu
     resources:
-        mem_mb=config.resources.job.mem,
-        time=config.resources.job.time
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
     log:
         os.path.join(dir.log, "contig_coverage_flye_nano.{sample}.log")
     benchmark:
