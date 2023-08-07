@@ -8,19 +8,19 @@ import pandas as pd
 from collections import defaultdict
 from itertools import chain
 
-def consolidate(coverage, viral_check, graph_comp, out):
+def consolidate(coverage, viral_check, graph_comp, checkv, out):
     cov=pd.read_csv(coverage, sep="\t")
     vv=pd.read_csv(viral_check)
     gcp=pd.read_csv(graph_comp, sep="\t")
+    cv=pd.read_csv(checkv, sep="\t")
     tmp=cov.join(gcp.set_index("ContigID"), on ="Contig")
-    #print (vv)
-    o=pd.merge(tmp, vv, how="inner", left_on="Contig", right_on="Contig name")
-    
+    tmp2=pd.merge(tmp, vv, how="inner", left_on="Contig", right_on="Contig name")
+    o=pd.merge(tmp2, cv, how="inner", left_on="Contig", right_on="contig_id")
     #exporting to file, csv
     o.to_csv(out, encoding='utf-8')
 
 
-consolidate(snakemake.input.coverm, snakemake.input.viralverify, snakemake.input.comp, snakemake.output.csv)
+consolidate(snakemake.input.coverm, snakemake.input.viralverify, snakemake.input.comp, snakemake.input.checkv, snakemake.output.csv)
 
 
 

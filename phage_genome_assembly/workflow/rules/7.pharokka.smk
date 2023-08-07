@@ -26,4 +26,5 @@ rule pharokka:
             -t {threads} \
             -f \
             2> {log}
+
         """

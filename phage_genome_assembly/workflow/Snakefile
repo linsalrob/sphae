@@ -16,7 +16,9 @@ include: os.path.join("rules", "4.assembly.smk")
 include: os.path.join("rules", "5.components.smk")
 include: os.path.join("rules", "5.coverage.smk")
 include: os.path.join("rules", "5.viralverify.smk")
+include: os.path.join("rules", "5.checkv.smk")
 include: os.path.join("rules", "6.stat_join.smk")
+include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "7.coverage_genome.smk")
 
@@ -34,8 +36,8 @@ rule all:
     input:
         targets.qc,
         targets.assemble,
-        # targets.annotate,
-        # targets.coverage,
+        #targets.annotate,
+        #targets.coverage,
 
 
 @targetRule

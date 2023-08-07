@@ -40,19 +40,6 @@ rule pfam_download:
             curl -Lo {output} {params.url}
         """
 
-
-#rule  terminase_download:
-#    params:
-#        url= os.path.join(config['terminase'])
-#    output:
-#        o=os.path.join(databaseDir, 'terminase-db2022.zip'),
-#    shell:
-#        """
-#            curl -Lo {output.o} {params.url}
-#            unzip {output.o} -d {databaseDir}
-#        """
-
-
 rule  pharokka_download:
     params: 
         pharokka=os.path.join(dir.db, 'pharokka_db')
@@ -65,6 +52,17 @@ rule  pharokka_download:
             install_databases.py -o {params.pharokka}
         """
 
+rule checkv_database:
+    params:
+        checkv_db=os.path.join(dir.db, 'checkv_db')
+    output:
+        os.path.join(dir.db, "checkv_db", "checkv-db-v1.5", "README.txt")
+    conda:
+        os.path.join(dir.env, "checkv.yaml")
+    shell:
+        """
+            checkv download_database {output}
+        """
 
 # rule refseq_mash:
 #     params:

@@ -17,45 +17,52 @@ This workflow is divided into three sections
 3) Annotation: Running Pharokka 
 
 ## Install 
-Steps for installing this workflow 
+Setting up a new conda environment 
+
+    conda create -n spae 
+    conda activate spae
+
+Steps for installing spae workflow 
 
     git clone https://github.com/linsalrob/spae.git
     cd spae
     pip install -e .
     #confirm the workflow is installed by running the below command 
     spae --help
-  
- 
+
 ## Installing databases
+Run command,
+
+    spae install
+
+  Install the databases to a directory, phage_genome_assembly/workflow/databases
+
   This workflow requires the 
   - Pfam35.0 database to run viral_verify for contig classification. 
-  - large terminase subunit sequences, BLAST database 
+  - CheckV database to test for phage completeness
   - Pharokka databases 
 
-  This is done automagically when the below command is run. 
-  
-    spae install database 
-    
+
 ## Running the workflow
 
 ### Step 1) Assembling phage genomes 
 
 **Steps in this section of workflow**
-Pure isolate phages seqeunced on Illumina (paired end) and Nanopore (long read) sequencing technology are processed through the following steps
-  - quality control (Illumina: prinseq++, Nanopore: Filtlong)
+Isolated phages seqeunced on Illumina (paired end) and Nanopore (long read) sequencing technology are processed through the following steps
+  - quality control - trimmnami, https://github.com/beardymcjohnface/Trimnami 
   - assembly (Illumina: SPAdes and Megahit, Nanopore: Flye and Unicycler)
   - assembly statistics: 
-      - read coverage of each contig (CoverM), 
+      - read coverage of each contig -koverage, https://github.com/beardymcjohnface/Koverage 
       - contig classification as bacterial/plasmid/viral (viral verify)
       - number of graph components (assembly graph files, python scripts added here)
-  
+   
 The final ouput is tab separated file providing the summary for each sample assembly, with contig features.
 
 **Commands to run**
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
 
     #For illumina reads, place the reads both forward and reverse reads to one directory
-    spae run --input test/illumina-subset --output example --profile slurm 
+    spae run --input test/illumina-subset --output example
 
     #For nanopore reads, place the reads, one file per sample in a directory
     spae run --input test/nanopore-subset --preprocess longread --output example 
@@ -66,25 +73,50 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 **Output**
 
 For each sample there should be a tab separated file for each assembler. For instance if test nanopore reads were run through the workflow, then there should be two files within the example/assembly directory
+
+cd example/assembly
   - reads-assembly-stats_flye.tsv
-  - reads-assembly-stats_unicycler.tsv
+  - reads-assembly-stats_megahit.tsv
 
-Each of these files shold contain the 12 columns with the folowing titles and results for each contig assembled. This was a test run, so only one contig was assembled. 
+Each of these files shold contain the 20 columns with the folowing titles and results for each contig assembled. This was a test run, so only one contig was assembled. 
 
-Column | Value | Example
---- | --- | ---
-1 | Index | 0
-2 | Contig | contig_1
-3 | assembly.fasta/reads-filtlong.fastq Mean | 43.97074
-4 | Length_x | 100739
-5 | Circular_x | False
-6 | Connections | 0
-7 | Contig name | contig_1
-8 | prediction | Virus
-9 | Length_y | 100739
-10 | Circular_y | -
-11 | score | 40.06
-12 | Pfam hits | Glucosaminidase HNH_3 UDG Asp_protease_2 NUMOD4 GIY-YIG Band_7 Ribonuc_red_lgC DUF1599 Radical_SAM Helicase_C DUF3799 dUTPase Thy1 Toprim_2 NUMOD1 DUF5675 DNA_pol_A_exo1 VWA ThiF AAA_33 NUMOD3 DNA_pol_A
+Column | Value | Example | Description
+--- | --- | --- | ---|
+1 | Index | 0 |  |
+2 | Sample| reads | Sample name |
+2 | Contig | k141_9 | Contig ID from assembly | 
+3 | Count | 6070 | Reads mapped to contig |
+4 | RPM | 356400.0 | Reads per million |
+5 | RPKM | 9610.0 | Reads per kilobase million |
+6 | RPK | 163.7 | Reads per kilobase | 
+7 | TPM | 41490.0 | Transcripts per million |
+8 | Mean | 2714.0 | Estimated mean read depth |
+9 | Median | 2798.0 | Estimated median read depth |
+10 | Hitrate | 0.9987 | Estimated fraction of contig with depth >0 |
+11 | Variance | 1037.0 | Estimated read depth variance |
+12 | Length_x | 37091 | contig length |
+13 | Circular_x | False | Is the contig circular |
+14 | Connections | 31 | Number of unitig connections from assembly graph |
+15 | Contig name | k141_9 | Contig ID from assembly | 
+16 | Prediction | Virus | Predicted as virus |
+17 | Length_y | 37091 | Contig length |
+18 | Circular_y | - | Is the contig circular |
+19 | Score | 11.96 |  Confidece score of predicting contig as virus, sensitivity threshold | 
+20 | Pfam hits | DUF5675 Phage_head_fibr | Genes aligned against Pfam database |
+21| contig_id | k141_9 | contig ID from assembly|
+22| contig_length |37091 | Contig length |
+23| provirus | No| prophage, if there were host boundaries|
+24| proviral_length| NA | length of prophage|
+25| gene_count| 61| number of genes predicted from this sequence|
+26| viral_genes| 6| number of viral genes |
+27| host_genes| 0 | number of bacterial sequences|
+28| checkv_quality| Medium-quality| classified from the completeness and contamination method|
+29| miuvig_quality| genome-fragment | classfied as complete, high-quality or genome-fragment |
+30| completeness| 100 | completeness |
+31| completeness_method| AAI-based | |
+32| contamination| NA | |
+33| kmer_freq| | |
+34| warnings| | |
 
 ### Manual step
 
@@ -101,7 +133,7 @@ From the output files, pick the phage contigs. These are the contigs that are
 Use samtools faidx to grab these contigs 
 
       #If samtools not installed 
-      conda activtate phage-genomes
+      conda activtate spae
       conda install -c bioconda samtools
 
       #Run the below command for all the phage contigs per sample

@@ -89,7 +89,7 @@ rule megahit:
         """
         if [[ -d {params} ]]
         then
-            rmdir {params}
+            rm -rf {params}
         fi
         megahit \
             -1 {input.r1} \

@@ -2,7 +2,8 @@ rule join_assembly_stats_megahit:
     input:
         coverm = os.path.join(dir.megahit, "{sample}", "results", "sample_coverage.tsv"),
         viralverify = os.path.join(dir.megahit, "{sample}", "final.contigs_result_table.csv"),
-        comp = os.path.join(dir.megahit, "{sample}", "graph_seq_details_megahit.tsv")
+        comp = os.path.join(dir.megahit, "{sample}", "graph_seq_details_megahit.tsv"),
+        checkv = os.path.join(dir.megahit, "{sample}", "checkv", "quality_summary.tsv")
     output:
         csv = os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv")
     conda:
@@ -15,7 +16,8 @@ rule join_assembly_stats_flye:
     input:
         coverm = os.path.join(dir.flye, "{sample}", "results", "sample_coverage.tsv"),
         viralverify = os.path.join(dir.flye, "{sample}", "assembly_result_table.csv"),
-        comp = os.path.join(dir.flye, "{sample}", "graph_seq_details_flye.tsv")
+        comp = os.path.join(dir.flye, "{sample}", "graph_seq_details_flye.tsv"),
+        checkv = os.path.join(dir.flye, "{sample}", "checkv", "quality_summary.tsv")
     output:
         csv = os.path.join(dir.assembly, "{sample}-assembly-stats_flye.csv")
     conda:
