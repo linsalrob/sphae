@@ -67,9 +67,9 @@ rule medaka:
 rule megahit:
     """Assemble short reads with MEGAHIT"""
     input:
-        r1 = os.path.join(dir.prinseq, "{sample}.paired.R1.fastq.gz"),
-        r2 = os.path.join(dir.prinseq, "{sample}.paired.R2.fastq.gz"),
-        s =  os.path.join(dir.prinseq, "{sample}.paired.S.fastq.gz"),
+        r1 = os.path.join(dir.prinseq, "{sample}_R1.fastq.gz"),
+        r2 = os.path.join(dir.prinseq, "{sample}_R2.fastq.gz"),
+        s =  os.path.join(dir.prinseq, "{sample}_S.fastq.gz"),
     output:
         os.path.join(dir.megahit, "{sample}", "final.contigs.fa")
     params:

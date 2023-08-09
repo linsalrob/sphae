@@ -3,6 +3,7 @@ channels:
     - conda-forge
     - defaults
 dependencies:
+    - mamba
     - pip
     - pip:
-        - trimnami>=0.0.1
+        - trimnami>=0.0.7

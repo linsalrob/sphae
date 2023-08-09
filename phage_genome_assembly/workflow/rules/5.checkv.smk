@@ -10,7 +10,8 @@ rule checkv_megahit:
     conda:
         os.path.join(dir.env, "checkv.yaml")
     params:
-        out = os.path.join(dir.megahit, "{sample}", "checkv")
+        out = os.path.join(dir.megahit, "{sample}", "checkv"),
+        db = os.path.join(dir.db, "checkv-db-v1.5")
     threads:
         config.resources.smalljob.cpu
     resources:
@@ -22,7 +23,7 @@ rule checkv_megahit:
         os.path.join(dir.bench, "checkv_megahit.{sample}.txt")
     shell:
         """
-        export CHECKVDB=/home/nala0006/scratch/Bc-PhageSeq/github/spae/phage_genome_assembly/workflow/databases/checkv_db/checkv-db-v1.5/
+        export CHECKVDB={params.db}
         if [[ -s {input.contigs} ]]
         then
             checkv end_to_end\

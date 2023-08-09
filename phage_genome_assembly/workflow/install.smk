@@ -54,14 +54,14 @@ rule  pharokka_download:
 
 rule checkv_database:
     params:
-        checkv_db=os.path.join(dir.db, 'checkv_db')
+        checkv_db=os.path.join(dir.db)
     output:
-        os.path.join(dir.db, "checkv_db", "checkv-db-v1.5", "README.txt")
+        os.path.join(dir.db, "checkv-db-v1.5", "README.txt")
     conda:
         os.path.join(dir.env, "checkv.yaml")
     shell:
         """
-            checkv download_database {output}
+            checkv download_database {params.checkv_db}
         """
 
 # rule refseq_mash:

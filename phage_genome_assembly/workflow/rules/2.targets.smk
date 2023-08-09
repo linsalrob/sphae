@@ -9,13 +9,13 @@ targets.db = []
 
 targets.db.append(os.path.join(dir.db, config.db.pfam_file))
 targets.db.append(os.path.join(dir.db, 'pharokka_db', 'phrogs_db.index'))
-targets.db.append(os.path.join(dir.db, 'checkv_db', 'checkv-db-v1.5', 'README.txt'))
+targets.db.append(os.path.join(dir.db, 'checkv-db-v1.5', 'README.txt'))
 
 
 targets.qc = []
 
 if config.args.sequencing == 'paired':
-    targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}.paired.{r12}.fastq.gz"), sample=samples.names, r12=["R1","R2","S"]))
+    targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.fastq.gz"), sample=samples.names, r12=["R1","R2","S"]))
 elif config.args.sequencing == 'longread':
     targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}.single.fastq.gz"), sample=samples.names))
 
@@ -48,15 +48,15 @@ targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}", "pharokka.
 targets.coverage = []
 
 if config.args.sequencing == 'paired':
-    cov_dir = dir.megahit
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "results", "sample_coverage.tsv"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp", "{sample}.gencov.tsv"), sample=samples.names))
+    cov_dir = dir.genome
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "megahit_sample_coverage.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "megahit_{sample}.bam"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "megahit_{sample}.bam.bai"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "megahit_{sample}.gencov.tsv"), sample=samples.names))
 
 elif config.args.sequencing == 'longread':
-    cov_dir = dir.flye
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "results", "sample_coverage.tsv"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp","{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "temp", "{sample}.gencov.tsv"), sample=samples.names))
+    cov_dir = dir.genome
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "flye_sample_coverage.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "flye_{sample}.bam"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "flye_{sample}.bam.bai"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}", "flye_{sample}.gencov.tsv"), sample=samples.names))

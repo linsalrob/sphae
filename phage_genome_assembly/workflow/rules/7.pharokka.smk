@@ -2,7 +2,7 @@
 rule pharokka:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir.genome, "{sample}.fasta")
+        os.path.join(dir.genome, "{sample}", "{sample}.fasta")
     params:
         o=os.path.join(dir.pharokka, "{sample}"),
         db=os.path.join(dir.db, "pharokka_db"),
@@ -26,5 +26,4 @@ rule pharokka:
             -t {threads} \
             -f \
             2> {log}
-
         """

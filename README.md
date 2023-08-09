@@ -1,26 +1,12 @@
-# Phage genome toolkit 
+# Spae 
+## Phage toolkit to detect phage candidates for phage therapy
 
-
-**Phage genome assembly and annotation**
-This workflow is divided into three sections
-1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
-  Often there are other bacterial, plasmid and prophage contigs along with the phage isolates assembled from the sequences. If there are lots of contigs assembled, then the end of this section requires a manual step. 
-  
-  Go through the tsv file for each sample, that lists the contig statistics to pick the phage contigs, often these are contigs with highest coverage, look at the genome length - 30 to 50 kbp (or similar to the genome size), and maybe even circular components. 
-  Select these contigs and pull them out to new file
-  
-2) Checking the coverage of the phage genome and variation within the assembled contig
-  The selected phage contigs should be saved in fasta format for each sample, and saved in a directory. This section runs coverm again on the contigs to get read coverage across the contig, and recircularises them so they begin with the large terminase gene, and all phages are in the same orientation (no reverse complements).
-
-  Go through the coverage of the phage contigs to confirm there is even coverage. Pick a represenative contig for each sample across assemblies that seems like the highest quality
-  
-3) Annotation: Running Pharokka 
-
-## Install 
+### Install 
 Setting up a new conda environment 
 
     conda create -n spae 
     conda activate spae
+    conda install -n base -c conda-forge mamba #if you dont already have mamba installed
 
 Steps for installing spae workflow 
 
@@ -42,21 +28,11 @@ Run command,
   - CheckV database to test for phage completeness
   - Pharokka databases 
 
+This step takes approximately 50 min to install
+#spae install  289.51s user 268.36s system 19% cpu 47:49.50 total
 
 ## Running the workflow
-
-### Step 1) Assembling phage genomes 
-
-**Steps in this section of workflow**
-Isolated phages seqeunced on Illumina (paired end) and Nanopore (long read) sequencing technology are processed through the following steps
-  - quality control - trimmnami, https://github.com/beardymcjohnface/Trimnami 
-  - assembly (Illumina: SPAdes and Megahit, Nanopore: Flye and Unicycler)
-  - assembly statistics: 
-      - read coverage of each contig -koverage, https://github.com/beardymcjohnface/Koverage 
-      - contig classification as bacterial/plasmid/viral (viral verify)
-      - number of graph components (assembly graph files, python scripts added here)
-   
-The final ouput is tab separated file providing the summary for each sample assembly, with contig features.
+The command `spae run` will run QC, assembly and annoation
 
 **Commands to run**
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
@@ -68,9 +44,13 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
     spae run --input test/nanopore-subset --preprocess longread --output example 
 
     #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
+    #Before running this below command, makse sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
     spae run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
 
 **Output**
+
+
+
 
 For each sample there should be a tab separated file for each assembler. For instance if test nanopore reads were run through the workflow, then there should be two files within the example/assembly directory
 
@@ -196,3 +176,19 @@ Save the phage genomes to a new directory (in this case, I named the directory p
 
 The output will be saved to "example/pharokka" directory
 
+## Misc
+
+**Phage genome assembly and annotation**
+This workflow is divided into three sections
+1) Assembling the phage isolates using two assemblers and looking at the quality of the assembled contigs \
+  Often there are other bacterial, plasmid and prophage contigs along with the phage isolates assembled from the sequences. If there are lots of contigs assembled, then the end of this section requires a manual step. 
+  
+  Go through the tsv file for each sample, that lists the contig statistics to pick the phage contigs, often these are contigs with highest coverage, look at the genome length - 30 to 50 kbp (or similar to the genome size), and maybe even circular components. 
+  Select these contigs and pull them out to new file
+  
+2) Checking the coverage of the phage genome and variation within the assembled contig
+  The selected phage contigs should be saved in fasta format for each sample, and saved in a directory. This section runs coverm again on the contigs to get read coverage across the contig, and recircularises them so they begin with the large terminase gene, and all phages are in the same orientation (no reverse complements).
+
+  Go through the coverage of the phage contigs to confirm there is even coverage. Pick a represenative contig for each sample across assemblies that seems like the highest quality
+  
+3) Annotation: Running Pharokka 

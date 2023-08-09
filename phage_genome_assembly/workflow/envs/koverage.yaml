@@ -2,7 +2,9 @@ name: koverage
 channels:
     - conda-forge
     - defaults
+    - bioconda
 dependencies:
+    - mamba
     - pip
     - pip:
-        - koverage>=0.1.3
+        - koverage>=0.1.4
