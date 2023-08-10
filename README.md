@@ -2,9 +2,15 @@
 ## Phage toolkit to detect phage candidates for phage therapy
 
 ### Install 
+
+**Pre-requisites**   
+  - gcc
+  - conda 
+
+**Install**
 Setting up a new conda environment 
 
-    conda create -n spae 
+    conda create -n spae python=3.11
     conda activate spae
     conda install -n base -c conda-forge mamba #if you dont already have mamba installed
 

@@ -1,13 +1,16 @@
+"""
+Building bedfiles to visusalize the genome coverage per base
+"""
+
 rule genome_coverage_paired:
     input:
         ref = os.path.join(dir.genome, "{sample}", "{sample}.fasta"),
         reads = os.path.join(dir.temp,"{sample}.paired.tsv")
     output:
-        tsv = os.path.join(dir.genome, "{sample}", "megahit_sample_coverage.tsv"),
-        bam= os.path.join(dir.genome,"{sample}", "megahit_{sample}.bam"),
-        bai= os.path.join(dir.genome,"{sample}", "megahit_{sample}.bam.bai"),
+        bam= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam"),
+        bai= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam.bai"),
     params:
-        out = os.path.join(dir.genome, "{sample}"),
+        out = os.path.join(dir.genome, "{sample}-pr"),
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
@@ -35,11 +38,10 @@ rule genome_coverage_nanopore:
         ref = os.path.join(dir.genome, "{sample}", "{sample}.fasta"),
         reads = os.path.join(dir.temp, "{sample}.single.tsv")
     output:
-        tsv = os.path.join(dir.genome, "{sample}", "flye_sample_coverage.tsv"),
-        bam = os.path.join(dir.genome, "{sample}", "flye_{sample}.bam"),
-        bai = os.path.join(dir.genome, "{sample}", "flye_{sample}.bam.bai"),
+        bam = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam"),
+        bai = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam.bai"),
     params:
-        out = os.path.join(dir.genome, "{sample}")
+        out = os.path.join(dir.genome, "{sample}-sr")
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
@@ -65,10 +67,10 @@ rule genome_coverage_nanopore:
 
 rule genomecov_paired:
     input:
-        bam = os.path.join(dir.genome, "{sample}", "megahit_{sample}.bam"),
-        bai = os.path.join(dir.genome, "{sample}", "megahit_{sample}.bam.bai"),
+        bam = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam"),
+        bai = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam.bai"),
     output:
-        tsv=  os.path.join(dir.genome, "{sample}", "megahit_{sample}.gencov.tsv")
+        tsv=  os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.gencov.tsv")
     threads:
         config.resources.smalljob.cpu
     resources:
@@ -95,10 +97,10 @@ rule genomecov_paired:
 
 rule genomecov_nanopore:
     input:
-        bam = os.path.join(dir.genome, "{sample}", "flye_{sample}.bam"),
-        bai = os.path.join(dir.genome, "{sample}", "flye_{sample}.bam.bai"),
+        bam = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam"),
+        bai = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam.bai"),
     output:
-        tsv=  os.path.join(dir.flye, "{sample}", "flye_{sample}.gencov.tsv")
+        tsv=  os.path.join(dir.flye, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv")
     threads:
         config.resources.smalljob.cpu
     resources:
