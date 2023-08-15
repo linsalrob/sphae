@@ -23,9 +23,6 @@ include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "7.coverage_genome.smk")
 
 
-wildcard_constraints:
-    samples = "[a-zA-Z0-9_-]+"
-
 
 """Mark target rules"""
 target_rules = []

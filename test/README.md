@@ -10,9 +10,6 @@ Then used ART (Artificial Read Generator) using the below command to break the g
 The above command, breaks the genome to 150 bp reads, with 200 fragment size, coverage of 10 and standard deviation of 10
 
 This command generated the Illumina test reads, saved within illumina-subset
-
-
-
-
+      
 
 

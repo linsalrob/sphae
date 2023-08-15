@@ -19,6 +19,7 @@ def picking_contigs(file,out):
         data = data[data["Mean"] > 1]
         data = data[data["completeness"]> 90.00]
         #print (len(data))
+        #print (data)
 
     if (len(data))==0:
         print("Genome wasn't assembled well")
@@ -30,16 +31,19 @@ def picking_contigs(file,out):
         return None
     
     elif (len(data))==1:
+        #print ("entering this if statement")
         if (data["Connections"] == 0).any():
             print("The genome is assembled, yay!")
             data.to_csv(out, index=False)
+        else:
+            print ("try using phables")
 
 
-picking_contigs(snakemake.input.csv, snakemake.output.out)
+#picking_contigs(snakemake.input.csv, snakemake.output.out)
 
-#if __name__=='__main__' :
-#    parser=argparse.ArgumentParser(description="Picking the contig candidates from the resulting stats file ")
-#    parser.add_argument ('-c', dest='file', help='Enter the stats result filename')
-#    parser.add_argument ('-o', dest='out', help= 'Enter the output file name')
-#    results=parser.parse_args()
-#    picking_contigs(results.file, results.out)
+if __name__=='__main__' :
+    parser=argparse.ArgumentParser(description="Picking the contig candidates from the resulting stats file ")
+    parser.add_argument ('-c', dest='file', help='Enter the stats result filename')
+    parser.add_argument ('-o', dest='out', help= 'Enter the output file name')
+    results=parser.parse_args()
+    picking_contigs(results.file, results.out)
