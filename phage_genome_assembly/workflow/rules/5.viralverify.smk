@@ -3,14 +3,14 @@ Generating a verial verify search for each contig
 """
 rule viralverify_megahit:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}", "final.contigs.fa"),
+        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
         db= os.path.join(dir.db, "Pfam35.0", "Pfam-A.hmm.gz")
     output:
-        out = os.path.join(dir.megahit, "{sample}", "final.contigs_result_table.csv")
+        out = os.path.join(dir.megahit, "{sample}-pr", "final.contigs_result_table.csv")
     conda:
         os.path.join(dir.env, "viralverify.yaml")
     params:
-        out = os.path.join(dir.megahit, "{sample}")
+        out = os.path.join(dir.megahit, "{sample}-pr")
     threads:
         config.resources.smalljob.cpu
     resources:
@@ -36,14 +36,14 @@ rule viralverify_megahit:
 
 rule viralverify_flye_nano:
     input:
-        contigs = os.path.join(dir.flye, "{sample}", "assembly.fasta"),
+        contigs = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
         db= os.path.join(dir.db, "Pfam35.0", "Pfam-A.hmm.gz")
     output:
-        out = os.path.join(dir.flye, "{sample}", "assembly_result_table.csv")
+        out = os.path.join(dir.flye, "{sample}-sr", "assembly_result_table.csv")
     conda:
         os.path.join(dir.env, "viralverify.yaml")
     params:
-        out = os.path.join(dir.flye, "{sample}")
+        out = os.path.join(dir.flye, "{sample}-sr")
     threads:
         config.resources.smalljob.cpu
     resources:

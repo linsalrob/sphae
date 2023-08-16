@@ -4,11 +4,12 @@ Building bedfiles to visusalize the genome coverage per base
 
 rule genome_coverage_paired:
     input:
-        ref = os.path.join(dir.genome, "{sample}", "{sample}.fasta"),
+        ref = os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta"),
         reads = os.path.join(dir.temp,"{sample}.paired.tsv")
     output:
         bam= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam"),
         bai= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam.bai"),
+        tsv= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.gencov.tsv")
     params:
         out = os.path.join(dir.genome, "{sample}-pr"),
     conda:
@@ -35,11 +36,12 @@ rule genome_coverage_paired:
 
 rule genome_coverage_nanopore:
     input:
-        ref = os.path.join(dir.genome, "{sample}", "{sample}.fasta"),
-        reads = os.path.join(dir.temp, "{sample}.single.tsv")
+        ref = os.path.join(dir.genome, "{sample}-sr", "{sample}.fasta"),
+        read = os.path.join(dir.temp, "{sample}.single.tsv")
     output:
         bam = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam"),
         bai = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam.bai"),
+        tsv= os.path.join(dir.genome,"{sample}-sr", "temp", "{sample}.gencov.tsv")
     params:
         out = os.path.join(dir.genome, "{sample}-sr")
     conda:
@@ -57,7 +59,7 @@ rule genome_coverage_nanopore:
         """
         koverage run coverm \
             --minimap map-ont \
-            --reads {input.reads} \
+            --reads {input.read} \
             --ref {input.ref} \
             --output {params.out} \
             --threads {threads} \

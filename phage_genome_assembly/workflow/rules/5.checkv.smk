@@ -4,13 +4,13 @@ Running CheckV to get the completeness of phage genomes
 
 rule checkv_megahit:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}", "final.contigs.fa")
+        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     output:
-        out = os.path.join(dir.megahit, "{sample}", "checkv", "quality_summary.tsv")
+        out = os.path.join(dir.megahit, "{sample}-pr", "checkv", "quality_summary.tsv")
     conda:
         os.path.join(dir.env, "checkv.yaml")
     params:
-        out = os.path.join(dir.megahit, "{sample}", "checkv"),
+        out = os.path.join(dir.megahit, "{sample}-pr", "checkv"),
         db = os.path.join(dir.db, "checkv-db-v1.5")
     threads:
         config.resources.smalljob.cpu
@@ -37,13 +37,14 @@ rule checkv_megahit:
 
 rule checkv_flye_nano:
     input:
-        contigs = os.path.join(dir.flye, "{sample}", "assembly.fasta"),
+        contigs = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
     output:
-        out = os.path.join(dir.flye, "{sample}", "checkv", "quality_summary.tsv")
+        out = os.path.join(dir.flye, "{sample}-sr", "checkv", "quality_summary.tsv")
     conda:
         os.path.join(dir.env, "checkv.yaml")
     params:
-        out = os.path.join(dir.flye, "{sample}", "checkv")
+        out = os.path.join(dir.flye, "{sample}-sr", "checkv"),
+        db = os.path.join(dir.db, "checkv-db-v1.5")
     threads:
         config.resources.smalljob.cpu
     resources:
@@ -55,7 +56,7 @@ rule checkv_flye_nano:
         os.path.join(dir.bench, "checkv_flye_nano.{sample}.txt")
     shell:
         """
-        export CHECKVDB=/home/nala0006/scratch/Bc-PhageSeq/github/spae/phage_genome_assembly/workflow/databases/checkv_db/checkv-db-v1.5/
+        export CHECKVDB={params.db}
         if [[ -s {input.contigs} ]]
         then
             checkv end_to_end\

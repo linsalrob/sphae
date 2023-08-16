@@ -23,12 +23,12 @@ rule write_samples_tsv_single:
 
 rule contig_coverage_megahit:
     input:
-        ref = os.path.join(dir.megahit, "{sample}", "final.contigs.fa"),
+        ref = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
         reads = os.path.join(dir.temp,"{sample}.paired.tsv")
     output:
-        tsv = os.path.join(dir.megahit, "{sample}", "results", "sample_coverage.tsv")
+        tsv = os.path.join(dir.megahit, "{sample}-pr", "results", "sample_coverage.tsv")
     params:
-        out = os.path.join(dir.megahit, "{sample}"),
+        out = os.path.join(dir.megahit, "{sample}-pr"),
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
@@ -53,12 +53,12 @@ rule contig_coverage_megahit:
 
 rule contig_coverage_flye_nano:
     input:
-        ref = os.path.join(dir.flye,"{sample}", "consensus.fasta"),
+        ref = os.path.join(dir.flye,"{sample}-sr", "consensus.fasta"),
         reads = os.path.join(dir.temp, "{sample}.single.tsv")
     output:
-        tsv = os.path.join(dir.flye, "{sample}", "results", "sample_coverage.tsv")
+        tsv = os.path.join(dir.flye, "{sample}-sr", "results", "sample_coverage.tsv")
     params:
-        out = os.path.join(dir.flye, "{sample}")
+        out = os.path.join(dir.flye, "{sample}-sr")
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:

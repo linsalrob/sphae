@@ -93,12 +93,6 @@ Disable conda:      spae run ... --no-use-conda
 Change defaults:    spae run ... --snake-default="-k --nolock"
 Add Snakemake args: spae run ... --dry-run --keep-going --touch
 Specify targets:    spae run ... all print_targets
-Available targets:
-    qc              Trim reads
-    assemble        Assemble samples (+qc)
-    annotate        Annotate genomes
-    coverage        Get coverage stats
-    all             Run everything (default)
 \b
 """
 
@@ -128,10 +122,8 @@ def install(**kwargs):
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--input', '_input', help='Input samples TSV or directory of reads', type=str, required=False)
 @click.option('--host', help='Host genome for filtering', type=str, required=False)
-@click.option('--preprocess', help="sequencing method", default='paired', show_default=False,
+@click.option('--sequencing', help="sequencing method", default='paired', show_default=False,
                      type=click.Choice(['paired', 'longread']))
-@click.option('--contigs', help="Directory of assembled phage contigs", required=False)
-@click.option('--hq-contigs', help='Directory of high-quality contigs', type=str, required=False)
 @common_options
 def run(**kwargs):
     """Run spae"""
@@ -144,9 +136,7 @@ def run(**kwargs):
             'host': kwargs["host"],
             'db_dir': kwargs["db_dir"],
             'temp_dir': kwargs["temp_dir"],
-            'sequencing': kwargs["preprocess"],
-            'contigs': kwargs["contigs"],
-            'hq_contigs': kwargs["hq_contigs"],
+            'sequencing': kwargs["sequencing"],
             'profile': kwargs["profile"],
             'log': kwargs["log"],
         }
@@ -176,9 +166,6 @@ def citation(**kwargs):
 
 cli.add_command(run)
 cli.add_command(install)
-# cli.add_command(contig)
-# cli.add_command(taxa)
-# cli.add_command(annotate)
 cli.add_command(config)
 cli.add_command(citation)
 
