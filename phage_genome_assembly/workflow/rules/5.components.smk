@@ -2,22 +2,22 @@
 Getting the components from the assembly graph
 """
     
-rule components_megahit:
+rule components_spades:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
-        path = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
-        graph = os.path.join(dir.megahit, "{sample}-pr", "final.fastg"),
+        contigs = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
+        path = os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),
+        graph = os.path.join(dir.spades, "{sample}-pr", "assembly_graph_with_scaffolds.gfa"),
     output:
-        os.path.join(dir.megahit, "{sample}-pr", "graph_seq_details_megahit.tsv")
+        os.path.join(dir.spades, "{sample}-pr", "graph_seq_details_spades.tsv")
     params:
-        o = os.path.join(dir.megahit, "{sample}-pr"),
-        assembler = 'megahit'
+        o = os.path.join(dir.spades, "{sample}-pr"),
+        assembler = 'spades'
     conda:
         os.path.join(dir.env, "graph.yaml")
     log:
-        os.path.join(dir.log, "components_megahit.{sample}.log")
+        os.path.join(dir.log, "components_spades.{sample}.log")
     benchmark:
-        os.path.join(dir.bench, "components_megahit.{sample}.txt")
+        os.path.join(dir.bench, "components_spades.{sample}.txt")
     threads:
         config.resources.smalljob.cpu
     resources:

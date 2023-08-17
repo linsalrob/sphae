@@ -2,9 +2,9 @@
 The resulting assemblies can have multiple contigs, so selecting the phage contigs
 """
 
-rule genomes_megahit:
+rule genomes_spades:
     input:
-        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv")
+        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_spades.csv")
     output:
         out =os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv")
     conda:
@@ -15,15 +15,12 @@ rule genomes_megahit:
     script:
         os.path.join(dir.script, 'pick_phage_contigs.py')
 
-rule genomes_extract_megahit:
+rule genomes_extract_spades:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
+        contigs = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
         csv = os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv")
     output:
         os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")
-    params:
-        outdir = os.path.join(dir.genome, "{sample}-pr"),
-        sample = "{sample}"
     conda:
         os.path.join(dir.env, "samtools.yaml")
     threads:
@@ -36,15 +33,13 @@ rule genomes_extract_megahit:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > tmp
-
-        touch {output}for 
+        awk -F, 'NR>1 {{print $3}}' {input.csv} > phage-genome-contig
+        
+        cat phage-genome-contig
+        touch {output}
 
         #extracting the contigs from the assembly
-        for f in `cat tmp`; do samtools faidx {input.contigs} "$f" >> {params.outdir}/{params.sample}.fasta ; done 
-
-        #removing the tmp file
-        rm -rf tmp
+        for f in `cat phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
         """    
 
 rule genomes_flye:
@@ -81,13 +76,13 @@ rule genomes_extract_flye:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > tmp
+        awk -F, 'NR>1 {{print $3}}' {input.csv} > phage-genome-contig
 
-        touch {output} 
+        #touch {output} 
 
         #extracting the contigs from the assembly
-        for f in `cat tmp`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
+        for f in `cat phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
 
         #removing the tmp file
-        rm -rf tmp
+        #rm -rf tmp
         """ 

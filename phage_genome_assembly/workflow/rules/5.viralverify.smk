@@ -1,25 +1,25 @@
 """
 Generating a verial verify search for each contig 
 """
-rule viralverify_megahit:
+rule viralverify_spades:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
+        contigs = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
         db= os.path.join(dir.db, "Pfam35.0", "Pfam-A.hmm.gz")
     output:
-        out = os.path.join(dir.megahit, "{sample}-pr", "final.contigs_result_table.csv")
+        out = os.path.join(dir.spades, "{sample}-pr", "contigs_result_table.csv")
     conda:
         os.path.join(dir.env, "viralverify.yaml")
     params:
-        out = os.path.join(dir.megahit, "{sample}-pr")
+        out = os.path.join(dir.spades, "{sample}-pr")
     threads:
         config.resources.smalljob.cpu
     resources:
         mem_mb=config.resources.smalljob.mem,
         time=config.resources.smalljob.time
     log:
-        os.path.join(dir.log, "viralverify_megahit.{sample}.log")
+        os.path.join(dir.log, "viralverify_spades.{sample}.log")
     benchmark:
-        os.path.join(dir.bench, "viralverify_megahit.{sample}.txt")
+        os.path.join(dir.bench, "viralverify_spades.{sample}.txt")
     shell:
         """
         if [[ -s {input.contigs} ]]

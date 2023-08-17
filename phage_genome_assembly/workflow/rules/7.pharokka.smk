@@ -1,5 +1,5 @@
 
-rule pharokka_megahit:
+rule pharokka_spades:
     """Annotate genomes with Pharokka"""
     input:
         os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")

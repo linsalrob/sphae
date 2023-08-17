@@ -63,80 +63,41 @@ rule medaka:
             2> {log}
         """
 
-rule megahit:
-    """Assemble short reads with MEGAHIT"""
+rule spades:
+    """Assemble short reads with SPAdes"""
     input:
         r1 = os.path.join(dir.prinseq, "{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir.prinseq, "{sample}_R2.fastq.gz"),
         s =  os.path.join(dir.prinseq, "{sample}_S.fastq.gz"),
     output:
-        os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
+        os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
+        os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),
+        os.path.join(dir.spades, "{sample}-pr", "assembly_graph_with_scaffolds.gfa"),
     params:
-        os.path.join(dir.megahit, "{sample}-pr")
+        os.path.join(dir.spades, "{sample}-pr")
     log:
-        os.path.join(dir.log, "megahit.{sample}.log")
+        os.path.join(dir.log, "spades.{sample}.log")
     benchmark:
-        os.path.join(dir.bench, "megahit.{sample}.txt")
+        os.path.join(dir.bench, "spades.{sample}.txt")
     threads:
         config.resources.bigjob.cpu
     resources:
         mem_mb=config.resources.bigjob.mem,
         time=config.resources.bigjob.time
     conda:
-        os.path.join(dir.env, "megahit.yaml")
+        os.path.join(dir.env, "spades.yaml")
     shell:
         """
         if [[ -d {params} ]]
         then
             rm -rf {params}
         fi
-        megahit \
+        spades.py \
             -1 {input.r1} \
             -2 {input.r2} \
-            -r {input.s} \
+            -s {input.s} \
             -o {params} \
             -t {threads} \
+            --careful \
             2> {log}
-        """
-
-
-rule fastg:
-    """Save the MEGAHIT graph"""
-    input:
-        os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
-    output:
-        os.path.join(dir.megahit, "{sample}-pr", "final.fastg")
-    conda:
-        os.path.join(dir.env, "megahit.yaml")
-    log:
-        os.path.join(dir.log, "fastg.{sample}.log")
-    benchmark:
-        os.path.join(dir.bench, "fastg.{sample}.txt")
-    shell:
-        """
-        if [[ -s {input} ]]
-        then
-            kmer=$(head -1 {input} | sed 's/>//' | sed 's/_.*//')
-            megahit_toolkit contig2fastg $kmer {input} > {output} 2> {log}
-        fi
-        """
-
-rule fastg2gfa:
-    """Save the MEGAHIT graph in gfa format"""
-    input:
-        os.path.join(dir.megahit, "{sample}-pr", "final.fastg")
-    output:
-        os.path.join(dir.megahit, "{sample}-pr", "final.gfa")
-    conda:
-        os.path.join(dir.env, "megahit.yaml")
-    log:
-        os.path.join(dir.log, "gfa.{sample}.log")
-    benchmark:
-        os.path.join(dir.bench, "gfa.{sample}.txt")
-    shell:
-        """
-        if [[ -s {input} ]]
-        then
-            gfastats {input} -o gfa > {output} 2> {log}
-        fi
         """

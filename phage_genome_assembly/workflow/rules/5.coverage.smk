@@ -21,14 +21,14 @@ rule write_samples_tsv_single:
             f.write(f"{wildcards.sample}\t{input.r1}\n")
 
 
-rule contig_coverage_megahit:
+rule contig_coverage_spades:
     input:
-        ref = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
+        ref = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
         reads = os.path.join(dir.temp,"{sample}.paired.tsv")
     output:
-        tsv = os.path.join(dir.megahit, "{sample}-pr", "results", "sample_coverage.tsv")
+        tsv = os.path.join(dir.spades, "{sample}-pr", "results", "sample_coverage.tsv")
     params:
-        out = os.path.join(dir.megahit, "{sample}-pr"),
+        out = os.path.join(dir.spades, "{sample}-pr"),
     conda:
         os.path.join(dir.env, "koverage.yaml")
     threads:
@@ -37,9 +37,9 @@ rule contig_coverage_megahit:
         mem_mb=config.resources.smalljob.mem,
         time=config.resources.smalljob.time
     log:
-        os.path.join(dir.log, "contig_coverage_megahit.{sample}.log")
+        os.path.join(dir.log, "contig_coverage_spades.{sample}.log")
     benchmark:
-        os.path.join(dir.bench, "contig_coverage_megahit.{sample}.txt")
+        os.path.join(dir.bench, "contig_coverage_spades.{sample}.txt")
     shell:
         """
         koverage run \

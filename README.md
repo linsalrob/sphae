@@ -5,7 +5,7 @@
 
 This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. THe steps include 
 - QC using Trimanammi [https://github.com/beardymcjohnface/Trimnami]
-- Assembly, either MegaHit [https://github.com/voutcn/megahit] or Flye [https://github.com/fenderglass/Flye]
+- Assembly, either SPAdes [https://github.com/ablab/spades] or Flye [https://github.com/fenderglass/Flye]
 - Contig quality checks 
     - read coverage using Koverage [https://github.com/beardymcjohnface/Koverage]
     - verify they are viral contigs using ViralVerify [https://github.com/ablab/viralVerify]
