@@ -1,6 +1,19 @@
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
 
+**Overview**
+
+This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. THe steps include 
+- QC using Trimanammi [https://github.com/beardymcjohnface/Trimnami]
+- Assembly, either MegaHit [https://github.com/voutcn/megahit] or Flye [https://github.com/fenderglass/Flye]
+- Contig quality checks 
+    - read coverage using Koverage [https://github.com/beardymcjohnface/Koverage]
+    - verify they are viral contigs using ViralVerify [https://github.com/ablab/viralVerify]
+    - Completeness using CheckV [https://bitbucket.org/berkeleylab/CheckV]
+    - assembly graph compnents check - internal script 
+  This results in determining if the phage genome was assembled 
+- Annotation of the phage genome using Pharokka [https://github.com/gbouras13/pharokka]
+
 ### Install 
 
 **Pre-requisites**   
@@ -47,16 +60,17 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
     spae run --input test/illumina-subset --output example
 
     #For nanopore reads, place the reads, one file per sample in a directory
-    spae run --input test/nanopore-subset --preprocess longread --output example 
+    spae run --input test/nanopore-subset --sequencing longread --output example 
 
     #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
     #Before running this below command, makse sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
     spae run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
 
 **Output**
-
+- Assmbled phage genome saved to "{outut-directory}/genome/{sample}/{sample}.fasta
+- Annotations of the phage genome are saved to "{outut-directory}/pharokka/{sample}"
 
 **Issues and Questions**
 
-Work in progress, so if you come across any issues or errors, report them as Issues
+This is still work in progress, so if you come across any issues or errors, report them under Issues. 
 

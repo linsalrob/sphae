@@ -46,16 +46,17 @@ if config.args.sequencing == 'paired':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gff"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gff"), sample=samples.names))
-targets.coverage = []
 
+targets.coverage = []
 if config.args.sequencing == 'paired':
     cov_dir = dir.genome
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.bam"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.gencov.tsv"), sample=samples.names))
-
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "megahit_{sample}.gencov.tsv"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     cov_dir = dir.genome
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.gencov.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv"), sample=samples.names))

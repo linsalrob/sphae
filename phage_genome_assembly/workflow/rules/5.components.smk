@@ -10,7 +10,7 @@ rule components_megahit:
     output:
         os.path.join(dir.megahit, "{sample}-pr", "graph_seq_details_megahit.tsv")
     params:
-        o = os.path.join(dir.megahit, "{sample}"),
+        o = os.path.join(dir.megahit, "{sample}-pr"),
         assembler = 'megahit'
     conda:
         os.path.join(dir.env, "graph.yaml")

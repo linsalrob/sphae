@@ -9,7 +9,7 @@ rule genome_coverage_paired:
     output:
         bam= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam"),
         bai= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam.bai"),
-        tsv= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.gencov.tsv")
+        tsv= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.tsv")
     params:
         out = os.path.join(dir.genome, "{sample}-pr"),
     conda:
@@ -33,6 +33,34 @@ rule genome_coverage_paired:
             --log {log}
         """
 
+rule genomecov_paired:
+    input:
+        bam = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam"),
+        bai = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam.bai"),
+    output:
+        tsv=  os.path.join(dir.genome, "{sample}-pr", "temp", "megahit_{sample}.gencov.tsv")
+    threads:
+        config.resources.smalljob.cpu
+    resources:
+        mem_mb=config.resources.smalljob.mem,
+        time=config.resources.smalljob.time
+    log:
+        os.path.join(dir.log, "genomecov_paired.{sample}.log")
+    benchmark:
+        os.path.join(dir.bench,"genomecov_paired.{sample}.txt")
+    conda:
+        os.path.join(dir.env, "bedtools.yaml")
+    shell:
+        """
+        if [[ -s {input.bam} ]]
+        then
+            bedtools genomecov \
+                -ibam {input.bam} \
+                -d \
+                > {output.tsv} \
+                2> {log}
+        fi
+        """
 
 rule genome_coverage_nanopore:
     input:
@@ -41,7 +69,7 @@ rule genome_coverage_nanopore:
     output:
         bam = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam"),
         bai = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam.bai"),
-        tsv= os.path.join(dir.genome,"{sample}-sr", "temp", "{sample}.gencov.tsv")
+        tsv = os.path.join(dir.genome,"{sample}-sr", "temp", "{sample}.tsv")
     params:
         out = os.path.join(dir.genome, "{sample}-sr")
     conda:
@@ -66,43 +94,12 @@ rule genome_coverage_nanopore:
             --log {log}
         """
 
-
-rule genomecov_paired:
-    input:
-        bam = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam"),
-        bai = os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.bam.bai"),
-    output:
-        tsv=  os.path.join(dir.genome, "{sample}-pr", "temp", "{sample}.gencov.tsv")
-    threads:
-        config.resources.smalljob.cpu
-    resources:
-        mem_mb=config.resources.smalljob.mem,
-        time=config.resources.smalljob.time
-    log:
-        os.path.join(dir.log, "genomecov_paired.{sample}.log")
-    benchmark:
-        os.path.join(dir.bench,"genomecov_paired.{sample}.txt")
-    conda:
-        os.path.join(dir.env, "bedtools.yaml")
-    shell:
-        """
-        if [[ -s {input.bam} ]]
-        then
-            bedtools genomecov \
-                -ibam {input.bam} \
-                -d \
-                > {output.tsv} \
-                2> {log}
-        fi
-        """
-
-
 rule genomecov_nanopore:
     input:
         bam = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam"),
         bai = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam.bai"),
     output:
-        tsv=  os.path.join(dir.flye, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv")
+        tsv=  os.path.join(dir.flye, "{sample}-sr", "flye_{sample}.gencov.tsv")
     threads:
         config.resources.smalljob.cpu
     resources:

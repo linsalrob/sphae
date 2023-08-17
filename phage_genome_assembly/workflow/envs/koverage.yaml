@@ -7,4 +7,4 @@ dependencies:
     - mamba
     - pip
     - pip:
-        - koverage>=0.1.4
+        - koverage
