@@ -67,8 +67,8 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
     spae run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
 
 **Output**
-- Assmbled phage genome saved to "{outut-directory}/genome/{sample}/{sample}.fasta
-- Annotations of the phage genome are saved to "{outut-directory}/pharokka/{sample}"
+- Assmbled phage genome saved to **"{outut-directory}/genome/{sample}/{sample}.fasta**
+- Annotations of the phage genome are saved to **"{outut-directory}/pharokka/{sample}"**
 
 **Issues and Questions**
 

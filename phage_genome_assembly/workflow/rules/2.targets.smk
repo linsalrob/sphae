@@ -24,7 +24,7 @@ targets.assemble = []
 if config.args.sequencing == 'paired':
     targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),sample=samples.names))
     targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "assembly_graph_with_scaffolds.gfa"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "assembly_graph_after_simplification.gfa"),sample=samples.names))
     targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "results", "sample_coverage.tsv"),sample=samples.names))
     targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs_result_table.csv"),sample=samples.names))
     targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "graph_seq_details_spades.tsv"),sample=samples.names))
@@ -52,11 +52,11 @@ if config.args.sequencing == 'paired':
     cov_dir = dir.genome
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.bam"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "{sample}.cov"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-pr", "temp", "megahit_{sample}.gencov.tsv"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     cov_dir = dir.genome
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam.bai"), sample=samples.names))
-    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.tsv"), sample=samples.names))
+    targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.cov"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv"), sample=samples.names))

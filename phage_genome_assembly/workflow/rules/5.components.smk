@@ -6,7 +6,7 @@ rule components_spades:
     input:
         contigs = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
         path = os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),
-        graph = os.path.join(dir.spades, "{sample}-pr", "assembly_graph_with_scaffolds.gfa"),
+        graph = os.path.join(dir.spades, "{sample}-pr", "assembly_graph_after_simplification.gfa"),
     output:
         os.path.join(dir.spades, "{sample}-pr", "graph_seq_details_spades.tsv")
     params:

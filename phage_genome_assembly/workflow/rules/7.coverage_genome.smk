@@ -9,7 +9,7 @@ rule genome_coverage_paired:
     output:
         bam= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam"),
         bai= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam.bai"),
-        tsv= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.tsv")
+        tsv= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.cov")
     params:
         out = os.path.join(dir.genome, "{sample}-pr"),
     conda:
@@ -20,9 +20,9 @@ rule genome_coverage_paired:
         mem_mb=config.resources.smalljob.mem,
         time=config.resources.smalljob.time
     log:
-        os.path.join(dir.log, "contig_coverage_megahit.{sample}.log")
+        os.path.join(dir.log, "contig_coverage_spades.{sample}.log")
     benchmark:
-        os.path.join(dir.bench, "contig_coverage_megahit.{sample}.txt")
+        os.path.join(dir.bench, "contig_coverage_spades.{sample}.txt")
     shell:
         """
         koverage run coverm \

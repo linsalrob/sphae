@@ -33,9 +33,8 @@ rule genomes_extract_spades:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > phage-genome-contig
-        
-        cat phage-genome-contig
+        awk -F, 'NR>1 {{print $3}}' {input.csv} > {params.outdir}/phage-genome-contig
+    
         touch {output}
 
         #extracting the contigs from the assembly
@@ -76,13 +75,10 @@ rule genomes_extract_flye:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > phage-genome-contig
+        awk -F, 'NR>1 {{print $3}}' {input.csv} > {params.outdir}/phage-genome-contig
 
-        #touch {output} 
-
+        touch {output}
+        
         #extracting the contigs from the assembly
         for f in `cat phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
-
-        #removing the tmp file
-        #rm -rf tmp
         """ 

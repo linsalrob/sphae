@@ -72,7 +72,7 @@ rule spades:
     output:
         os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
         os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),
-        os.path.join(dir.spades, "{sample}-pr", "assembly_graph_with_scaffolds.gfa"),
+        os.path.join(dir.spades, "{sample}-pr", "assembly_graph_after_simplification.gfa"),
     params:
         os.path.join(dir.spades, "{sample}-pr")
     log:
