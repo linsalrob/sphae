@@ -37,8 +37,8 @@ rule all:
     input:
         targets.qc,
         targets.assemble,
-        targets.annotate,
-        targets.coverage,
+        #targets.annotate,
+        #targets.coverage,
 
 
 @targetRule

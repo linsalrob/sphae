@@ -1,11 +1,11 @@
-rule join_assembly_stats_spades:
+rule join_assembly_stats_megahit:
     input:
-        coverm = os.path.join(dir.spades, "{sample}-pr", "results", "sample_coverage.tsv"),
-        viralverify = os.path.join(dir.spades, "{sample}-pr", "contigs_result_table.csv"),
-        comp = os.path.join(dir.spades, "{sample}-pr", "graph_seq_details_spades.tsv"),
-        checkv = os.path.join(dir.spades, "{sample}-pr", "checkv", "quality_summary.tsv")
+        coverm = os.path.join(dir.megahit, "{sample}-pr", "results", "sample_coverage.tsv"),
+        viralverify = os.path.join(dir.megahit, "{sample}-pr", "final.contigs_result_table.csv"),
+        comp = os.path.join(dir.megahit, "{sample}-pr", "graph_seq_details_megahit.tsv"),
+        checkv = os.path.join(dir.megahit, "{sample}-pr", "checkv", "quality_summary.tsv")
     output:
-        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_spades.csv")
+        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv")
     conda:
         os.path.join(dir.env, "graph.yaml")
     script:

@@ -2,9 +2,9 @@
 The resulting assemblies can have multiple contigs, so selecting the phage contigs
 """
 
-rule genomes_spades:
+rule genomes_megahit:
     input:
-        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_spades.csv")
+        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv")
     output:
         out =os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv")
     conda:
@@ -15,12 +15,14 @@ rule genomes_spades:
     script:
         os.path.join(dir.script, 'pick_phage_contigs.py')
 
-rule genomes_extract_spades:
+rule genomes_extract_megahit:
     input:
-        contigs = os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),
+        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
         csv = os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv")
     output:
         os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")
+    params:
+        outdir = os.path.join(dir.genome, "{sample}-pr")
     conda:
         os.path.join(dir.env, "samtools.yaml")
     threads:

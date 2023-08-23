@@ -19,6 +19,8 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 **Pre-requisites**   
   - gcc
   - conda 
+  - libgl1-mesa-dev (ubuntu- for Bandage)
+  - libxcb-xinerama0 (ubuntu- for Bandage)
 
 **Install**
 Setting up a new conda environment 

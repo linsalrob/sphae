@@ -22,14 +22,13 @@ elif config.args.sequencing == 'longread':
 targets.assemble = []
 
 if config.args.sequencing == 'paired':
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs.fasta"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs.paths"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "assembly_graph_after_simplification.gfa"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "results", "sample_coverage.tsv"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "contigs_result_table.csv"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "graph_seq_details_spades.tsv"),sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.spades, "{sample}-pr", "checkv", "quality_summary.tsv"), sample=samples.names))
-    targets.assemble.append(expand(os.path.join(dir.assembly, "{sample}-assembly-stats_spades.csv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "final.gfa"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "results", "sample_coverage.tsv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "final.contigs_result_table.csv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "graph_seq_details_megahit.tsv"),sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.megahit, "{sample}-pr", "checkv", "quality_summary.tsv"), sample=samples.names))
+    targets.assemble.append(expand(os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv"),sample=samples.names))
     targets.assemble.append(expand(os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     targets.assemble.append(expand(os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),sample=samples.names, file=[".fasta", "_graph.gfa", "_info.txt"]))
