@@ -40,7 +40,7 @@ rule genomes_extract_megahit:
         touch {output}
 
         #extracting the contigs from the assembly
-        for f in `cat phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
+        for f in `cat {params.outdir}/phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
         """    
 
 rule genomes_flye:
@@ -82,5 +82,5 @@ rule genomes_extract_flye:
         touch {output}
         
         #extracting the contigs from the assembly
-        for f in `cat phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
+        for f in `cat {params.outdir}/phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
         """ 

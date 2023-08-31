@@ -1,11 +1,10 @@
-name: pharokka
+name: phynteny
 channels:
     - conda-forge
     - bioconda
     - defaults
 dependencies:
-    - gsl
-    - pharokka>=1.4.0
+    - python==3.10.0
     - pip 
-    - pip: 
-        - bcbio-gff
+    - pip:
+        - phynteny

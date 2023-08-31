@@ -68,7 +68,7 @@ rule megahit:
     input:
         r1 = os.path.join(dir.prinseq, "{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir.prinseq, "{sample}_R2.fastq.gz"),
-        s =  os.path.join(dir.prinseq, "{sample}_S.fastq.gz"),
+        s =  os.path.join(dir.prinseq, "{sample}_RS.fastq.gz"),
     output:
         os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     params:

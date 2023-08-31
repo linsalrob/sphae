@@ -38,7 +38,7 @@ DIRECTORIES
 """
 dir = ap.AttrMap()
 dir.out = config.args.output
-dir.prinseq = os.path.join(dir.out, 'prinseq')
+dir.prinseq = os.path.join(dir.out, 'results/prinseq')
 dir.nanopore = os.path.join(dir.out, 'nanopore')
 dir.assembly = os.path.join(dir.out, 'assembly')
 dir.megahit = os.path.join(dir.assembly, 'megahit')

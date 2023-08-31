@@ -64,12 +64,20 @@ rule checkv_database:
             checkv download_database {params.checkv_db}
         """
 
-# rule refseq_mash:
-#     params:
-#         refseq = os.path.join(dir.db, 'mash_index')
-#     output:
-#         out=os.path.join(dir.db, 'mash_index', 'refseq.genomes.k21s1000.msh')
-#     shell:
-#         """
-#             wget {params.refseq}
-#         """
+rule phynteny_models:
+    params:
+        models = os.path.join(dir.db, "phynteny_models")
+    output:
+        out=os.path.join(dir.db, 'phynteny_models', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5')
+    conda:
+        os.path.join(dir.env, "phynteny.yaml")
+    shell:
+        """
+            if [[ -d {params.models} ]]
+                then
+                    rm -rf {params.models}
+                fi
+            mkdir {params.models}
+            install_models -o {params.models}
+        
+        """

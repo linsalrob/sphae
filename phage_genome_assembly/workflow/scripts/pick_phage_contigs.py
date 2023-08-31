@@ -28,6 +28,7 @@ def picking_contigs(file,out):
     elif (len(data))>1:
         if (data["Connections"] > 0).any():
             print ("The genome is fragmented")
+            print ("Subsample the reads and run again, to do this add the parameter in the config file")
         return None
     
     elif (len(data))==1:
@@ -36,7 +37,9 @@ def picking_contigs(file,out):
             print("The genome is assembled, yay!")
             data.to_csv(out, index=False)
         else:
-            print ("try using phables")
+            print ("The genome has some regions that are frgamented, but mostly assembled")
+            print ("Take a look at the assembly graph file in bandage for more information on where the genome is fragmented")
+            data.to_csv(out, index=False)
 
 
 picking_contigs(snakemake.input.csv, snakemake.output.out)

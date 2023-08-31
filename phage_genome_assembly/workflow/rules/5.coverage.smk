@@ -21,7 +21,7 @@ rule write_samples_tsv_single:
             f.write(f"{wildcards.sample}\t{input.r1}\n")
 
 
-rule contig_coverage_spades:
+rule contig_coverage_megahit:
     input:
         ref = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
         reads = os.path.join(dir.temp,"{sample}.paired.tsv")

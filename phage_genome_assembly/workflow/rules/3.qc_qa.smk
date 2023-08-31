@@ -30,6 +30,7 @@ rule trimnami:
         trimmer = lambda wildcards: "prinseq" if config.args.sequencing == "paired" else "nanopore",
         host = lambda wildcards: "--ref " + config.args.host if config.args.host else "",
         profile = lambda wildcards: "--profile " + config.args.profile if config.args.profile else "",
+        subsample = config.params.subsample,
     log:
         os.path.join(dir.log, "trimnami.log")
     benchmark:
@@ -42,5 +43,6 @@ rule trimnami:
             {params.trimmer} \
             {params.host} \
             {params.profile} \
+            {params.subsample} \
             --log {log}
         """

@@ -1,5 +1,5 @@
 
-rule pharokka_spades:
+rule pharokka_megahit:
     """Annotate genomes with Pharokka"""
     input:
         os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")
@@ -7,7 +7,7 @@ rule pharokka_spades:
         o=os.path.join(dir.pharokka, "{sample}-pr"),
         db=os.path.join(dir.db, "pharokka_db"),
     output:
-        os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gff")
+        gff=os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gff"),
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -26,6 +26,7 @@ rule pharokka_spades:
             -t {threads} \
             -f \
             2> {log}
+        
         """
 
 
@@ -37,7 +38,7 @@ rule pharokka_flye:
         o=os.path.join(dir.pharokka, "{sample}-sr"),
         db=os.path.join(dir.db, "pharokka_db"),
     output:
-        os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gff")
+        gff=os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gff"),
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -56,4 +57,5 @@ rule pharokka_flye:
             -t {threads} \
             -f \
             2> {log}
+
         """

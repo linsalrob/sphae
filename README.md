@@ -48,9 +48,9 @@ Run command,
   - Pfam35.0 database to run viral_verify for contig classification. 
   - CheckV database to test for phage completeness
   - Pharokka databases 
+  - Phyteny models
 
-This step takes approximately 50 min to install
-#spae install  289.51s user 268.36s system 19% cpu 47:49.50 total
+This step takes approximately 1hr 30min to install
 
 ## Running the workflow
 The command `spae run` will run QC, assembly and annoation
