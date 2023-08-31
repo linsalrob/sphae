@@ -43,9 +43,12 @@ elif config.args.sequencing == 'longread':
 
 targets.annotate = []
 if config.args.sequencing == 'paired':
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gff"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk"), sample=samples.names))
 elif config.args.sequencing == 'longread':
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gff"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"), sample=samples.names))
+
 
 targets.coverage = []
 if config.args.sequencing == 'paired':

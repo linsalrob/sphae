@@ -1,4 +1,8 @@
 phage_genome_assembly/workflow/conda/
+spae-2221678.err.txt
+spae-2221678.out.txt
+spae.sh
+spae.out
 .snakemake/
 databases/
 phage_genome_assembly/.snakemake

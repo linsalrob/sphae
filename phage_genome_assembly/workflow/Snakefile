@@ -21,7 +21,7 @@ include: os.path.join("rules", "6.stat_join.smk")
 include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "7.coverage_genome.smk")
-
+include: os.path.join("rules", "7.phynteny.smk")
 
 
 """Mark target rules"""

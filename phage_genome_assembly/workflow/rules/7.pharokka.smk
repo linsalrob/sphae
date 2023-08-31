@@ -7,7 +7,7 @@ rule pharokka_megahit:
         o=os.path.join(dir.pharokka, "{sample}-pr"),
         db=os.path.join(dir.db, "pharokka_db"),
     output:
-        gff=os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gff"),
+        gff=os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gbk"),
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -38,7 +38,7 @@ rule pharokka_flye:
         o=os.path.join(dir.pharokka, "{sample}-sr"),
         db=os.path.join(dir.db, "pharokka_db"),
     output:
-        gff=os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gff"),
+        gff=os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gbk"),
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
