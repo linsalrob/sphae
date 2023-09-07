@@ -1,7 +1,13 @@
+"""
+Assembly rules
+Illumina paired end reads - Megahit
+Nanopore reads - Flye
+"""
+
 rule flye:
     """Assemble longreads with Flye"""
     input:
-        os.path.join(dir.nanopore, "{sample}_single.fastq.gz")
+        os.path.join(dir.nanopore, "{sample}_S.fastq.gz")
     threads:
         config.resources.bigjob.cpu
     resources:
@@ -35,7 +41,7 @@ rule medaka:
     """Polish longread assembly with medaka"""
     input:
         fasta = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
-        fastq = os.path.join(dir.nanopore, "{sample}_single.fastq.gz")
+        fastq = os.path.join(dir.nanopore, "{sample}_S.fastq.gz")
     output:
         fasta = os.path.join(dir.flye,"{sample}-sr", "consensus.fasta")
     conda:

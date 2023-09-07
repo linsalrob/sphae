@@ -1,12 +1,10 @@
 phage_genome_assembly/workflow/conda/
-spae-2221678.err.txt
-spae-2221678.out.txt
+spae-2235184.err.txt
+spae-2235184.out.txt
 spae.sh
 spae.out
 .snakemake/
-databases/
 phage_genome_assembly/.snakemake
-phage_genome_assembly/databases
 phage_genome_assembly/workflow/databases/
 phage_genome_assembly/phage_genome_assembly.egg-info
 phage_genome_assembly.egg-info

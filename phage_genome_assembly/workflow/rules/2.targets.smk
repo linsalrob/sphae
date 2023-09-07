@@ -17,7 +17,7 @@ targets.qc = []
 if config.args.sequencing == 'paired':
     targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.fastq.gz"), sample=samples.names, r12=["R1","R2","RS"]))
 elif config.args.sequencing == 'longread':
-    targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_single.fastq.gz"), sample=samples.names))
+    targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_S.fastq.gz"), sample=samples.names))
 
 
 targets.assemble = []

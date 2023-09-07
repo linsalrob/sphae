@@ -1,3 +1,6 @@
+"""
+Calculating the read coverage of each contigs
+"""
 rule write_samples_tsv_paried:
     input:
         r1=lambda wildcards: samples.reads[wildcards.sample]['R1'],

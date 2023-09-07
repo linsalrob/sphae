@@ -23,13 +23,14 @@ def picking_contigs(file,out):
 
     if (len(data))==0:
         print("Genome wasn't assembled well")
-        return None
+        open(out, 'w').close()
+        #return None
             
     elif (len(data))>1:
         if (data["Connections"] > 0).any():
             print ("The genome is fragmented")
-            print ("Subsample the reads and run again, to do this add the parameter in the config file")
-        return None
+            open(out, 'w').close()
+        #return None
     
     elif (len(data))==1:
         #print ("entering this if statement")

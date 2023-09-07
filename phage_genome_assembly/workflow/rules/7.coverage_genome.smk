@@ -69,7 +69,7 @@ rule genome_coverage_nanopore:
     output:
         bam = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam"),
         bai = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam.bai"),
-        tsv = os.path.join(dir.genome,"{sample}-sr", "temp", "{sample}.tsv")
+        tsv = os.path.join(dir.genome,"{sample}-sr", "temp", "{sample}.cov")
     params:
         out = os.path.join(dir.genome, "{sample}-sr")
     conda:
@@ -96,10 +96,10 @@ rule genome_coverage_nanopore:
 
 rule genomecov_nanopore:
     input:
-        bam = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam"),
-        bai = os.path.join(dir.flye, "{sample}-sr", "temp", "{sample}.bam.bai"),
+        bam = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam"),
+        bai = os.path.join(dir.genome, "{sample}-sr", "temp", "{sample}.bam.bai"),
     output:
-        tsv=  os.path.join(dir.flye, "{sample}-sr", "flye_{sample}.gencov.tsv")
+        tsv=  os.path.join(dir.genome, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv")
     threads:
         config.resources.smalljob.cpu
     resources:
