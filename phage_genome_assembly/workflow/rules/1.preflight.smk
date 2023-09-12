@@ -86,4 +86,7 @@ if config.args.input is not None:
 Wildcard constraints
 """
 wildcard_constraints:
-    sample="[a-zA-Z0-9_-]+"
+    sample="[a-zA-Z0-9_-]+",
+    host = ".{0}|\.hostRm|\.hostRm_s",
+    subsample = ".{0}|\.subsampled",
+    hostSubsampled = ".{0}|.+"

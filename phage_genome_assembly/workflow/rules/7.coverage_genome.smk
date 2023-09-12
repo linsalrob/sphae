@@ -5,7 +5,8 @@ Building bedfiles to visusalize the genome coverage per base
 rule genome_coverage_paired:
     input:
         ref = os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta"),
-        reads = os.path.join(dir.temp,"{sample}.paired.tsv")
+        reads = os.path.join(dir.temp,"{sample}.paired.tsv"),
+        done=os.path.join(dir.genome, "{sample}-pr", "{sample}_genomes_extract_done.txt")
     output:
         bam= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam"),
         bai= os.path.join(dir.genome,"{sample}-pr", "temp", "{sample}.bam.bai"),

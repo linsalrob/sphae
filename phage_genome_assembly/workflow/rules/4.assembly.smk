@@ -72,9 +72,9 @@ rule medaka:
 rule megahit:
     """Assemble short reads with MEGAHIT"""
     input:
-        r1 = os.path.join(dir.prinseq, "{sample}_R1.fastq.gz"),
-        r2 = os.path.join(dir.prinseq, "{sample}_R2.fastq.gz"),
-        s =  os.path.join(dir.prinseq, "{sample}_RS.fastq.gz"),
+        r1 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R1{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
+        r2 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R2{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
+        s =  lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_RS{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
     output:
         os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     params:

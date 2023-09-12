@@ -2,7 +2,8 @@
 rule pharokka_megahit:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")
+        os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta"),
+        done=os.path.join(dir.genome, "{sample}-pr", "{sample}_genomes_extract_done.txt")
     params:
         o=os.path.join(dir.pharokka, "{sample}-pr"),
         db=os.path.join(dir.db, "pharokka_db"),

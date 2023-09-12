@@ -20,5 +20,5 @@ resources:
 params:
   medaka: "r941_min_sup_g507"
   flye: "--nano-hq"
-  #subsample: "--subsample 10g"
-  subsample: " "
+
+ 

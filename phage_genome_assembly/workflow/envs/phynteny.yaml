@@ -7,4 +7,4 @@ dependencies:
     - python==3.10.0
     - pip 
     - pip:
-        - phynteny
+        - phynteny==0.1.12

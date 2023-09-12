@@ -29,8 +29,8 @@ rule trimnami:
         dir = dir.out,
         trimmer = lambda wildcards: "prinseq" if config.args.sequencing == "paired" else "filtlong",
         host = lambda wildcards: "--ref " + config.args.host if config.args.host else "",
+        subsample = lambda wildcards: config.subsample if config.subsample else "",
         profile = lambda wildcards: "--profile " + config.args.profile if config.args.profile else "",
-        subsample = config.params.subsample,
     log:
         os.path.join(dir.log, "trimnami.log")
     benchmark:

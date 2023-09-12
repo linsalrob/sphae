@@ -15,7 +15,13 @@ targets.db.append(os.path.join(dir.db, 'phynteny_models', 'grid_search_model.m_4
 targets.qc = []
 
 if config.args.sequencing == 'paired':
-    targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.fastq.gz"), sample=samples.names, r12=["R1","R2","RS"]))
+    for sample in samples.names:
+        genomes_extract_done_path = os.path.join(dir.genome, sample + "-pr", sample + "_genomes_extract_done.txt")
+        if os.path.exists(genomes_extract_done_path):
+            print ("looking for subsampled files")
+            targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.subsampled.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))
+        else:
+            targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))
 elif config.args.sequencing == 'longread':
     targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_S.fastq.gz"), sample=samples.names))
 
