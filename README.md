@@ -1,6 +1,10 @@
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
-![](spaefinal.png)
+<p align="center">
+
+  <img src="spaefinal.png" height=200>
+
+</p>
 
 **Overview**
 
