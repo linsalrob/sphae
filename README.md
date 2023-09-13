@@ -2,7 +2,7 @@
 ## Phage toolkit to detect phage candidates for phage therapy
 <p align="center">
 
-  <img src="spaefinal.png" height=200>
+  <img src="spaefinal.png" height=400>
 
 </p>
 
