@@ -1,6 +1,6 @@
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
-
+![Alt text]("spaefinal.png")
 **Overview**
 
 This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. THe steps include 
