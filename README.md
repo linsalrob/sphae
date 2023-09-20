@@ -81,7 +81,7 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 - Assmbled phage genome saved to **"{outut-directory}/genome/{sample}/{sample}.fasta**
 - Annotations of the phage genome are saved to **"{outut-directory}/pharokka/phynteny/phynteny.gbk"**
 
-**Issues and Questions**
+## Issues and Questions
 
 This is still a work in progress, so if you come across any issues or errors, report them under Issues. 
 
