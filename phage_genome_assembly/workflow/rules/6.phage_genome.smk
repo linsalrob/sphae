@@ -44,22 +44,6 @@ rule genomes_extract_megahit:
         for f in `cat {params.outdir}/phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output.fasta} ; done 
         """    
 
-# Define a checkpoint rule to check the existence of the output file
-checkpoint check_genomes_extract_output:
-    input:
-        fasta=os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")        
-    output:
-        done=os.path.join(dir.genome, "{sample}-pr", "{sample}_genomes_extract_done.txt")
-    run:
-        import subprocess
-        with open(input[0], 'r') as infile:
-            if not any(infile):
-                # Handle the case where the output file does not exist
-                # Running trimnami.smk again but with params set to subsample
-                shell("snakemake --use-conda --restart trimnami --config subsample='--subsample' ")    
-                
-            open(output.done, 'w').close()
-
 rule genomes_flye:
     input:
         csv = os.path.join(dir.assembly, "{sample}-assembly-stats_flye.csv")
