@@ -4,20 +4,24 @@
   <img src="spaefinal.png#gh-light-mode-only" width="400">
   <img src="spaedark.png#gh-dark-mode-only" width="400">
 </p>
-  
+
+[![Edwards Lab](https://img.shields.io/badge/Bioinformatics-EdwardsLab-03A9F4)](https://edwards.sdsu.edu/research)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Conda](https://img.shields.io/conda/dn/bioconda/phynteny)
+[![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
+
 **Overview**
 
-This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. THe steps include 
-- QC using Trimanammi [https://github.com/beardymcjohnface/Trimnami]
-- Assembly, either SPAdes [https://github.com/ablab/spades] or Flye [https://github.com/fenderglass/Flye]
-- Contig quality checks 
-    - read coverage using Koverage [https://github.com/beardymcjohnface/Koverage]
-    - verify they are viral contigs using ViralVerify [https://github.com/ablab/viralVerify]
-    - Completeness using CheckV [https://bitbucket.org/berkeleylab/CheckV]
-    - assembly graph compnents check - internal script 
-  This results in determining if the phage genome was assembled 
-- Annotation of the phage genome using Pharokka [https://github.com/gbouras13/pharokka]
-    - To improve annotations, the results are run through Phynteny [https://github.com/susiegriggo/Phynteny] 
+This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. The steps include,
+ 
+- Quality control that removes adaptor sequences, low quality reads and host contimanination (optional). 
+- Assembly
+- Contig quality checks; read coverage, viral or not, completeness, and assembly graph components. 
+- Phage genome annotation'
+- Annotation of the phage genome 
+  
+Complete list of programs used for each step is mention in the phage_genome_assembly.CITATION file. 
 
 ### Install 
 
