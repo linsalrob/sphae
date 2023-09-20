@@ -1,8 +1,8 @@
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
 <p align="center">
-  <img src="spaefinal.png#gh-light-mode-only" width="400">
-  <img src="spaedark.png#gh-dark-mode-only" width="400">
+  <img src="spaefinal.png#gh-light-mode-only" width="300">
+  <img src="spaedark.png#gh-dark-mode-only" width="300">
 </p>
 
 [![Edwards Lab](https://img.shields.io/badge/Bioinformatics-EdwardsLab-03A9F4)](https://edwards.sdsu.edu/research)
@@ -14,7 +14,7 @@
 **Overview**
 
 This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently this tool is being developed for phage genomes. The steps include,
- 
+
 - Quality control that removes adaptor sequences, low quality reads and host contimanination (optional). 
 - Assembly
 - Contig quality checks; read coverage, viral or not, completeness, and assembly graph components. 
