@@ -17,6 +17,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
     - assembly graph compnents check - internal script 
   This results in determining if the phage genome was assembled 
 - Annotation of the phage genome using Pharokka [https://github.com/gbouras13/pharokka]
+    - To improve annotations, the results are run through Phynteny [https://github.com/susiegriggo/Phynteny] 
 
 ### Install 
 
@@ -78,5 +79,5 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 
 **Issues and Questions**
 
-This is still work in progress, so if you come across any issues or errors, report them under Issues. 
+This is still a work in progress, so if you come across any issues or errors, report them under Issues. 
 
