@@ -7,7 +7,7 @@ Nanopore reads - Flye
 rule flye:
     """Assemble longreads with Flye"""
     input:
-        os.path.join(dir.nanopore, "{sample}_S.fastq.gz")
+        lambda wildcards: os.path.join(dir.nanopore, f"{wildcards.sample}_S{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
     threads:
         config.resources.bigjob.cpu
     resources:
@@ -41,7 +41,8 @@ rule medaka:
     """Polish longread assembly with medaka"""
     input:
         fasta = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
-        fastq = os.path.join(dir.nanopore, "{sample}_S.fastq.gz")
+        fastq = lambda wildcards: os.path.join(dir.nanopore, f"{wildcards.sample}_S{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
+
     output:
         fasta = os.path.join(dir.flye,"{sample}-sr", "consensus.fasta")
     conda:
@@ -72,9 +73,9 @@ rule medaka:
 rule megahit:
     """Assemble short reads with MEGAHIT"""
     input:
-        r1 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R1{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
-        r2 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R2{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
-        s =  lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_RS{'.subsampled' if os.path.exists(os.path.join(dir.genome, f'{wildcards.sample}-pr', f'{wildcards.sample}_genomes_extract_done.txt')) else ''}.fastq.gz"),
+        r1 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R1{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
+        r2 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R2{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
+        s =  lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_RS{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
     output:
         os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     params:

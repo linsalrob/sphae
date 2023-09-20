@@ -2,7 +2,7 @@
 Running CheckV to get the completeness of phage genomes 
 """
 
-rule checkv_spades:
+rule checkv_megahit:
     input:
         contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     output:
