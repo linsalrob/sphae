@@ -19,7 +19,8 @@ rule flye:
         path= os.path.join(dir.flye, "{sample}-sr", "assembly_info.txt")
     params:
         out= os.path.join(dir.flye, "{sample}-sr"),
-        model = config.params.flye
+        model = config.params.flye,
+        g = config.params.genomeSize
     log:
         os.path.join(dir.log, "flye.{sample}.log")
     benchmark:
@@ -31,7 +32,9 @@ rule flye:
         flye \
             {params.model} \
             {input} \
-            --threads {threads} \
+            --threads {threads}  \
+            --asm-coverage 50 \
+            --genome-size {params.g} \
             --out-dir {params.out} \
             2> {log}
         """

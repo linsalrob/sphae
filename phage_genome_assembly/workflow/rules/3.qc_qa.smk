@@ -31,6 +31,7 @@ rule trimnami:
         host = lambda wildcards: "--ref " + config.args.host if config.args.host else "",
         subsample = lambda wildcards: config.params.subsample if config.subsample else "",
         profile = lambda wildcards: "--profile " + config.args.profile if config.args.profile else "",
+        fastp = lambda wildcards: config.args.adaptors if config.args.adaptors else "",
     log:
         os.path.join(dir.log, "trimnami.log")
     benchmark:
@@ -43,7 +44,7 @@ rule trimnami:
             {params.trimmer} \
             {params.host} \
             {params.subsample} \
-            fastp \
+            {params.fastp} \
             {params.profile} \
             --log {log}
         """

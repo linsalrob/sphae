@@ -22,4 +22,8 @@ params:
   flye: "--nano-hq"
   subsample: ""
   #to subsample, change the above flage to subsample: "--subsample"
+  #adaptors: ""
+  adaptors: "fastp"
+  #genomeSize: 44k
+
  

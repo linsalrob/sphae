@@ -57,31 +57,11 @@ rule genomes_flye:
     script:
         os.path.join(dir.script, 'pick_phage_contigs.py')
 
-rule check_output_length_flye:
-    input:
-        os.path.join(dir.genome, "{sample}-sr", "{sample}-genome-candidates.csv")
-    output:
-        os.path.join(dir.genome,"{sample}-sr", "{sample}_length_check.txt")
-    localrule: True
-    shell:
-        """
-        output_file="{input}"
-        length=$(wc -l <"$output_file")
-        echo $length
-
-        if [ $length -ne 2 ]; then
-            echo "Entering here"
-            #snakemake --snakefile opt.subsampling_long.snakefile --cores all
-        elif [ $length -eq 2 ]; then
-            echo $length > {output}
-        fi
-        """
 
 rule genomes_extract_flye:
     input:
         contigs = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
         csv = os.path.join(dir.genome, "{sample}-sr", "{sample}-genome-candidates.csv"),
-        lens=os.path.join(dir.genome,"{sample}-sr", "{sample}_length_check.txt")
     output:
         os.path.join(dir.genome, "{sample}-sr", "{sample}.fasta")
     params:

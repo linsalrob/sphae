@@ -14,33 +14,33 @@ def picking_contigs(file,out):
     data = pd.DataFrame()
     if (os.path.exists(file) == True):
         data = pd.read_csv(file, header=0)
-        data = data[data["Length_x"] > 1000]
-        data = data[data["Prediction"] == "Virus"]
-        data = data[data["Mean"] > 1]
-        data = data[data["completeness"]> 90.00]
+        datav = data[data["Length_x"] > 1000]
+        datav = datav[datav["Prediction"] == "Virus"]
+        datac = datav[datav["Mean"] > 1]
+        datac = datac[datac["completeness"]> 90.00]
         #print (len(data))
-        print (data)
+        #print (data)
 
-    if (len(data))==0:
+    if (len(datac))==0:
         print("Genome wasn't assembled well")
-        open(out, 'w').close()
+        datav.to_csv(out, index=False)
         #return None
             
-    elif (len(data))>1:
-        if (data["Connections"] > 0).any():
+    elif (len(datac))>1:
+        if (datac["Connections"] > 0).any():
             print ("The genome is fragmented")
-            open(out, 'w').close()
+            datav.to_csv(out, index=False)
         #return None
     
-    elif (len(data))==1:
+    elif (len(datac))==1:
         #print ("entering this if statement")
-        if (data["Connections"] == 0).any():
+        if (datac["Connections"] == 0).any():
             print("The genome is assembled, yay!")
-            data.to_csv(out, index=False)
+            datac.to_csv(out, index=False)
         else:
             print ("The genome has some regions that are frgamented, but mostly assembled")
             print ("Take a look at the assembly graph file in bandage for more information on where the genome is fragmented")
-            data.to_csv(out, index=False)
+            datac.to_csv(out, index=False)
 
 
 picking_contigs(snakemake.input.csv, snakemake.output.out)
