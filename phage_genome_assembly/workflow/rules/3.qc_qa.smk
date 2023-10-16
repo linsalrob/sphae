@@ -27,9 +27,9 @@ rule trimnami:
         time = config.resources.bigjob.time
     params:
         dir = dir.out,
+        configfile = config.args.configfile,
         trimmer = lambda wildcards: "prinseq" if config.args.sequencing == "paired" else "filtlong",
         host = lambda wildcards: "--ref " + config.args.host if config.args.host else "",
-        subsample = lambda wildcards: config.params.subsample if config.subsample else "",
         profile = lambda wildcards: "--profile " + config.args.profile if config.args.profile else "",
         fastp = lambda wildcards: config.args.adaptors if config.args.adaptors else "",
     log:
@@ -39,11 +39,13 @@ rule trimnami:
     shell:
         """
         trimnami run \
+            --configfile {params.configfile} \
             --reads {input} \
             --output {params.dir} \
+            --fastqc \
+            --subsample \
             {params.trimmer} \
             {params.host} \
-            {params.subsample} \
             {params.fastp} \
             {params.profile} \
             --log {log}

@@ -56,6 +56,11 @@ def common_options(func):
                      default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'],
                      help="Customise Snakemake runtime args", show_default=True),
         click.option("--log", default="spae.log", callback=default_to_output, hidden=True,),
+        click.option(
+            "--system-config",
+            default=snake_base(os.path.join("config", "config.yaml")),
+            hidden=True,
+        ),
         click.argument('snake_args', nargs=-1)
     ]
     for option in reversed(options):
@@ -102,18 +107,12 @@ Specify targets:    spae run ... all print_targets
 def install(**kwargs):
     """The install function for databases"""
     merge_config = {
-        'args': {
-            'output': kwargs["output"],
-            'db_dir': kwargs["db_dir"],
-            'profile': kwargs["profile"],
-            'log': kwargs["log"],
-        }
+        'args': kwargs
     }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'install.smk')),
-        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
         **kwargs
     )
@@ -124,28 +123,25 @@ def install(**kwargs):
 @click.option('--host', help='Host genome for filtering', type=str, required=False)
 @click.option('--sequencing', help="sequencing method", default='paired', show_default=False,
                      type=click.Choice(['paired', 'longread']))
+@click.option(
+    "--trim",
+    help="Trimming engine for trimnami",
+    default="prinseq",
+    show_default=True,
+    type=click.Choice(["fastp", "prinseq", "filtlong"]),
+)
 @common_options
 def run(**kwargs):
     """Run spae"""
 
     # Config to add or update in configfile
     merge_config = {
-        'args': {
-            'input': kwargs["_input"],
-            'output': kwargs["output"],
-            'host': kwargs["host"],
-            'db_dir': kwargs["db_dir"],
-            'temp_dir': kwargs["temp_dir"],
-            'sequencing': kwargs["sequencing"],
-            'profile': kwargs["profile"],
-            'log': kwargs["log"],
-        }
+        'args': kwargs
     }
 
     # run!
     run_snakemake(
         snakefile_path=snake_base(os.path.join('workflow', 'Snakefile')),
-        system_config=snake_base(os.path.join('config', 'config.yaml')),
         merge_config=merge_config,
         **kwargs
     )
