@@ -26,12 +26,12 @@ rule trimnami:
         mem_mb = config.resources.bigjob.mem,
         time = config.resources.bigjob.time
     params:
-        dir = dir.out,
-        trimmer = lambda wildcards: "prinseq" if config.args.sequencing == "paired" else "filtlong",
+        dir = os.path.join(dir.out, "PROCESSING"),
+        config = config.args.configfile, 
+        trimmer = lambda wildcards: "fastp" if config.args.sequencing == "paired" else "filtlong",
         host = lambda wildcards: "--ref " + config.args.host if config.args.host else "",
-        subsample = lambda wildcards: config.params.subsample if config.subsample else "",
+        subsample = config.trimnami.qc.subsample,
         profile = lambda wildcards: "--profile " + config.args.profile if config.args.profile else "",
-        fastp = lambda wildcards: config.args.adaptors if config.args.adaptors else "",
     log:
         os.path.join(dir.log, "trimnami.log")
     benchmark:
@@ -39,12 +39,12 @@ rule trimnami:
     shell:
         """
         trimnami run \
+            --configfile {params.config} \
             --reads {input} \
             --output {params.dir} \
+            --subsample \
             {params.trimmer} \
             {params.host} \
-            {params.subsample} \
-            {params.fastp} \
             {params.profile} \
             --log {log}
         """

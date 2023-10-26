@@ -5,8 +5,8 @@ import attrmap.utils as au
 """Parse config"""
 configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 configfile: os.path.join(workflow.basedir, "..", "config", "databases.yaml")
+config.update(config["spae"])
 config = ap.AttrMap(config)
-
 
 """Rules"""
 include: os.path.join("rules", "1.preflight.smk")
@@ -22,6 +22,7 @@ include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "7.coverage_genome.smk")
 include: os.path.join("rules", "7.phynteny.smk")
+include: os.path.join("rules", "7.taxa.smk")
 
 
 """Mark target rules"""

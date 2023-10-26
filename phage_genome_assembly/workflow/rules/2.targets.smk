@@ -16,18 +16,11 @@ targets.qc = []
 
 if config.args.sequencing == 'paired':
     for sample in samples.names:
-        if config.params.subsample == '--subsample':
-            targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.subsampled.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))
-        else:
-            targets.qc.append(expand(os.path.join(dir.prinseq, "{sample}_{r12}.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))
+        targets.qc.append(expand(os.path.join(dir.fastp, "{sample}_{r12}.subsampled.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))
 elif config.args.sequencing == 'longread':
     for sample in samples.names:
-        if config.params.subsample == '--subsample':
-            targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_S.subsampled.fastq.gz"), sample=sample))
-        else:
-            targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_S.fastq.gz"), sample=sample))
-
-
+        targets.qc.append(expand(os.path.join(dir.nanopore, "{sample}_S.subsampled.fastq.gz"), sample=sample))
+       
 targets.assemble = []
 
 if config.args.sequencing == 'paired':
@@ -51,14 +44,15 @@ elif config.args.sequencing == 'longread':
 
 targets.annotate = []
 if config.args.sequencing == 'paired':
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "pharokka.gbk"), sample=samples.names))
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "pharokka_plot.png"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-pr", "Summary_taxonomy.tsv"), sample=samples.names))
 elif config.args.sequencing == 'longread':
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "pharokka.gbk"), sample=samples.names))
-    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "pharokka_plot.png"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"), sample=samples.names))
-
+    targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-sr", "Summary_taxonomy.tsv"), sample=samples.names))
 
 targets.coverage = []
 if config.args.sequencing == 'paired':

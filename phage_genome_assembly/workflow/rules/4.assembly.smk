@@ -7,7 +7,7 @@ Nanopore reads - Flye
 rule flye:
     """Assemble longreads with Flye"""
     input:
-        lambda wildcards: os.path.join(dir.nanopore, f"{wildcards.sample}_S{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
+        os.path.join(dir.nanopore, "{sample}_S.subsampled.fastq.gz"),
     threads:
         config.resources.bigjob.cpu
     resources:
@@ -44,8 +44,7 @@ rule medaka:
     """Polish longread assembly with medaka"""
     input:
         fasta = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
-        fastq = lambda wildcards: os.path.join(dir.nanopore, f"{wildcards.sample}_S{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
-
+        fastq = os.path.join(dir.nanopore, "{sample}_S.subsampled.fastq.gz"),
     output:
         fasta = os.path.join(dir.flye,"{sample}-sr", "consensus.fasta")
     conda:
@@ -76,9 +75,8 @@ rule medaka:
 rule megahit:
     """Assemble short reads with MEGAHIT"""
     input:
-        r1 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R1{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
-        r2 = lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_R2{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
-        s =  lambda wildcards: os.path.join(dir.prinseq, f"{wildcards.sample}_RS{'.subsampled' if config.params.subsample == '--subsample' else ''}.fastq.gz"),
+        r1 = os.path.join(dir.fastp, "{sample}_R1.subsampled.fastq.gz"),
+        r2 = os.path.join(dir.fastp, "{sample}_R2.subsampled.fastq.gz")
     output:
         os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
     params:
@@ -103,7 +101,6 @@ rule megahit:
         megahit \
             -1 {input.r1} \
             -2 {input.r2} \
-            -r {input.s} \
             -o {params} \
             -t {threads} \
             2> {log}

@@ -38,16 +38,18 @@ DIRECTORIES
 """
 dir = ap.AttrMap()
 dir.out = config.args.output
-dir.prinseq = os.path.join(dir.out, 'results/prinseq')
-dir.nanopore = os.path.join(dir.out, 'results/filtlong')
-dir.assembly = os.path.join(dir.out, 'assembly')
-dir.megahit = os.path.join(dir.assembly, 'megahit')
-dir.flye = os.path.join(dir.assembly, 'flye')
-dir.genome = os.path.join(dir.out, 'genome')
-dir.cov = os.path.join(dir.out, 'coverage')
-dir.pharokka = os.path.join(dir.out, 'pharokka')
+dir.fastp = os.path.join(dir.out, 'PROCESSING/results/fastp')
+dir.nanopore = os.path.join(dir.out, 'PROCESSING/results/filtlong')
+dir.assembly = os.path.join(dir.out, 'PROCESSING/assembly')
+dir.megahit = os.path.join(dir.assembly, 'PROCESSING/megahit')
+dir.flye = os.path.join(dir.assembly, 'PROCESSING/flye')
+dir.genome = os.path.join(dir.out, 'PROCESSING/genome')
+dir.cov = os.path.join(dir.out, 'PROCESSING/coverage')
+dir.pharokka = os.path.join(dir.out, 'PROCESSING/pharokka')
+dir.taxa = os.path.join(dir.out, 'PROCESSING/taxa')
 dir.log = os.path.join(dir.out, 'logs')
-dir.bench = os.path.join(dir.out, 'bench')
+dir.bench = os.path.join(dir.out, 'PROCESSING/bench')
+dir.final = os.path.join(dir.out, 'RESULTS')
 
 dir.env = os.path.join(workflow.basedir, "envs")
 dir.script = os.path.join(workflow.basedir, "scripts")
@@ -76,7 +78,7 @@ samples (dict):
 """
 samples = ap.AttrMap()
 if config.args.input is not None:
-    samples.reads = fastq_finder.parse_samples_to_dictionary(config.args.input)
+    samples.reads = fastq_finder.parse_samples_to_dictionary(config.args._input)
     samples.names = list(ap.utils.get_keys(samples.reads))
     samples = au.convert_state(samples, read_only=True)
     fastq_finder.write_samples_tsv(samples.reads, os.path.join(dir.out, "samples.tsv"))
