@@ -46,13 +46,24 @@ targets.annotate = []
 if config.args.sequencing == 'paired':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "top_hits_card.tsv"),sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-pr", "Summary_taxonomy.tsv"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "top_hits_card.tsv"),sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-sr", "Summary_taxonomy.tsv"), sample=samples.names))
+    #targets.annotate.append(expand(os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt"), sample=samples.names))
 
 targets.coverage = []
 if config.args.sequencing == 'paired':
@@ -67,3 +78,4 @@ elif config.args.sequencing == 'longread':
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam.bai"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.cov"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv"), sample=samples.names))
+
