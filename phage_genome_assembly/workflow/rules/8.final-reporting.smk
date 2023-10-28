@@ -12,7 +12,6 @@ rule summarize_paired:
         spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
         plot=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
-        taxa=os.path.join(dir.taxa, "{sample}-pr", "Summary_taxonomy.tsv")
     output:
         summary=os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt")
     params:
@@ -29,13 +28,20 @@ rule summarize_paired:
         cp -r {input.gbk} {params.gbk}
         cp -r {input.plot} {params.plot}
 
-        echo "Sample: $(tail -n +2 {input.table} | cut -d ',' -f 2)" > {output.summary}
-        echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
-        echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
-        echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
-        echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
-        echo "Accession: $(tail -n +2 {input.ph_taxa} | cut -f 2 )" >> {output.summary}
-        echo "Taxa_Name: $(tail -n +2 {input.ph_taxa} | cut -f 6 )" >> {output.summary}
+        echo "Sample: $(sed -n '2p' {input.table} | cut -d ',' -f 2)" > {output.summary}
+        
+        line_count=$(wc -l < {input.table})
+
+        if [ "$line_count" -gt 2 ]; then
+            echo "Genome is incomplete or contaminated, includes mutliple contigs" >> {output.summary}
+        else
+            echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
+            echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
+            echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
+            echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
+            echo "Accession: $(tail -n +2 {input.ph_taxa} | cut -f 2 )" >> {output.summary}
+            echo "Taxa_Name: $(tail -n +2 {input.ph_taxa} | cut -f 6 )" >> {output.summary}
+        fi
 
         if grep -q "int" {input.gbk}; then
             echo "Integrase found" >> {output.summary}
@@ -72,7 +78,6 @@ rule summarize_longread:
         plot=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"),
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
-        taxa=os.path.join(dir.taxa, "{sample}-sr", "Summary_taxonomy.tsv")
     output:
         summary=os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt")
     params:
@@ -89,14 +94,22 @@ rule summarize_longread:
         cp -r {input.gbk} {params.gbk}
         cp -r {input.plot} {params.plot}
   
-        echo "Sample: $(tail -n +2 {input.table} | cut -d ',' -f 2)" > {output.summary}
-        echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
-        echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
-        echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
-        echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
-        echo "Accession: $(tail -n +2 {input.ph_taxa} | cut -f 2 )" >> {output.summary}
-        echo "Taxa_Name: $(tail -n +2 {input.ph_taxa} | cut -f 6 )" >> {output.summary}
 
+        echo "Sample: $(sed -n '2p' {input.table} | cut -d ',' -f 2)" > {output.summary}
+        
+        line_count=$(wc -l < {input.table})
+
+        if [ "$line_count" -gt 2 ]; then
+            echo "Genome is incomplete or contaminated, includes mutliple contigs" >> {output.summary}
+        else
+            echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
+            echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
+            echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
+            echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
+            echo "Accession: $(tail -n +2 {input.ph_taxa} | cut -f 2 )" >> {output.summary}
+            echo "Taxa_Name: $(tail -n +2 {input.ph_taxa} | cut -f 6 )" >> {output.summary}
+        fi
+        
         if grep -q "int" {input.gbk}; then
             echo "Integrase found" >> {output.summary}
         else

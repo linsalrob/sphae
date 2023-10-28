@@ -51,7 +51,6 @@ if config.args.sequencing == 'paired':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
-    targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-pr", "Summary_taxonomy.tsv"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"), sample=samples.names))
@@ -62,8 +61,7 @@ elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
-    targets.annotate.append(expand(os.path.join(dir.taxa, "{sample}-sr", "Summary_taxonomy.tsv"), sample=samples.names))
-    #targets.annotate.append(expand(os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt"), sample=samples.names))
 
 targets.coverage = []
 if config.args.sequencing == 'paired':

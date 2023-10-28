@@ -94,15 +94,11 @@ rule megahit:
         os.path.join(dir.env, "megahit.yaml")
     shell:
         """
-        if [[ -d {params} ]]
-        then
-            rm -rf {params}
-        fi
         megahit \
             -1 {input.r1} \
             -2 {input.r2} \
             -o {params} \
-            -t {threads} \
+            -t 32 -f \
             2> {log}
         """
 

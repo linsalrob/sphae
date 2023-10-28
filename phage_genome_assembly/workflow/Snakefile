@@ -22,7 +22,6 @@ include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "7.coverage_genome.smk")
 include: os.path.join("rules", "7.phynteny.smk")
-include: os.path.join("rules", "7.taxa.smk")
 include: os.path.join("rules", "8.final-reporting.smk")
 
 
