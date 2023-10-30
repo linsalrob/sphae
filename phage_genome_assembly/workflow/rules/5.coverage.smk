@@ -83,3 +83,22 @@ rule contig_coverage_flye_nano:
             --threads {threads} \
             --log {log}
         """
+
+
+rule prebuild_koverage:
+    output:
+        touch(os.path.join(dir.out, "koverage.prebuild"))
+    localrule:
+        True
+    conda:
+        os.path.join(dir.env,"koverage.yaml")
+    shell:
+        """
+        koverage run \
+            --reads {input.reads} \
+            --ref {input.ref} \
+            --output {params.out} \
+            --threads {threads} \
+            --log {log} \
+            --conda-create-envs-only
+        """

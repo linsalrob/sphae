@@ -50,3 +50,27 @@ rule trimnami:
             {params.profile} \
             --log {log}
         """
+
+
+rule build_trimnami:
+    output:
+        touch(os.path.join(dir.out, "trimnami.prebuild"))
+    conda:
+        os.path.join(dir.env, "trimnami.yaml")
+    localrule:
+        True
+    shell:
+        """
+        trimnami run \
+            --configfile {params.configfile} \
+            --reads {input} \
+            --output {params.dir} \
+            --fastqc \
+            --subsample \
+            {params.trimmer} \
+            {params.host} \
+            {params.fastp} \
+            {params.profile} \
+            --log {log} \
+            --conda-create-envs-only
+        """

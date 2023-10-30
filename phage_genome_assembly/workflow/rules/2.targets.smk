@@ -73,3 +73,7 @@ elif config.args.sequencing == 'longread':
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.bam.bai"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "{sample}.cov"), sample=samples.names))
     targets.coverage.append(expand(os.path.join(cov_dir, "{sample}-sr", "temp", "flye_{sample}.gencov.tsv"), sample=samples.names))
+
+targets.prebuild = []
+targets.prebuild.append(os.path.join(dir.out, "koverage.prebuild"))
+targets.prebuild.append(os.path.join(dir.out, "trimnami.prebuild"))

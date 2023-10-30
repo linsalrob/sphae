@@ -66,6 +66,12 @@ rule annotate:
 
 
 @targetRule
+rule prebuild:
+    input:
+        targets.prebuild
+
+
+@targetRule
 rule print_targets:
     run:
         print("\nTop level rules are: \n", file=sys.stderr)
