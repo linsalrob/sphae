@@ -11,9 +11,7 @@ targets.db.append(os.path.join(dir.db, 'pharokka_db', 'phrogs_db.index'))
 targets.db.append(os.path.join(dir.db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir.db, 'phynteny_models', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5'))
 
-
 targets.qc = []
-
 if config.args.sequencing == 'paired':
     for sample in samples.names:
         targets.qc.append(expand(os.path.join(dir.fastp, "{sample}_{r12}.subsampled.fastq.gz"), sample=sample, r12=["R1", "R2", "RS"]))

@@ -98,7 +98,7 @@ rule megahit:
             -1 {input.r1} \
             -2 {input.r2} \
             -o {params} \
-            -t 32 -f \
+            -t {threads} -f \
             2> {log}
         """
 

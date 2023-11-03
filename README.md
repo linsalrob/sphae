@@ -84,15 +84,9 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 ## Steps to work on 
 
 Phage aspect of the code
-- subsampling a frgamented genome and assembling again - make output as subsampled
-- if fragmented - keep but mark as fragmented output
-- add anti-immunity gene search with pharokka 
-- add final report as output with candidates for phage therapy
-
-bacteria aspect of the code
-- support bacterial host assembly and annotation
-- search for immunity proteins
-
+- add anti-immunity gene search with pharokka - 
+- --conda-create-envs-only addition to run the snaketools
+ 
 ## Issues and Questions
 
 This is still a work in progress, so if you come across any issues or errors, report them under Issues. 

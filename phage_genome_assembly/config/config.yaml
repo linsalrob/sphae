@@ -11,7 +11,7 @@ resources:
 trimnami:
   qc:
     subsample:
-      --bases 10000M
+      --bases 100M
 
 params:
   medaka: "r1041_e82_400bps_sup_v4.2.0" # the current default in medaka v1.8 and the most recent model

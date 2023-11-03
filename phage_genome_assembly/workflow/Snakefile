@@ -71,4 +71,3 @@ rule print_targets:
     run:
         print("\nTop level rules are: \n", file=sys.stderr)
         print("* " + "\n* ".join(target_rules) + "\n\n", file=sys.stderr)
-
