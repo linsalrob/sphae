@@ -30,7 +30,9 @@ rule pharokka_megahit:
         card=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_card.tsv"),
         vfdb=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv")
+        taxa=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
+        reorient=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_dnaapler_reoriented.fasta"),
+        cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -47,6 +49,7 @@ rule pharokka_megahit:
             -o {params.o} \
             -d {params.db} \
             -t {threads} \
+            --dnaapler \
             -f -p {params.sp}\
             2> {log}
         
@@ -81,7 +84,9 @@ rule pharokka_flye:
         card=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_card.tsv"),
         vfdb=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv")
+        taxa=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
+        reorient=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_dnaapler_reoriented.fasta"),
+        cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -99,6 +104,7 @@ rule pharokka_flye:
             -d {params.db} \
             -t {threads} \
             -f -p {params.sp}\
+            --dnaapler \
             2> {log}
 
         pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f

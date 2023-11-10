@@ -4,7 +4,7 @@ Summarizing the results to one directory
 
 rule summarize_paired:
     input:
-        genomes= os.path.join(dir.genome, "{sample}-pr", "{sample}_genome.fasta"),
+        reorient=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_dnaapler_reoriented.fasta"),
         gbk=os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk"),
         table= os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv"),
         amr =os.path.join(dir.pharokka, "{sample}-pr", "top_hits_card.tsv"),
@@ -12,6 +12,7 @@ rule summarize_paired:
         spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
         plot=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv"),
     output:
         summary=os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt")
     params:
@@ -23,8 +24,8 @@ rule summarize_paired:
         os.path.join(dir.log, "final_summary.{sample}.log")
     shell:
         """
-        #copying the final files over
-        cp -r {input.genomes} {params.genomes}
+        #copying  the final files over
+        cp -r {input.reorient} {params.genomes}
         cp -r {input.gbk} {params.gbk}
         cp -r {input.plot} {params.plot}
 
@@ -36,6 +37,7 @@ rule summarize_paired:
             echo "Genome is incomplete or contaminated, includes mutliple contigs" >> {output.summary}
         else
             echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
+            echo "Coding density: $(tail -n +2 {input.cdden} | cut -f 5 )" >> {output.summary}
             echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
             echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
             echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
@@ -70,7 +72,7 @@ rule summarize_paired:
 
 rule summarize_longread:
     input:
-        genomes= os.path.join(dir.genome, "{sample}-sr", "{sample}_genome.fasta"),
+        reorient=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_dnaapler_reoriented.fasta"),
         gbk=os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk"),
         table= os.path.join(dir.genome, "{sample}-sr", "{sample}-genome-candidates.csv"),
         amr =os.path.join(dir.pharokka, "{sample}-sr", "top_hits_card.tsv"),
@@ -78,6 +80,7 @@ rule summarize_longread:
         plot=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"),
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv"),
     output:
         summary=os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt")
     params:
@@ -90,7 +93,7 @@ rule summarize_longread:
     shell:
         """
         #copying the final files over
-        cp -r {input.genomes} {params.genomes}
+        cp -r {input.reorient} {params.genomes}
         cp -r {input.gbk} {params.gbk}
         cp -r {input.plot} {params.plot}
   
@@ -103,6 +106,7 @@ rule summarize_longread:
             echo "Genome is incomplete or contaminated, includes mutliple contigs" >> {output.summary}
         else
             echo "Length: $(tail -n +2 {input.table} | cut -d ',' -f 13)" >> {output.summary}
+            echo "Coding density: $(tail -n +2 {input.cdden} | cut -f 5 )" >> {output.summary}
             echo "Circular: $(tail -n +2 {input.table} | cut -d ',' -f 14)" >> {output.summary}
             echo "Completeness: $(tail -n +2 {input.table} | cut -d ',' -f 31)" >> {output.summary}
             echo "Contamination: $(tail -n +2 {input.table} | cut -d ',' -f 33)" >> {output.summary}
