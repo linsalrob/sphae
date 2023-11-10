@@ -2,7 +2,9 @@
 [![DOI](https://zenodo.org/badge/403889262.svg)](https://zenodo.org/doi/10.5281/zenodo.8365088)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![GitHub language count](https://img.shields.io/github/languages/count/linsalrob/spae)
-
+![Conda](https://img.shields.io/conda/dn/bioconda/spae)
+[![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
 
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
@@ -11,11 +13,7 @@
   <img src="spaedark.png#gh-dark-mode-only" width="300">
 </p>
 
-[![Edwards Lab](https://img.shields.io/badge/Bioinformatics-EdwardsLab-03A9F4)](https://edwards.sdsu.edu/research)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Conda](https://img.shields.io/conda/dn/bioconda/phynteny)
-[![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
+
 
 **Overview**
 
