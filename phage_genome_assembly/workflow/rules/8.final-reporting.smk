@@ -63,10 +63,10 @@ rule summarize_paired:
             echo "Virulence factor genes found" >> {output.summary}
         fi
 
-        if [[ $(wc -l < "{input.spacers}") -eq 1 ]]; then
-            echo "No CRISPR spacers found" >> {output.summary}
-        else
+        if [[ $(wc -l < "{input.spacers}") -gt 2 ]]; then
             echo "CRISPR spacers found" >> {output.summary}
+        else
+            echo "No CRISPR spacers found" >> {output.summary}
         fi
         """
 
@@ -132,9 +132,9 @@ rule summarize_longread:
             echo "Virulence factor genes found" >> {output.summary}
         fi
 
-        if [[ $(wc -l < "{input.spacers}") -eq 1 ]]; then
-            echo "No CRISPR spacers found" >> {output.summary}
-        else
+        if [[ $(wc -l < "{input.spacers}") -gt 2 ]]; then
             echo "CRISPR spacers found" >> {output.summary}
+        else
+            echo "No CRISPR spacers found" >> {output.summary}
         fi
         """
