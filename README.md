@@ -84,12 +84,6 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 **Output**
 - Assmbled phage genome saved to **"{outut-directory}/genome/{sample}/{sample}.fasta**
 - Annotations of the phage genome are saved to **"{outut-directory}/pharokka/phynteny/phynteny.gbk"**
-
-## Steps to work on 
-
-Phage aspect of the code
-- add anti-immunity gene search with pharokka - 
-- --conda-create-envs-only addition to run the snaketools
  
 ## Issues and Questions
 
