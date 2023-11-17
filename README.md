@@ -5,6 +5,7 @@
 ![Conda](https://img.shields.io/conda/dn/bioconda/spae)
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
+[![CI](https://github.com/linsalrob/spae/actions/workflows/testing.yml/badge.svg)](https://github.com/linsalrob/spae/actions/workflows/testing.yml)
 
 # Spae 
 ## Phage toolkit to detect phage candidates for phage therapy
@@ -72,14 +73,14 @@ The command `spae run` will run QC, assembly and annoation
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
 
     #For illumina reads, place the reads both forward and reverse reads to one directory
-    spae run --input test/illumina-subset --output example
+    spae run --input tests/data/illumina-subset --output example
 
     #For nanopore reads, place the reads, one file per sample in a directory
-    spae run --input test/nanopore-subset --sequencing longread --output example 
+    spae run --input tests/data/nanopore-subset --sequencing longread --output example 
 
     #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
     #Before running this below command, makse sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
-    spae run --input test/nanopore-subset --preprocess longread --output example --profile slurm 
+    spae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm 
 
 **Output**
 - Assmbled phage genome saved to **"{outut-directory}/genome/{sample}/{sample}.fasta**
