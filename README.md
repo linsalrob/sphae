@@ -25,7 +25,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 - Phage genome annotation'
 - Annotation of the phage genome 
   
-Complete list of programs used for each step is mention in the phage_genome_assembly.CITATION file. 
+Complete list of programs used for each step is mention in the spae.CITATION file. 
 
 ### Install 
 
@@ -55,7 +55,7 @@ Run command,
 
     spae install
 
-  Install the databases to a directory, phage_genome_assembly/workflow/databases
+  Install the databases to a directory, spae/workflow/databases
 
   This workflow requires the 
   - Pfam35.0 database to run viral_verify for contig classification. 
@@ -63,7 +63,7 @@ Run command,
   - Pharokka databases 
   - Phyteny models
 
-This step takes approximately 1hr 30min to install
+This step takes approximately 1hr 30min to install, and requires 9G of storage
 
 ## Running the workflow
 The command `spae run` will run QC, assembly and annoation

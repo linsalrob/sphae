@@ -17,13 +17,13 @@ def snake_base(rel_path):
 
 
 def get_version():
-    with open(snake_base("phage_genome_assembly.VERSION"), "r") as f:
+    with open(snake_base("spae.VERSION"), "r") as f:
         version = f.readline()
     return version
 
 
 def print_citation():
-    with open(snake_base("phage_genome_assembly.CITATION"), "r") as f:
+    with open(snake_base("spae.CITATION"), "r") as f:
         for line in f:
             echo_click(line)
 
@@ -117,10 +117,11 @@ def install(**kwargs):
 
 
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
-@click.option('--input', '_input', help='Input samples TSV or directory of reads', type=str, required=False)
+@click.option('--input', '_input', help='Input samples TSV or directory of reads', type=str, required=False,
+                default='test/illumina-subset', show_default=True)
 @click.option('--host', help='Host genome for filtering', type=str, required=False)
-@click.option('--sequencing', help="sequencing method", default='paired', show_default=False,
-                     type=click.Choice(['paired', 'longread']))
+@click.option('--sequencing', help="sequencing method", default='paired', show_default=True,
+                type=click.Choice(['paired', 'longread']))
 @common_options
 def run(**kwargs):
     """Run spae"""

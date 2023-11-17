@@ -1,13 +1,11 @@
-phage_genome_assembly/workflow/conda/
-spae-2235184.err.txt
-spae-2235184.out.txt
+spae/workflow/conda/
 spae.sh
 spae.out
 .snakemake/
-phage_genome_assembly/.snakemake
-phage_genome_assembly/workflow/databases/
-phage_genome_assembly/phage_genome_assembly.egg-info
-phage_genome_assembly.egg-info
+spae/.snakemake
+spae/workflow/databases/
+spae/spae.egg-info
+spae.egg-info
 logs_slurm/
 
 # Byte-compiled / optimized / DLL files

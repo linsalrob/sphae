@@ -1,0 +1,31 @@
+resources:
+  smalljob:
+    cpu: 8
+    mem: 16000
+    time: 480
+  bigjob:
+    cpu: 32
+    mem: 64000
+    time: 480
+
+trimnami:
+  qc:
+    subsample:
+      --bases 100M
+  host: 
+
+params:
+  medaka: "r1041_e82_400bps_sup_v4.2.0" # the current default in medaka v1.8 and the most recent model
+  flye: "--nano-hq"
+  genomeSize: 44k
+
+args:
+  input: 
+  output: 
+  db_dir: 
+  sequencing: 
+
+db:
+  pfam: "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/"
+  pfam_file: 'Pfam35.0/Pfam-A.hmm.gz'
+  models: "https://zenodo.org/record/8198288/files/phynteny_models_v0.1.11.tar.gz"

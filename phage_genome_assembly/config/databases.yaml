@@ -1,8 +1,0 @@
-# config settings the user is NOT allowed to touch go in separate files
-# this example is for managing installation of database files
-db:
-  pfam: "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/"
-  pfam_file: 'Pfam35.0/Pfam-A.hmm.gz'
-  
-  # mash refseq index
-  # mash: https://gembox.cbcb.umd.edu/mash/refseq.genomes.k21s1000.msh

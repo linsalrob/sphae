@@ -4,7 +4,6 @@ import attrmap.utils as au
 
 """Parse config"""
 configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
-configfile: os.path.join(workflow.basedir, "..", "config", "databases.yaml")
 config.update(config["spae"])
 config = ap.AttrMap(config)
 
@@ -14,13 +13,11 @@ include: os.path.join("rules", "2.targets.smk")
 include: os.path.join("rules", "3.qc_qa.smk")
 include: os.path.join("rules", "4.assembly.smk")
 include: os.path.join("rules", "5.components.smk")
-include: os.path.join("rules", "5.coverage.smk")
 include: os.path.join("rules", "5.viralverify.smk")
 include: os.path.join("rules", "5.checkv.smk")
 include: os.path.join("rules", "6.stat_join.smk")
 include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
-include: os.path.join("rules", "7.coverage_genome.smk")
 include: os.path.join("rules", "7.phynteny.smk")
 include: os.path.join("rules", "8.final-reporting.smk")
 

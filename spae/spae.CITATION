@@ -1,5 +1,4 @@
-Please cite phage_genome_assembly in your paper using this article:
-
+Please cite spae in your paper using this article: 10.5281/zenodo.8365089
 
 Please consider also citing these dependencies:
 Snaketool:
@@ -13,6 +12,9 @@ https://github.com/beardymcjohnface/Trimnami
 
 Megahit:
 https://doi.org/10.1016/j.ymeth.2016.02.020 
+
+Flye:
+https://github.com/fenderglass/Flye
 
 Koverage:
 https://github.com/beardymcjohnface/Koverage

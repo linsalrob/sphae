@@ -16,7 +16,8 @@ rule flye:
     output:
         fasta = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
         gfa = os.path.join(dir.flye, "{sample}-sr", "assembly_graph.gfa"),
-        path= os.path.join(dir.flye, "{sample}-sr", "assembly_info.txt")
+        path= os.path.join(dir.flye, "{sample}-sr", "assembly_info.txt"),
+        log=os.path.join(dir.flye, "{sample}-sr", "flye.log")
     params:
         out= os.path.join(dir.flye, "{sample}-sr"),
         model = config.params.flye,
@@ -78,7 +79,8 @@ rule megahit:
         r1 = os.path.join(dir.fastp, "{sample}_R1.subsampled.fastq.gz"),
         r2 = os.path.join(dir.fastp, "{sample}_R2.subsampled.fastq.gz")
     output:
-        os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa")
+        contigs=os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
+        log=os.path.join(dir.megahit, "{sample}-pr", "log")
     params:
         os.path.join(dir.megahit, "{sample}-pr")
     log:

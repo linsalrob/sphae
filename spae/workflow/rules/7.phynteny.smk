@@ -6,7 +6,7 @@ rule phynteny_run_paired:
         gbk=os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk")
     params:
         odir=os.path.join(dir.pharokka, "{sample}-pr", "phynteny"),
-        model=os.path.join(dir.db, "phynteny_models")
+        model=os.path.join(dir.db, "phynteny_models_zenodo")
     output:
         pkl=os.path.join(dir.pharokka, "{sample}-pr", "phynteny", "phynteny.gbk")
     conda:
@@ -31,7 +31,7 @@ rule phynteny_run_nanopore:
         gbk=os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk")
     params:
         odir=os.path.join(dir.pharokka, "{sample}-sr", "phynteny"),
-        model=os.path.join(dir.db, "phynteny_models")
+        model=os.path.join(dir.db, "phynteny_models_zenodo")
     output:
         pkl=os.path.join(dir.pharokka, "{sample}-sr", "phynteny", "phynteny.gbk")
     conda:

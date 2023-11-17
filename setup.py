@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 def get_version():
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'phage_genome_assembly', 'phage_genome_assembly.VERSION')) as f:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'spae', 'spae.VERSION')) as f:
         return f.readline().strip()
 
 
@@ -29,11 +29,12 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 
 setup(
-    name='phage_genome_assembly',
+    name='spae',
     description="Assembling pure culture phages from both Illumina and Nanopore sequencing technology",
     long_description=get_description(),
     long_description_content_type="text/markdown",
@@ -41,11 +42,11 @@ setup(
     author="Bhavya Papudeshi",
     author_email="npbhavya13@gmail.com",
     data_files=get_data_files(),
-    py_modules=['phage_genome_assembly'],
+    py_modules=['spae'],
     install_requires=[
         "snaketool-utils>=0.0.4",
         "snakemake>=7.14.0",
-        "pyyaml==6.0",
+        "pyyaml>=6.0",
         "Click==8.1.3",
         "metasnek>=0.0.4",
         "attrmap>=0.0.7",
@@ -53,7 +54,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'spae=phage_genome_assembly.__main__:main'
+            'spae=spae.__main__:main'
         ]
     },
     include_package_data=True,

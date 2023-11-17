@@ -25,7 +25,7 @@ rule pharokka_megahit:
         db=os.path.join(dir.db, "pharokka_db"),
         sp="{sample}"
     output:
-        gff=os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk"),
+        gbk=os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk"),
         plot=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"),
         card=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_card.tsv"),
         vfdb=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),
@@ -52,7 +52,7 @@ rule pharokka_megahit:
             --dnaapler \
             -f -p {params.sp}\
             2> {log}
-        
+        touch {output.reorient}
         pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
         """
 
@@ -79,7 +79,7 @@ rule pharokka_flye:
         db=os.path.join(dir.db, "pharokka_db"),
         sp="{sample}"
     output:
-        gff=os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"),
+        gbk=os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"),
         plot=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"),
         card=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_card.tsv"),
         vfdb=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),
@@ -98,14 +98,16 @@ rule pharokka_flye:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        pharokka.py \
+         pharokka.py \
             -i {input} \
             -o {params.o} \
             -d {params.db} \
             -t {threads} \
-            -f -p {params.sp}\
             --dnaapler \
+            -f -p {params.sp}\
             2> {log}
+
+        touch {output.reorient}
 
         pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
         """

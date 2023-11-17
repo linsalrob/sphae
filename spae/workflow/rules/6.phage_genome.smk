@@ -36,7 +36,7 @@ rule genomes_extract_megahit:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > {params.outdir}/phage-genome-contig
+        awk -F, 'NR>1 {{print $2}}' {input.csv} > {params.outdir}/phage-genome-contig
 
         touch {output.fasta}
 
@@ -79,7 +79,7 @@ rule genomes_extract_flye:
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
-        awk -F, 'NR>1 {{print $3}}' {input.csv} > {params.outdir}/phage-genome-contig
+        awk -F, 'NR>1 {{print $2}}' {input.csv} > {params.outdir}/phage-genome-contig
 
         touch {output}
         

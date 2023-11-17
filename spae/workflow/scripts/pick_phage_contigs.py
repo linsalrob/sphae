@@ -16,20 +16,19 @@ def picking_contigs(file,out):
         data = pd.read_csv(file, header=0)
         datav = data[data["Length_x"] > 1000]
         datav = datav[datav["Prediction"] == "Virus"]
-        datac = datav[datav["Mean"] > 1]
-        datac = datac[datac["completeness"]> 90.00]
+        datac = datav[datav["completeness"]> 90.00]
         #print (len(data))
         #print (data)
 
     if (len(datac))==0:
         print("Genome wasn't assembled well")
-        datav.to_csv(out, index=False)
+        datac.to_csv(out, index=False)
         #return None
             
     elif (len(datac))>1:
         if (datac["Connections"] > 0).any():
             print ("The genome is fragmented")
-            datav.to_csv(out, index=False)
+            datac.to_csv(out, index=False)
         #return None
     
     elif (len(datac))==1:

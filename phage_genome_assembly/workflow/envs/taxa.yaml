@@ -1,7 +1,0 @@
-name: taxa
-channels:
-    - conda-forge
-    - bioconda
-    - defaults
-dependencies:
-    - taxmyphage>=0.1.9

@@ -12,7 +12,7 @@ def copy_log_file():
     if not files:
         return None
     current_log = max(files, key=os.path.getmtime)
-    shell("cat " + current_log + " >> " + config.args.log)
+    #shell("cat " + current_log + " >> " + str(config.args.log))
 
 
 onstart:
@@ -38,16 +38,16 @@ DIRECTORIES
 """
 dir = ap.AttrMap()
 dir.out = config.args.output
-dir.fastp = os.path.join(dir.out, 'PROCESSING/results/fastp')
-dir.nanopore = os.path.join(dir.out, 'PROCESSING/results/filtlong')
-dir.assembly = os.path.join(dir.out, 'PROCESSING/assembly')
+dir.fastp = os.path.join(dir.out, 'PROCESSING' ,'results','fastp')
+dir.nanopore = os.path.join(dir.out, 'PROCESSING','results','filtlong')
+dir.assembly = os.path.join(dir.out, 'PROCESSING','assembly')
 dir.megahit = os.path.join(dir.assembly, 'megahit')
 dir.flye = os.path.join(dir.assembly, 'flye')
-dir.genome = os.path.join(dir.out, 'PROCESSING/genome')
-dir.cov = os.path.join(dir.out, 'PROCESSING/coverage')
-dir.pharokka = os.path.join(dir.out, 'PROCESSING/pharokka')
+dir.genome = os.path.join(dir.out, 'PROCESSING','genome')
+dir.cov = os.path.join(dir.out, 'PROCESSING','coverage')
+dir.pharokka = os.path.join(dir.out, 'PROCESSING','pharokka')
 dir.log = os.path.join(dir.out, 'logs')
-dir.bench = os.path.join(dir.out, 'PROCESSING/bench')
+dir.bench = os.path.join(dir.out, 'PROCESSING','bench')
 dir.final = os.path.join(dir.out, 'RESULTS')
 
 dir.env = os.path.join(workflow.basedir, "envs")
@@ -75,12 +75,13 @@ samples (dict):
         r2 (str): filepath
     names (list): keys(samples["reads"])
 """
+
 samples = ap.AttrMap()
-if config.args.input is not None:
-    samples.reads = fastq_finder.parse_samples_to_dictionary(config.args._input)
-    samples.names = list(ap.utils.get_keys(samples.reads))
-    samples = au.convert_state(samples, read_only=True)
-    fastq_finder.write_samples_tsv(samples.reads, os.path.join(dir.out, "samples.tsv"))
+
+samples.reads = fastq_finder.parse_samples_to_dictionary(config.args._input)
+samples.names = list(ap.utils.get_keys(samples.reads))
+samples = au.convert_state(samples, read_only=True)
+fastq_finder.write_samples_tsv(samples.reads, os.path.join(dir.out, "samples.tsv"))
 
 
 """
