@@ -1,0 +1,4 @@
+include spae/spae.LICENSE
+include spae/spae.CITATION
+include spae/spae.VERSION
+recursive-include spae *
