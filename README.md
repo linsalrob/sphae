@@ -10,8 +10,8 @@
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
 <p align="center">
-  <img src="spaefinal.png#gh-light-mode-only" width="300">
-  <img src="spaedark.png#gh-dark-mode-only" width="300">
+  <img src="sphae.png#gh-light-mode-only" width="300">
+  <img src="sphae-dark.png#gh-dark-mode-only" width="300">
 </p>
 
 
