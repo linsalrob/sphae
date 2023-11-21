@@ -1,0 +1,13 @@
+Bio
+argparse
+attrmap
+attrmap
+click
+igraph
+metasnek
+numpy
+pandas
+pytz
+snaketool_utils
+tkinter
+types
