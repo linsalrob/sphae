@@ -997,3 +997,288 @@ rule flye:
         fi
         
 Activating conda environment: sphae/workflow/conda/e3ff9c3d87005289bde76110d8ccdc5d_
+[Tue Nov 21 14:35:26 2023]
+Finished job 4.
+3 of 159 steps (2%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:35:26 2023]
+rule viralverify_flye_nano:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta, /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly_result_table.csv
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.Hphage.log
+    jobid: 31
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/viralverify_flye_nano.Hphage.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly_result_table.csv; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta
+    wildcards: sample=Hphage
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta ]]
+        then
+            viralverify                 -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta                 --hmm /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr                 -t 1                 &> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.Hphage.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/d9cd3342e36b62c24e780b9d55be160e_
+[Tue Nov 21 14:36:00 2023]
+Finished job 31.
+4 of 159 steps (3%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:36:00 2023]
+rule medaka:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Hphage_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Hphage.log
+    jobid: 17
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/medaka.Hphage.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/consensus.fasta; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Hphage_S.subsampled.fastq.gz
+    wildcards: sample=Hphage
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Hphage_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Hphage.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/consensus.fasta
+        fi
+        
+Activating conda environment: sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+[Tue Nov 21 14:36:01 2023]
+Error in rule medaka:
+    jobid: 17
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Hphage_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Hphage.log (check log file(s) for error details)
+    conda-env: /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+    shell:
+        
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Hphage_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Hphage.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Hphage-sr/consensus.fasta
+        fi
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+Logfile ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Hphage.log:
+================================================================================
+/scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_/bin/medaka_consensus: line 11: echo: write error: Stale file handle
+================================================================================
+
+Select jobs to execute...
+
+[Tue Nov 21 14:36:01 2023]
+rule flye:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/flye.log
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.17phage.log
+    jobid: 5
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/flye.17phage.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/flye.log, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz
+    wildcards: sample=17phage
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if flye             --nano-hq             ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz             --threads 1              --asm-coverage 50             --genome-size 44k             --out-dir ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr             2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.17phage.log; then
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/flye.log
+            else
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/flye.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/e3ff9c3d87005289bde76110d8ccdc5d_
+[Tue Nov 21 14:45:14 2023]
+Finished job 5.
+5 of 159 steps (3%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:45:14 2023]
+rule viralverify_flye_nano:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta, /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_result_table.csv
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.17phage.log
+    jobid: 33
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/viralverify_flye_nano.17phage.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly_result_table.csv; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta
+    wildcards: sample=17phage
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta ]]
+        then
+            viralverify                 -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta                 --hmm /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr                 -t 1                 &> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.17phage.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/d9cd3342e36b62c24e780b9d55be160e_
+[Tue Nov 21 14:45:52 2023]
+Finished job 33.
+6 of 159 steps (4%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:45:52 2023]
+rule medaka:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.17phage.log
+    jobid: 18
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/medaka.17phage.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/consensus.fasta; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz
+    wildcards: sample=17phage
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.17phage.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/consensus.fasta
+        fi
+        
+Activating conda environment: sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+[Tue Nov 21 14:45:52 2023]
+Error in rule medaka:
+    jobid: 18
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.17phage.log (check log file(s) for error details)
+    conda-env: /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+    shell:
+        
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17phage_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.17phage.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17phage-sr/consensus.fasta
+        fi
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+Logfile ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.17phage.log:
+================================================================================
+/scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_/bin/medaka_consensus: line 11: echo: write error: Stale file handle
+================================================================================
+
+Select jobs to execute...
+
+[Tue Nov 21 14:45:52 2023]
+rule flye:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/flye.log
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.Finallettuce.log
+    jobid: 14
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/flye.Finallettuce.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/flye.log, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz
+    wildcards: sample=Finallettuce
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if flye             --nano-hq             ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz             --threads 1              --asm-coverage 50             --genome-size 44k             --out-dir ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr             2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.Finallettuce.log; then
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/flye.log
+            else
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/flye.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/e3ff9c3d87005289bde76110d8ccdc5d_
+[Tue Nov 21 14:52:32 2023]
+Finished job 14.
+7 of 159 steps (4%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:52:32 2023]
+rule viralverify_flye_nano:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta, /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_result_table.csv
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.Finallettuce.log
+    jobid: 51
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/viralverify_flye_nano.Finallettuce.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly_result_table.csv; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta
+    wildcards: sample=Finallettuce
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta ]]
+        then
+            viralverify                 -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta                 --hmm /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr                 -t 1                 &> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/viralverify_flye_nano.Finallettuce.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/d9cd3342e36b62c24e780b9d55be160e_
+[Tue Nov 21 14:53:06 2023]
+Finished job 51.
+8 of 159 steps (5%) done
+Select jobs to execute...
+
+[Tue Nov 21 14:53:06 2023]
+rule medaka:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Finallettuce.log
+    jobid: 27
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/medaka.Finallettuce.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/consensus.fasta; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta
+    wildcards: sample=Finallettuce
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Finallettuce.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/consensus.fasta
+        fi
+        
+Activating conda environment: sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+[Tue Nov 21 14:53:07 2023]
+Error in rule medaka:
+    jobid: 27
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/consensus.fasta
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Finallettuce.log (check log file(s) for error details)
+    conda-env: /scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_
+    shell:
+        
+        if [[ -f ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta ]]; then
+            medaka_consensus                 -i ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/Finallettuce_S.subsampled.fastq.gz                 -d ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/assembly.fasta                 -o ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr                 -m r1041_e82_400bps_sup_v4.2.0                 -t 1                 2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Finallettuce.log
+        else
+            touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/Finallettuce-sr/consensus.fasta
+        fi
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+Logfile ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/medaka.Finallettuce.log:
+================================================================================
+/scratch/user/nala0006/spae-paper/sphae/sphae/workflow/conda/2c939cb56b3d22c5781e34f0c34d8112_/bin/medaka_consensus: line 11: echo: write error: Stale file handle
+================================================================================
+
+Select jobs to execute...
+
+[Tue Nov 21 14:53:07 2023]
+rule flye:
+    input: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17xphagee_S.subsampled.fastq.gz
+    output: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/flye.log
+    log: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.17xphagee.log
+    jobid: 13
+    benchmark: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/bench/flye.17xphagee.txt
+    reason: Missing output files: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_graph.gfa, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly.fasta, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_info.txt, ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/flye.log; Input files updated by another job: ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17xphagee_S.subsampled.fastq.gz
+    wildcards: sample=17xphagee
+    resources: tmpdir=/local/nala0006/2279644, mem_mb=64000, mem_mib=61036, time=480
+
+
+        if flye             --nano-hq             ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/results/filtlong/17xphagee_S.subsampled.fastq.gz             --threads 1              --asm-coverage 50             --genome-size 44k             --out-dir ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr             2> ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/logs/flye.17xphagee.log; then
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/flye.log
+            else
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly.fasta
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_graph.gfa
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/assembly_info.txt
+                touch ../../Acinetobacter_steno_achromo/spae.out.v.AfterHonors/PROCESSING/assembly/flye/17xphagee-sr/flye.log
+        fi
+        
+Activating conda environment: sphae/workflow/conda/e3ff9c3d87005289bde76110d8ccdc5d_
