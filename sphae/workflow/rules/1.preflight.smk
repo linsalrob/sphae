@@ -22,15 +22,15 @@ onstart:
         for logfile in oldLogs:
             os.unlink(os.path.join(dir.log, logfile))
 
-onsuccess:
-    """Print a success message"""
-    sys.stderr.write('\n\nphage_genomes finished successfully!\n\n')
-    copy_log_file()
+# onsuccess:
+#     """Print a success message"""
+#     sys.stderr.write('\n\nphage_genomes finished successfully!\n\n')
+#     copy_log_file()
 
-onerror:
-    """Print an error message"""
-    sys.stderr.write('\n\nERROR: phage_genomes failed to finish.\n\n')
-    copy_log_file()
+# onerror:
+#     """Print an error message"""
+#     sys.stderr.write('\n\nERROR: phage_genomes failed to finish.\n\n')
+#     copy_log_file()
 
 
 """

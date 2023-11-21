@@ -1,11 +1,11 @@
-spae/workflow/conda/
-spae.sh
-spae.out
+sphae/workflow/conda/
+sphae.sh
+sphae.out
 .snakemake/
-spae/.snakemake
-spae/workflow/databases/
-spae/spae.egg-info
-spae.egg-info
+sphae/.snakemake
+sphae/workflow/databases/
+sphae/sphae.egg-info
+sphae.egg-info
 logs_slurm/
 
 # Byte-compiled / optimized / DLL files

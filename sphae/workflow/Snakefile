@@ -4,7 +4,7 @@ import attrmap.utils as au
 
 """Parse config"""
 configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
-config.update(config["spae"])
+config.update(config["sphae"])
 config = ap.AttrMap(config)
 
 """Rules"""

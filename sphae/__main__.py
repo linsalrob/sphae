@@ -1,5 +1,5 @@
 """
-Entrypoint for spae
+Entrypoint for sphae
 
 Check out the wiki for a detailed look at customising this file:
 https://github.com/beardymcjohnface/Snaketool/wiki/Customising-your-Snaketool
@@ -17,13 +17,13 @@ def snake_base(rel_path):
 
 
 def get_version():
-    with open(snake_base("spae.VERSION"), "r") as f:
+    with open(snake_base("sphae.VERSION"), "r") as f:
         version = f.readline()
     return version
 
 
 def print_citation():
-    with open(snake_base("spae.CITATION"), "r") as f:
+    with open(snake_base("sphae.CITATION"), "r") as f:
         for line in f:
             echo_click(line)
 
@@ -41,9 +41,9 @@ def common_options(func):
     """
     options = [
         click.option('--output', help='Output directory', type=click.Path(),
-                     default='spae.out', show_default=True),
-        click.option("--configfile", default="spae.config.yaml", show_default=False, callback=default_to_output,
-                     help="Custom config file [default: (outputDir)/spae.config.yaml]",),
+                     default='sphae.out', show_default=True),
+        click.option("--configfile", default="sphae.config.yaml", show_default=False, callback=default_to_output,
+                     help="Custom config file [default: (outputDir)/sphae.config.yaml]",),
         click.option('--threads', help='Number of threads to use', default=1, show_default=True),
         click.option('--profile', help='Snakemake profile', default=None, show_default=False),
         click.option('--db-dir', help='Custom database directory', type=str, required=False),
@@ -55,7 +55,7 @@ def common_options(func):
         click.option('--snake-default', multiple=True,
                      default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'],
                      help="Customise Snakemake runtime args", show_default=True),
-        click.option("--log", default="spae.log", callback=default_to_output, hidden=True,),
+        click.option("--log", default="sphae.log", callback=default_to_output, hidden=True,),
         click.option("--system-config", default=snake_base(os.path.join("config", "config.yaml")),hidden=True,),
         click.argument("snake_args", nargs=-1),
     ]
@@ -70,7 +70,7 @@ def cli():
     """Assembling pure culture phages from both Illumina and Nanopore sequencing technology
     \b
     For more options, run:
-    spae command --help"""
+    sphae command --help"""
     pass
 
 
@@ -79,21 +79,21 @@ help_msg_extra = """
 INSTALLING DATABASES REQUIRED
 This command downloads the databases to the directory 'database' 
 \b
-spae install 
+sphae install 
 \b
 \b
 CLUSTER EXECUTION:
-spae run ... --profile [profile]
+sphae run ... --profile [profile]
 For information on Snakemake profiles see:
 https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
 \b
 RUN EXAMPLES:
-Required:           spae run --input [file]
-Specify threads:    spae run ... --threads [threads]
-Disable conda:      spae run ... --no-use-conda 
-Change defaults:    spae run ... --snake-default="-k --nolock"
-Add Snakemake args: spae run ... --dry-run --keep-going --touch
-Specify targets:    spae run ... all print_targets
+Required:           sphae run --input [file]
+Specify threads:    sphae run ... --threads [threads]
+Disable conda:      sphae run ... --no-use-conda 
+Change defaults:    sphae run ... --snake-default="-k --nolock"
+Add Snakemake args: sphae run ... --dry-run --keep-going --touch
+Specify targets:    sphae run ... all print_targets
 \b
 """
 
@@ -103,7 +103,7 @@ Specify targets:    spae run ... all print_targets
 def install(**kwargs):
     """The install function for databases"""
     merge_config = {
-        'spae': {
+        'sphae': {
             'args': kwargs   
         }
     }
@@ -124,11 +124,11 @@ def install(**kwargs):
                 type=click.Choice(['paired', 'longread']))
 @common_options
 def run(**kwargs):
-    """Run spae"""
+    """Run sphae"""
 
     # Config to add or update in configfile
     merge_config = {
-        'spae': {
+        'sphae': {
             'args': kwargs   
         }
     }

@@ -1,4 +1,4 @@
-include spae/spae.LICENSE
-include spae/spae.CITATION
-include spae/spae.VERSION
-recursive-include spae *
+include sphae/sphae.LICENSE
+include sphae/sphae.CITATION
+include sphae/sphae.VERSION
+recursive-include sphae *

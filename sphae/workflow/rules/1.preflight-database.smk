@@ -13,15 +13,15 @@ def copy_log_file():
     current_log = max(files, key=os.path.getmtime)
     #shell("cat " + current_log + " >> " + str(config.args.log))
 
-onsuccess:
-    """Print a success message"""
-    sys.stderr.write('\n\nSpae finished successfully!\n\n')
-    copy_log_file()
+# onsuccess:
+#     """Print a success message"""
+#     sys.stderr.write('\n\nSpae finished successfully!\n\n')
+#     copy_log_file()
 
-onerror:
-    """Print an error message"""
-    sys.stderr.write('\n\nERROR: Spae failed to finish.\n\n')
-    copy_log_file()
+# onerror:
+#     """Print an error message"""
+#     sys.stderr.write('\n\nERROR: Spae failed to finish.\n\n')
+#     copy_log_file()
 
 """
 DIRECTORIES

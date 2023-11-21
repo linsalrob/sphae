@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 def get_version():
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'spae', 'spae.VERSION')) as f:
+    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'sphae', 'sphae.VERSION')) as f:
         return f.readline().strip()
 
 
@@ -25,15 +25,13 @@ CLASSIFIERS = [
     "License :: OSI Approved :: MIT license",
     "Natural Language :: English",
     "Operating System :: POSIX :: Linux",
-    "Operating System :: MacOS :: MacOS X",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 
 setup(
-    name='spae',
+    name='sphae',
     description="Assembling pure culture phages from both Illumina and Nanopore sequencing technology",
     long_description=get_description(),
     long_description_content_type="text/markdown",
@@ -41,7 +39,7 @@ setup(
     author="Bhavya Papudeshi",
     author_email="npbhavya13@gmail.com",
     data_files=get_data_files(),
-    py_modules=['spae'],
+    py_modules=['sphae'],
     install_requires=[
         "snaketool-utils>=0.0.4",
         "snakemake>=7.14.0",
@@ -53,7 +51,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'spae=spae.__main__:main'
+            'sphae=sphae.__main__:main'
         ]
     },
     include_package_data=True,

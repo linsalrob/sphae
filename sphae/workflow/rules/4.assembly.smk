@@ -8,11 +8,6 @@ rule flye:
     """Assemble longreads with Flye"""
     input:
         os.path.join(dir.nanopore, "{sample}_S.subsampled.fastq.gz"),
-    threads:
-        config.resources.bigjob.cpu
-    resources:
-        mem_mb=config.resources.bigjob.mem,
-        time=config.resources.bigjob.time
     output:
         fasta = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
         gfa = os.path.join(dir.flye, "{sample}-sr", "assembly_graph.gfa"),
@@ -28,18 +23,32 @@ rule flye:
         os.path.join(dir.bench,"flye.{sample}.txt")
     conda:
         os.path.join(dir.env, "flye.yaml")
+    threads:
+        config.resources.bigjob.cpu
+    resources:
+        mem_mb=config.resources.bigjob.mem,
+        time=config.resources.bigjob.time
     shell:
         """
-        flye \
+        if flye \
             {params.model} \
             {input} \
             --threads {threads}  \
             --asm-coverage 50 \
             --genome-size {params.g} \
             --out-dir {params.out} \
-            2> {log}
+            2> {log}; then
+                touch {output.fasta}
+                touch {output.gfa}
+                touch {output.path}
+                touch {output.log}
+            else
+                touch {output.fasta}
+                touch {output.gfa}
+                touch {output.path}
+                touch {output.log}
+        fi
         """
-
 
 rule medaka:
     """Polish longread assembly with medaka"""
@@ -64,14 +73,19 @@ rule medaka:
         os.path.join(dir.bench, "medaka.{sample}.txt")
     shell:
         """
-        medaka_consensus \
-            -i {input.fastq} \
-            -d {input.fasta} \
-            -o {params.dir} \
-            -m {params.model} \
-            -t {threads} \
-            2> {log}
+        if [[ -f {input.fasta} ]]; then
+            medaka_consensus \
+                -i {input.fastq} \
+                -d {input.fasta} \
+                -o {params.dir} \
+                -m {params.model} \
+                -t {threads} \
+                2> {log}
+        else
+            touch {output.fasta}
+        fi
         """
+
 
 rule megahit:
     """Assemble short reads with MEGAHIT"""
