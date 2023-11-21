@@ -4,9 +4,8 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/linsalrob/spae)
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
-[![CI](https://github.com/linsalrob/sphae/actions/workflows/testing.yml/badge.svg)](https://github.com/linsalrob/sphae/actions/workflows/testing.yml)
+[![CI](https://github.com/linsalrob/spae/actions/workflows/testing.yml/badge.svg)](https://github.com/linsalrob/spae/actions/workflows/testing.yml)
 [![Upload Python Package](https://github.com/linsalrob/spae/actions/workflows/python-publish.yml/badge.svg)](https://github.com/linsalrob/spae/actions/workflows/python-publish.yml)
-![Conda](https://img.shields.io/conda/dn/bioconda/spae)
 
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
