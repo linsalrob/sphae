@@ -110,12 +110,18 @@ rule megahit:
         os.path.join(dir.env, "megahit.yaml")
     shell:
         """
-        megahit \
+        if megahit \
             -1 {input.r1} \
             -2 {input.r2} \
             -o {params} \
             -t {threads} -f \
-            2> {log}
+            2> {log}; then
+                touch {output.contigs}
+                touch {output.log}
+            else
+                touch {output.contigs}
+                touch {output.log}
+        fi
         """
 
 rule fastg:
