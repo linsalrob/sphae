@@ -44,16 +44,18 @@ rule pharokka_megahit:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        pharokka.py \
-            -i {input} \
-            -o {params.o} \
-            -d {params.db} \
-            -t {threads} \
-            --dnaapler \
-            -f -p {params.sp}\
-            2> {log}
-        touch {output.reorient}
-        pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+        if [[ -f {input}]]; then
+            pharokka.py \
+                -i {input} \
+                -o {params.o} \
+                -d {params.db} \
+                -t {threads} \
+                --dnaapler \
+                -f -p {params.sp}\
+                2> {log}
+            touch {output.reorient}
+            pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+        fi
         """
 
 rule rename_contigs_flye:
@@ -98,16 +100,18 @@ rule pharokka_flye:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-         pharokka.py \
-            -i {input} \
-            -o {params.o} \
-            -d {params.db} \
-            -t {threads} \
-            --dnaapler \
-            -f -p {params.sp}\
-            2> {log}
+        if [[ -f {input}]]; then
+            pharokka.py \
+                -i {input} \
+                -o {params.o} \
+                -d {params.db} \
+                -t {threads} \
+                --dnaapler \
+                -f -p {params.sp}\
+                2> {log}
 
-        touch {output.reorient}
+            touch {output.reorient}
 
-        pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+            pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+        fi
         """
