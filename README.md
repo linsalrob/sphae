@@ -61,7 +61,7 @@ Run command,
   - Pfam35.0 database to run viral_verify for contig classification. 
   - CheckV database to test for phage completeness
   - Pharokka databases 
-  - Phyteny models
+  - Phynteny models
 
 This step takes approximately 1hr 30min to install, and requires 9G of storage
 
@@ -72,18 +72,38 @@ The command `sphae run` will run QC, assembly and annoation
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
 
     #For illumina reads, place the reads both forward and reverse reads to one directory
-    sphae run --input tests/data/illumina-subset --output example
+    sphae run --input tests/data/illumina-subset --output example -k 
 
     #For nanopore reads, place the reads, one file per sample in a directory
-    sphae run --input tests/data/nanopore-subset --sequencing longread --output example 
+    sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k
 
     #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
     #Before running this below command, makse sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
-    sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm 
+    sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k
 
 **Output**
-- Assmbled phage genome saved to **"{outut-directory}/genome/{sample}/{sample}.fasta**
-- Annotations of the phage genome are saved to **"{outut-directory}/pharokka/phynteny/phynteny.gbk"**
+
+Output is saved to example/RESULTS directory. In this directory, there will be four files 
+  - Genome annotations in GenBank format (Phynteny output)
+  - Genome in fasta format (either the reoriented to terminase output from Pharokka, or assembled viral contigs)
+  - Circular visualization in png format (Pharokka output)
+  - Genome summary file
+
+  Genome summary file include the following information to help, 
+    - Sample name
+    - Length of the genome 
+    - Coding density
+    - If the assembled contig is circular or not (From assembly graph)
+    - Completeness (calculated from CheckV)
+    - Contamination (calculated from CheckV)
+    - Taxonomy accession ID (Pharokka output, searches the genome against INPHARED database using mash)
+    - Taxa mash includes number of matching hashes of the assembled genome to the accession ID/Taxa name
+      Higher the matching hash- more likely the genome is related to the taxa predicted
+    - Gene searches:
+      - Whether integrase is found (search for integrase gene in annotations)
+      - Whether anti-microbial genes were found (Pharokka search against AMR database)
+      - Whether any virulece factors were found (Pharokka search against virulence gene database)
+      - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
  
 ## Issues and Questions
 
