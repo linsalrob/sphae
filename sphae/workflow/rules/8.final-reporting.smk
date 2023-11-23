@@ -61,8 +61,9 @@ rule summarize_paired:
                         echo "Taxa_Name: $(tail -n +2 {params.ph_taxa} | cut -f 6 )" >> {output.summary}
                     fi
 
-                    if grep -q "int" {params.gbk}; then
-                        echo "Integrase found" >> {output.summary}
+                    if grep -q "integra" {params.gbk}; then
+                        echo "Integrase found, below is the gene name found" >> {output.summary}
+			grep "integra" {params.gbk} >> {output.summary}
                     else
                         echo "No integrase" >> {output.summary}
                     fi
@@ -161,8 +162,9 @@ rule summarize_longread:
                         echo "Taxa_Name: $(tail -n +2 {params.ph_taxa} | cut -f 6 )" >> {output.summary}
                     fi
 
-                    if grep -q "int" {params.gbk}; then
-                        echo "Integrase found" >> {output.summary}
+                    if grep -q "integra" {params.gbk}; then
+                        echo "Integrase found, below are the gene names found" >> {output.summary}
+			grep "integra" {params.gbk} >>{output.summary}
                     else
                         echo "No integrase" >> {output.summary}
                     fi

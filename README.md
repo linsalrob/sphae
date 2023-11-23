@@ -42,10 +42,6 @@ Setting up a new conda environment
     conda activate sphae
     conda install -n base -c conda-forge mamba #if you dont already have mamba installed
 
-PyPi installation 
-
-    pip install sphae
-
 Steps for installing sphae workflow 
 
     git clone https://github.com/linsalrob/sphae.git

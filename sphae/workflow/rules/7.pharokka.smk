@@ -44,7 +44,7 @@ rule pharokka_megahit:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        if [[ -f {input}]]; then
+        if [[ -f {input} ]]; then
             pharokka.py \
                 -i {input} \
                 -o {params.o} \
@@ -55,6 +55,8 @@ rule pharokka_megahit:
                 2> {log}
             touch {output.reorient}
             pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+        else:
+            touch {output.reorient}
         fi
         """
 
@@ -100,7 +102,7 @@ rule pharokka_flye:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        if [[ -f {input}]]; then
+        if [[ -f {input} ]]; then
             pharokka.py \
                 -i {input} \
                 -o {params.o} \
@@ -111,7 +113,8 @@ rule pharokka_flye:
                 2> {log}
 
             touch {output.reorient}
-
             pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
+        else:
+            touch {output.reorient}
         fi
         """
