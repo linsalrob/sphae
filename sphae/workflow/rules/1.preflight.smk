@@ -1,8 +1,8 @@
+import os
 import attrmap as ap
 import attrmap.utils as au
 import glob
 from metasnek import fastq_finder
-
 
 """
 ONSTART/END/ERROR
@@ -79,7 +79,7 @@ samples (dict):
 samples = ap.AttrMap()
 
 samples.reads = fastq_finder.parse_samples_to_dictionary(config.args._input)
-samples.names = list(ap.utils.get_keys(samples.reads))
+samples.names = list(au.get_keys(samples.reads))
 samples = au.convert_state(samples, read_only=True)
 fastq_finder.write_samples_tsv(samples.reads, os.path.join(dir.out, "samples.tsv"))
 
@@ -90,5 +90,4 @@ Wildcard constraints
 wildcard_constraints:
     sample="[a-zA-Z0-9_-]+",
     host = ".{0}|\.hostRm|\.hostRm_s",
-    subsample = ".{0}|\.subsampled",
-    hostSubsampled = ".{0}|.+"
+    subsample = ".{0}|\.subsampled"

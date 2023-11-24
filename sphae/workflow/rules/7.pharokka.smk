@@ -31,7 +31,6 @@ rule pharokka_megahit:
         vfdb=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
         taxa=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
-        reorient=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_dnaapler_reoriented.fasta"),
         cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
@@ -44,19 +43,23 @@ rule pharokka_megahit:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        if [[ -f {input} ]]; then
+        if [[ -f {input} ]] ; then
             pharokka.py \
                 -i {input} \
                 -o {params.o} \
                 -d {params.db} \
                 -t {threads} \
-                --dnaapler \
                 -f -p {params.sp}\
                 2> {log}
-            touch {output.reorient}
             pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
-        else:
-            touch {output.reorient}
+        else
+            touch {output.gbk}
+            touch {output.plot}
+            touch {output.card}
+            touch {output.vfdb}
+            touch {output.spacers}
+            touch {output.taxa}
+            touch {output.cdden}
         fi
         """
 
@@ -89,7 +92,6 @@ rule pharokka_flye:
         vfdb=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
         taxa=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
-        reorient=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_dnaapler_reoriented.fasta"),
         cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
@@ -102,19 +104,23 @@ rule pharokka_flye:
         os.path.join(dir.log, "pharokka.{sample}.log")
     shell:
         """
-        if [[ -f {input} ]]; then
+        if [[ -f {input} ]] ; then
             pharokka.py \
                 -i {input} \
                 -o {params.o} \
                 -d {params.db} \
                 -t {threads} \
-                --dnaapler \
                 -f -p {params.sp}\
                 2> {log}
 
-            touch {output.reorient}
             pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
-        else:
-            touch {output.reorient}
+        else
+            touch {output.gbk}
+            touch {output.plot}
+            touch {output.card}
+            touch {output.vfdb}
+            touch {output.spacers}
+            touch {output.taxa}
+            touch {output.cdden}
         fi
         """
