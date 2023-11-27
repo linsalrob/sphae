@@ -73,7 +73,7 @@ rule medaka:
         os.path.join(dir.bench, "medaka.{sample}.txt")
     shell:
         """
-        if [[ -f {input.fasta} ]]; then
+        if [[ -s {input.fasta} ]] ; then
             medaka_consensus \
                 -i {input.fastq} \
                 -d {input.fasta} \
@@ -81,6 +81,7 @@ rule medaka:
                 -m {params.model} \
                 -t {threads} \
                 2> {log}
+            touch {output.fasta}
         else
             touch {output.fasta}
         fi
@@ -139,10 +140,14 @@ rule fastg:
         os.path.join(dir.bench, "fastg.{sample}.txt")
     shell:
         """
-        if [[ -s {input} ]]
-        then
+        if [[ -s {input} ]] ; then
             kmer=$(head -1 {input} | sed 's/>//' | sed 's/_.*//')
             megahit_toolkit contig2fastg $kmer {input} > {output.fastg} 2> {log}
             Bandage reduce {output.fastg} {output.graph} 2>> {log}
+            touch {output.fastg}
+            touch {output.graph}
+        else
+            touch {output.fastg}
+            touch {output.graph}
         fi
         """

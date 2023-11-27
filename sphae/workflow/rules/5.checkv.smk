@@ -24,13 +24,15 @@ rule checkv_megahit:
     shell:
         """
         export CHECKVDB={params.db}
-        if [[ -s {input.contigs} ]]
-        then
+        if [[ -s {input.contigs} ]] ; then
             checkv end_to_end\
                 {input.contigs} \
                 {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
+        else
+            touch {output.out}
         fi
         """
 
@@ -57,12 +59,14 @@ rule checkv_flye_nano:
     shell:
         """
         export CHECKVDB={params.db}
-        if [[ -s {input.contigs} ]]
-        then
+        if [[ -s {input.contigs} ]] ; then
             checkv end_to_end\
                 {input.contigs} \
                 {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
+        else
+            touch {output.out}
         fi
         """

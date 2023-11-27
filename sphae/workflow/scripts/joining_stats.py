@@ -9,6 +9,18 @@ from collections import defaultdict
 from itertools import chain
 
 def consolidate(viral_check, graph_comp, checkv, out):
+    # Check file sizes
+    file_sizes = {
+        "viral_check": os.path.getsize(viral_check),
+        "graph_comp": os.path.getsize(graph_comp),
+        "checkv": os.path.getsize(checkv)
+    }
+
+    # If any input file is empty, touch the output file and return
+    if any(size == 0 for size in file_sizes.values()):
+        open(out, 'a').close()
+        return
+    
     vv=pd.read_csv(viral_check)
     gcp=pd.read_csv(graph_comp, sep="\t")
     cv=pd.read_csv(checkv, sep="\t")

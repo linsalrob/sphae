@@ -22,14 +22,16 @@ rule viralverify_megahit:
         os.path.join(dir.bench, "viralverify_megahit.{sample}.txt")
     shell:
         """
-        if [[ -s {input.contigs} ]]
-        then
+        if [[ -s {input.contigs} ]] ; then
             viralverify \
                 -f {input.contigs} \
                 --hmm {input.db} \
                 -o {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
+        else
+            touch {output.out}
         fi
         """
 
@@ -55,13 +57,15 @@ rule viralverify_flye_nano:
         os.path.join(dir.bench, "viralverify_flye_nano.{sample}.txt")
     shell:
         """
-        if [[ -s {input.contigs} ]]
-        then
+        if [[ -s {input.contigs} ]] ; then
             viralverify \
                 -f {input.contigs} \
                 --hmm {input.db} \
                 -o {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
+        else
+            touch {output.out}
         fi
         """

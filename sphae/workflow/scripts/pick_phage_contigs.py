@@ -12,13 +12,16 @@ import argparse
 # Define the picking_contigs function
 def picking_contigs(file,out):
     data = pd.DataFrame()
-    if (os.path.exists(file) == True):
+    if (os.path.exists(file) and os.path.getsize(file) > 0):
         data = pd.read_csv(file, header=0)
         datav = data[data["Length_x"] > 1000]
         datav = datav[datav["Prediction"] == "Virus"]
-        datac = datav[datav["completeness"]> 90.00]
+        datac = datav[datav["completeness"]> 70.00]
         #print (len(data))
         #print (data)
+    else:
+        open(out, 'a').close()
+        return None
 
     if (len(datac))==0:
         print("Genome wasn't assembled well")

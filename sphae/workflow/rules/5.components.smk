@@ -33,7 +33,7 @@ rule components_flye_nano:
         graph = os.path.join(dir.flye, "{sample}-sr", "assembly_graph.gfa"),
         path = os.path.join(dir.flye, "{sample}-sr", "assembly_info.txt")
     output:
-        out = os.path.join(dir.flye, "{sample}-sr", "graph_seq_details_flye.tsv"),
+        os.path.join(dir.flye, "{sample}-sr", "graph_seq_details_flye.tsv"),
     params:
         o = os.path.join(dir.flye, "{sample}-sr"),
         assembler = 'flye'

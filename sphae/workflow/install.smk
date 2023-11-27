@@ -9,7 +9,7 @@ This is an auxiliary Snakefile to install databases or dependencies.
 
 
 import attrmap as ap
-import attrmap.utils as au
+#import attrmap.utils as au
 
 
 """Parse config"""

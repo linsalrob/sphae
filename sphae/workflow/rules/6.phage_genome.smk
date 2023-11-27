@@ -25,7 +25,6 @@ rule genomes_extract_megahit:
         outdir = os.path.join(dir.genome, "{sample}-pr"),
     conda:
         os.path.join(dir.env, "samtools.yaml")
-        
     threads:
         config.resources.smalljob.cpu
     resources:

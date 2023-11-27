@@ -1,5 +1,5 @@
 import attrmap as ap
-import attrmap.utils as au
+#import attrmap.utils as au
 import glob
 from metasnek import fastq_finder
 
