@@ -7,7 +7,7 @@ The assembly graph file  should be provided as inputs.
 """
 
 # import click
-
+import os
 from graph_utils import build_utils
 
 __author__ = "Vijini Mallawaarachchi"

@@ -47,7 +47,8 @@ setup(
         "Click==8.1.3",
         "metasnek>=0.0.4",
         "attrmap>=0.0.7",
-        "biopython>=1.8.1"
+        "biopython>=1.8.1",
+        "pandas"
     ],
     entry_points={
         'console_scripts': [

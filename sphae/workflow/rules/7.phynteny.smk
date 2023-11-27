@@ -20,10 +20,13 @@ rule phynteny_run_paired:
         os.path.join(dir.log, "phynteny.{sample}.log")
     shell:
         """
-        if [[ -f {input.gbk} ]] ; then
+        if [[ -s {input.gbk} ]] ; then
             phynteny {input.gbk} -o {params.odir} \
                 -m {params.model} -f\
                 2> {log}
+            touch {output.pkl}
+        else
+            touch {output.pkl}
         fi
         """
 
@@ -47,9 +50,12 @@ rule phynteny_run_nanopore:
         os.path.join(dir.log, "phynteny.{sample}.log")
     shell:
         """
-        if [[ -f {input.gbk} ]] ; then
+        if [[ -s {input.gbk} ]] ; then
             phynteny {input.gbk} -o {params.odir} \
                 -m {params.model} -f\
                 2> {log}
+            touch {output.pkl}
+        else
+            touch {output.pkl}
         fi
         """

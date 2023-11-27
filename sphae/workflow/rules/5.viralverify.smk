@@ -29,6 +29,7 @@ rule viralverify_megahit:
                 -o {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
         else
             touch {output.out}
         fi
@@ -63,6 +64,7 @@ rule viralverify_flye_nano:
                 -o {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
         else
             touch {output.out}
         fi

@@ -30,6 +30,7 @@ rule checkv_megahit:
                 {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
         else
             touch {output.out}
         fi
@@ -64,6 +65,7 @@ rule checkv_flye_nano:
                 {params.out} \
                 -t {threads} \
                 &> {log}
+            touch {output.out}
         else
             touch {output.out}
         fi
