@@ -41,6 +41,7 @@ if config.args.sequencing == 'paired':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-pr", "{sample}_cds_functions.tsv"), sample=samples.names))
 elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"), sample=samples.names))
@@ -52,3 +53,4 @@ elif config.args.sequencing == 'longread':
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt"), sample=samples.names))
     targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv"), sample=samples.names))
+    targets.annotate.append(expand(os.path.join(dir.pharokka, "{sample}-sr", "{sample}_cds_functions.tsv"), sample=samples.names))

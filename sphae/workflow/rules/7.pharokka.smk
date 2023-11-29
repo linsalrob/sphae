@@ -31,7 +31,8 @@ rule pharokka_megahit:
         vfdb=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
         taxa=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv")
+        cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_cds_functions.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -59,6 +60,7 @@ rule pharokka_megahit:
             touch {output.spacers}
             touch {output.taxa}
             touch {output.cdden}
+            touch {output.cds}
         else
             touch {output.gbk}
             touch {output.plot}
@@ -67,6 +69,7 @@ rule pharokka_megahit:
             touch {output.spacers}
             touch {output.taxa}
             touch {output.cdden}
+            touch {output.cds}
         fi
         """
 
@@ -99,7 +102,8 @@ rule pharokka_flye:
         vfdb=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
         taxa=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv")
+        cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_cds_functions.tsv")
     conda:
         os.path.join(dir.env, "pharokka.yaml")
     threads:
@@ -128,6 +132,7 @@ rule pharokka_flye:
             touch {output.spacers}
             touch {output.taxa}
             touch {output.cdden}
+            touch {output.cds}
         else
             touch {output.gbk}
             touch {output.plot}
@@ -136,5 +141,6 @@ rule pharokka_flye:
             touch {output.spacers}
             touch {output.taxa}
             touch {output.cdden}
+            touch {output.cds}
         fi
         """
