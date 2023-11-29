@@ -3,9 +3,9 @@ import shutil
 import pandas as pd
 
 def copy_files(input_files, params):
-    shutil.copy(input_files['genome'], 'genomes')
-    shutil.copy(input_files['gbk'], 'gbks')
-    shutil.copy(input_files['plot'], 'plots')
+    shutil.copy(input_files['genome'], params['genomes'])
+    shutil.copy(input_files['gbk'], params['gbks'])
+    shutil.copy(input_files['plot'], params['plots'])
 
 def generate_summary(input_files, output_summary, params):
     with open(output_summary, 'w') as summary:
@@ -15,9 +15,10 @@ def generate_summary(input_files, output_summary, params):
             if line_count > 1:
                 with open(input_files['table'], 'r') as table_file:
                     lines = table_file.readlines()
-                    summary.write(f"Length: {lines[1].split(',')[12]}\n")
-                    summary.write(f"Coding density: {lines[1].split(',')[4]}\n")
-                    summary.write(f"Circular: {lines[1].split(',')[13]}\n")
+                    #print (lines[1])
+                    summary.write(f"Length: {lines[1].split(',')[2]}\n")
+                    summary.write(f"Circular: {lines[1].split(',')[3]}\n")
+                    summary.write(f"Graph connections: {lines[1].split(',')[4]}\n")
                     summary.write(f"Completeness: {lines[1].split(',')[20]}\n")
                     summary.write(f"Contamination: {lines[1].split(',')[22]}\n")
                 
@@ -27,6 +28,19 @@ def generate_summary(input_files, output_summary, params):
                     for index, row in tax.iterrows():
                         summary.write(f"{row['Description']}\t{row['mash_matching_hashes']}\n")
 
+                with open(input_files['cds'], 'r') as cds:
+                    cds_df=pd.read_csv(cds, sep='\t')
+                    cds_data = cds_df[cds_df['Description'] == 'CDS']
+                    count_value = cds_data['Count'].values[0]
+                    summary.write(f"Number of CDS: {count_value}\n")
+                
+                with open(input_files['cdden'], 'r') as cdden:
+                    cdn=pd.read_csv(cdden, sep='\t')
+                    gc_percent = cdn['gc_perc'].values[0]
+                    coding_density = cdn['cds_coding_density'].values[0]
+                    summary.write(f"GC percent: {gc_percent}%\n")
+                    summary.write(f"Coding density: {coding_density}\n")
+
                 if 'integra' in open(input_files['gbk']).read():
                     summary.write("Integrase found, below is the gene name found\n")
                     with open(input_files['gbk'], 'r') as gbk_file:
@@ -35,6 +49,25 @@ def generate_summary(input_files, output_summary, params):
                                 summary.write(line)
                 else:
                     summary.write("No integrase\n")
+                
+                if 'recombinase' in open(input_files['gbk']).read():
+                    summary.write("Recombinase found, below is the gene name found\n")
+                    with open(input_files['gbk'], 'r') as gbk_file:
+                        for line in gbk_file:
+                            if 'recombinase' in line:
+                                summary.write(line)
+                else:
+                    summary.write("No Recombinase\n")
+
+                if 'transposase' in open(input_files['gbk']).read():
+                    summary.write("Transposase found, below is the gene name found\n")
+                    with open(input_files['gbk'], 'r') as gbk_file:
+                        for line in gbk_file:
+                            if 'transposase' in line:
+                                summary.write(line)
+                else:
+                    summary.write("No Transposases\n")
+                
 
                 if len(open(input_files['amr']).readlines()) == 1:
                     summary.write("No AMR genes\n")
@@ -88,7 +121,8 @@ input_files = {
         'vfdb': snakemake.input.vfdb,
         'spacers': snakemake.input.spacers,
         'taxa': snakemake.input.ph_taxa,
-        'cdden': snakemake.input.cdden
+        'cdden': snakemake.input.cdden,
+        'cds': snakemake.input.cds
 }
 
 output_summary = snakemake.output.summary

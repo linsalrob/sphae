@@ -47,4 +47,6 @@ rule trimnami:
             {params.host} \
             {params.profile} \
             --log {log}
+
+            touch {output}
         """
