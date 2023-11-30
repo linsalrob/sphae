@@ -13,6 +13,7 @@ rule summarize_paired:
         plot=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_cds_functions.tsv")
     output:
         summary=os.path.join(dir.final, "{sample}-pr", "{sample}_summary.txt")
     params:
@@ -39,6 +40,7 @@ rule summarize_longread:
         spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
         ph_taxa =os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_cds_functions.tsv")
     output:
         summary=os.path.join(dir.final, "{sample}-sr", "{sample}_summary.txt")
     params:
