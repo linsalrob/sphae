@@ -29,13 +29,13 @@ A complete list of programs used for each step is mentioned in the sphae.CITATIO
 
 ### Install 
 
-**Pre-requisites**   
-  - gcc
-  - conda 
-  - libgl1-mesa-dev (ubuntu- for Bandage)
-  - libxcb-xinerama0 (ubuntu- for Bandage)
+**Pip install**
 
-**Install**
+```bash
+pip install sphae
+```
+
+**Source Install**
 
 Setting up a new conda environment 
 
