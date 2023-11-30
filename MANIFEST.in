@@ -1,4 +1,2 @@
-include sphae/sphae.LICENSE
-include sphae/sphae.CITATION
-include sphae/sphae.VERSION
-recursive-include sphae *
+graft sphae
+
