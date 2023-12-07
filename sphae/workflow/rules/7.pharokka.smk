@@ -42,6 +42,8 @@ rule pharokka_megahit:
         time = config.resources.smalljob.time
     log:
         os.path.join(dir.log, "pharokka.{sample}.log")
+    benchmark:
+        os.path.join(dir.bench,"pharokka_megahit_{sample}.txt")
     shell:
         """
         if [[ -s {input} ]] ; then
@@ -113,6 +115,8 @@ rule pharokka_flye:
         time = config.resources.smalljob.time
     log:
         os.path.join(dir.log, "pharokka.{sample}.log")
+    benchmark:
+        os.path.join(dir.bench,"pharokka_flye_{sample}.txt")
     shell:
         """
         if [[ -s {input} ]] ; then
