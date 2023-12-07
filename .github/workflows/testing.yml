@@ -32,15 +32,15 @@ jobs:
       # Setup env
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: spae
+          activate-environment: sphae
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
           auto-activate-base: false
 
-      - name: "Setup Spae on ${{ matrix.os }} for Python ${{ matrix.python-version }}"
+      - name: "Setup Sphae on ${{ matrix.os }} for Python ${{ matrix.python-version }}"
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
+          pip install .
       
       - name: "Generate coverage report on ${{ matrix.os }} for Python ${{ matrix.python-version }}"
         run: |
