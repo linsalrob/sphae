@@ -35,6 +35,10 @@ A complete list of programs used for each step is mentioned in the sphae.CITATIO
 pip install sphae
 ```
 
+** conda install** 
+```bash
+conda install sphae
+```
 **Source Install**
 
 Setting up a new conda environment 

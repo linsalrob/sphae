@@ -47,7 +47,7 @@ dir.genome = os.path.join(dir.out, 'PROCESSING','genome')
 dir.cov = os.path.join(dir.out, 'PROCESSING','coverage')
 dir.pharokka = os.path.join(dir.out, 'PROCESSING','pharokka')
 dir.log = os.path.join(dir.out, 'logs')
-dir.bench = os.path.join(dir.out, 'PROCESSING','bench')
+dir.bench = os.path.join(dir.out, 'PROCESSING','benchmarks')
 dir.final = os.path.join(dir.out, 'RESULTS')
 
 dir.env = os.path.join(workflow.basedir, "envs")

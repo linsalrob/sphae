@@ -18,6 +18,8 @@ rule phynteny_run_paired:
         time = config.resources.smalljob.time
     log:
         os.path.join(dir.log, "phynteny.{sample}.log")
+    benchmark:
+        os.path.join(dir.bench,"phynteny_megahit_{sample}.txt")
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
@@ -48,6 +50,8 @@ rule phynteny_run_nanopore:
         time = config.resources.smalljob.time
     log:
         os.path.join(dir.log, "phynteny.{sample}.log")
+    benchmark:
+        os.path.join(dir.bench,"phynteny_nanopore_{sample}.txt")
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
