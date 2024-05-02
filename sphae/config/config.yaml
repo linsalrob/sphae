@@ -11,7 +11,7 @@ resources:
 trimnami:
   qc:
     subsample:
-      --bases 100M
+      --bases 1000M
   host: 
 
 params:

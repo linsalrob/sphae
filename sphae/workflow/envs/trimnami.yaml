@@ -6,4 +6,4 @@ dependencies:
     - mamba
     - pip
     - pip:
-        - trimnami==0.1.1
+        - trimnami>=0.1.1

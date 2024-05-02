@@ -5,4 +5,4 @@ channels:
     - defaults
 dependencies:
     - checkv >= 1.0.1
-    - diamond >=2.1.8
+    - diamond==2.1.8
