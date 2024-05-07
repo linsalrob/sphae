@@ -30,7 +30,7 @@ targets.db.append(os.path.join(databaseDir, 'Pfam35.0', 'Pfam-A.hmm.gz'))
 targets.db.append(os.path.join(databaseDir, 'pharokka_db', 'phrogs_db.index'))
 targets.db.append(os.path.join(databaseDir, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(databaseDir, 'phynteny_models_zenodo', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5'))
-
+targets.db.append(os.path.join(databaseDir, "phold", "phold_annots.tsv"))
 
 """RUN SNAKEMAKE"""
 rule all:
@@ -87,3 +87,16 @@ rule phynteny_models:
             wget -O {params.download} {params.url}
             tar -xvzf {params.download} -C {params.models}
         """
+
+rule phold_install:
+    params:
+        phold_db=os.path.join(databaseDir, "phold")
+    output:
+        os.path.join(databaseDir, "phold", "phold_annots.tsv")
+    conda:
+        os.path.join(dir.env, "phold.yaml")
+    shell:
+        """
+        phold install -d {params.phold_db}
+        """
+

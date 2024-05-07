@@ -3,7 +3,7 @@ Running phynteny to improve the anntoation
 """
 rule phynteny_run_paired:
     input:
-        gbk=os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk")
+        gbk=os.path.join(dir.pharokka,"{sample}-pr-phold","{sample}.gbk")
     params:
         odir=os.path.join(dir.pharokka, "{sample}-pr", "phynteny"),
         model=os.path.join(dir.db, "phynteny_models_zenodo")
@@ -32,10 +32,9 @@ rule phynteny_run_paired:
         fi
         """
 
-
 rule phynteny_run_nanopore:
     input:
-        gbk=os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk")
+        gbk=os.path.join(dir.pharokka,"{sample}-sr-phold","{sample}.gbk")
     params:
         odir=os.path.join(dir.pharokka, "{sample}-sr", "phynteny"),
         model=os.path.join(dir.db, "phynteny_models_zenodo")

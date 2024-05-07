@@ -1,6 +1,7 @@
 from pathlib import Path
 import shutil
 import pandas as pd
+from Bio import SeqIO
 
 def copy_files(input_files, params):
     shutil.copy(input_files['genome'], params['genomes'])
@@ -15,7 +16,6 @@ def generate_summary(input_files, output_summary, params):
             if line_count > 1:
                 with open(input_files['table'], 'r') as table_file:
                     lines = table_file.readlines()
-                    #print (lines[1])
                     summary.write(f"Length: {lines[1].split(',')[2]}\n")
                     summary.write(f"Circular: {lines[1].split(',')[3]}\n")
                     summary.write(f"Graph connections: {lines[1].split(',')[4]}\n")
@@ -38,37 +38,37 @@ def generate_summary(input_files, output_summary, params):
                     cdn=pd.read_csv(cdden, sep='\t')
                     gc_percent = cdn['gc_perc'].values[0]
                     coding_density = cdn['cds_coding_density'].values[0]
-                    summary.write(f"GC percent: {gc_percent}%\n")
+                    summary.write(f"GC percent: {gc_percent}\n")
                     summary.write(f"Coding density: {coding_density}\n")
 
-                if 'integra' in open(input_files['gbk']).read():
-                    summary.write("Integrase found, below is the gene name found\n")
-                    with open(input_files['gbk'], 'r') as gbk_file:
-                        for line in gbk_file:
-                            if 'integra' in line:
-                                summary.write(line)
-                else:
-                    summary.write("No integrase\n")
-                
-                if 'recombinase' in open(input_files['gbk']).read():
-                    summary.write("Recombinase found, below is the gene name found\n")
-                    with open(input_files['gbk'], 'r') as gbk_file:
-                        for line in gbk_file:
-                            if 'recombinase' in line:
-                                summary.write(line)
-                else:
-                    summary.write("No Recombinase\n")
+                found_gene = False
+                gbk_records = SeqIO.parse(input_files['gbk'], 'genbank')
+                for record in gbk_records:
+                    for feature in record.features:
+                        if feature.type == "CDS" and 'product' in feature.qualifiers and 'integra' in feature.qualifiers['product'][0].lower():
+                            #print (feature)
+                            found_gene = True
+                            gene_id = feature.qualifiers['locus_tag'][0]
+                            function = feature.qualifiers['function'][0]
+                            product = feature.qualifiers['product'][0]
+                            summary.write(f"\t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
 
-                if 'transposase' in open(input_files['gbk']).read():
-                    summary.write("Transposase found, below is the gene name found\n")
-                    with open(input_files['gbk'], 'r') as gbk_file:
-                        for line in gbk_file:
-                            if 'transposase' in line:
-                                summary.write(line)
-                else:
-                    summary.write("No Transposases\n")
-                
+                if not found_gene:
+                    if 'integra' not in open(input_files['gbk']).read().lower():
+                        summary.write("No Integrases\n")
+                    else:
+                        summary.write("No Integrases\n")
+                        summary.write("\t...but Phynteny predicted a few unknown function genes to have some similarity with integrase genes but with low confidence. Maybe a false positive or a novel integrase gene\n")
 
+                    if 'recombinase' not in open(input_files['gbk']).read().lower():
+                        summary.write("No recombinase\n")
+                    else: 
+                        summary.write("Recombinases found in genome\n")
+                    if 'transposase' not in open(input_files['gbk']).read().lower():
+                        summary.write("No transposase\n")
+                    else: 
+                        summary.write("Transposases found in genome\n")
+                
                 if len(open(input_files['amr']).readlines()) == 1:
                     summary.write("No AMR genes\n")
                 else:
@@ -101,6 +101,7 @@ def analyze_assembly(input_files, output_summary, params):
                 with open(output_summary, 'w') as summary:
                     summary.write(f"Sample: {params['sample']}\n")
                     summary.write("Genome includes multiple contigs, fragmented\n")
+
         else:
             with open(output_summary, 'w') as summary:
                 summary.write(f"Sample: {params['sample']}\n")
@@ -134,22 +135,28 @@ params = {
     'plots': snakemake.params.plots
 }
 
-# input_files = {
-#     'assembly': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/assembly/flye/Ecoli_17-sr/flye.log',
-#     'table': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/genome/Ecoli_17-sr/Ecoli_17-genome-candidates.csv',
-#     'genome': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/genome/Ecoli_17-sr/Ecoli_17_genome.fasta',
-#     'gbk': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/pharokka/Ecoli_17-sr/phynteny/phynteny.gbk',
-#     'plot': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/pharokka/Ecoli_17-sr/Ecoli_17_pharokka_plot.png',
-#     'amr': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/pharokka/Ecoli_17-sr/top_hits_card.tsv',
-#     'vfdb': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/pharokka/Ecoli_17-sr/top_hits_vfdb.tsv',
-#     'spacers': '/home/nala0006/scratch/spae-paper/nanopore/Ecoli.out/PROCESSING/pharokka/Ecoli_17-sr/Ecoli_17_minced_spacers.txt'
-# }
+"""
+input_files = {
+    'assembly': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/assembly/flye/SQK-RBK114-24_barcode19-sr/flye.log',
+    'table': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/genome/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19-genome-candidates.csv',
+    'genome': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/genome/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_genome.fasta',
+    'gbk': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/phynteny/phynteny.gbk',
+    'plot': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_pharokka_plot.png',
+    'amr': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/top_hits_card.tsv',
+    'vfdb': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/top_hits_vfdb.tsv',
+    'taxa': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_top_hits_mash_inphared.tsv',
+    'spacers': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_minced_spacers.txt',
+    'cdden': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_length_gc_cds_density.tsv',
+    'cds': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_cds_functions.tsv'
+}
 
-# output_summary = '/home/nala0006/example/Ecoli_17_summary.txt'
+output_summary = '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/RESULTS/SQK-RBK114-24_barcode19_summary.txt'
 
-# params = {
-#     'sample': 'Ecoli_17',
-#     'dirout': Path('/home/nala0006/example/')
-# }
-
+params = {
+    'sample': 'SQK-RBK114-24_barcode19',
+    'genomes': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/RESULTS/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_genome.fasta',
+    'gbks': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/RESULTS/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19.gbk',
+    'plots': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/RESULTS/SQK-RBK114-24_barcode19_pharokka_plot.png'
+}
+"""
 analyze_assembly(input_files, output_summary, params)

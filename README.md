@@ -125,6 +125,47 @@ Genome summary file includes the following information to help,
     - Whether any virulence factors were found (Pharokka search against virulence gene database)
     - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
  
+
+### FAQ
+- Sure, here are the clarifications for each scenario:
+
+1. **"Failed during assembly":**
+   - This message indicates that the assembly process was unsuccessful. It suggests that the assembler could not generate contigs, which are contiguous sequences of DNA, typically representing segments of a genome. 
+   - To confirm this, you can check the logs located at `sphae.out/PROCESSING/assembly/flye/<sample name>/assembly_info.txt` or `sphae.out/PROCESSING/assembly/megahit/<sample name>/log`. These logs should provide details about the error or the step at which the assembly failed.
+   - One possible reason for this failure could be insufficient genome coverage, meaning that there were not enough sequencing reads to accurately assemble the genome.
+
+2. **"Genome includes multiple contigs, fragmented":**
+   - This message indicates that the assembly generated numerous short fragments (contigs) instead of a single, contiguous sequence representing a nearly complete phage genome. 
+   - You can verify this by examining the file `sphae.out/PROCESSING/assembly/flye/<sample name>-assembly-stats_flye.csv` or `sphae.out/PROCESSING/assembly/megahit/<sample name>-assembly-stats_megahit.csv`.
+   - Each row in these tables represents a contig along with its characteristics. If none of the contigs are identified as viral and do not meet a certain completeness threshold (e.g., greater than 70% completeness), it suggests that the assembly consists of fragmented contigs.
+   - Fragmented contigs make it challenging to accurately identify genes. To address this issue, you may need to resequence the phages for better coverage or try using different assembly algorithms.
+
+3. **"Good genome coverage but still encountering assembly issues":**
+   - If you have adequate genome coverage but still face assembly problems, you may consider adjusting the subsampling step in sphae. This step involves randomly selecting a subset of reads to reduce the computational burden.
+   - To modify the subsampling parameters, navigate to the `config/config.yaml` file and update the line under `subsample` section, for example:
+     ```
+     subsample:
+         --bases 1000M
+     ```
+   - Increase or decrease the number of bases (e.g., `1000M` for 1000 megabases) based on your requirements.
+   - After making the changes, rerun sphae and ensure that the updated subsampling parameters are reflected in the `sphae.out/sphae.config.yaml` file.
+
+4. **"What does 'No integrases found ...but Phynteny predicted a few unknown function genes to have some similarity with integrase genes but with low confidence. Maybe a false positive or a novel integrase gene' mean?"**
+  This message indicates that while no integrase genes were explicitly identified, the analysis detected certain genes that exhibited similarities to integrase genes. However, these genes were associated with low confidence scores, suggesting a possibility of being false positives or potentially representing novel integrase genes.
+
+  [Phynteny](https://github.com/susiegriggo/Phynteny), the tool used for this prediction, assigns a confidence score to each gene prediction. If this score falls below a certain threshold (typically 90%), the gene remains classified as having an unknown function. To further investigate these genes, advanced techniques such as folding using tools like [ColabFold](https://github.com/sokrypton/ColabFold) can be employed. Analyzing the structure of these genes may provide additional insights into their functionality and potential role in biological processes.
+
+5. **How do I visualize the phages and gene annotations?**
+
+  To visualize the phages and gene annotations, I recommend using [Clinker](https://github.com/gamcil/clinker). First, gather all the sample genbank files from `sphae.out/RESULTS` and place them in a new directory. Then, execute the clinker command to generate clinker plots, which compare the genes in each genome to each other.
+
+  Additionally, for enhanced visualization, consider running [dnaapler](https://github.com/gbouras13/dnaapler) on the genomes in fasta format obtained from `sphae.out/RESULTS`. This step generates reoriented phages that start with terminase genes. Pharokka has been rerun, and the resulting genbank files can be used for visualization. 
+
+  Please note that dnaapler may fail if terminase genes are not found, particularly when working with novel phages. The reason these steps haven't been added to sphae. If you encounter any challenges during this process, please feel free to leave an issue, and I'll provide improved documentation to assist you further with the command on how to install and run the command different commands. 
+
+6. **Where are the intermediate files being saved?**
+   These files are being saved in `sphae.out/PROCESSING`. If you need more information on the file structure here, or have ideas of better organization then leave an issue and I will make a note to have more documentation. 
+
 ## Issues and Questions
 
 This is still a work in progress, so if you come across any issues or errors, report them under Issues. 

@@ -1,0 +1,7 @@
+name: phold
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - phold
