@@ -22,10 +22,9 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 - Quality control that removes adaptor sequences, low-quality reads and host contamination (optional). 
 - Assembly
 - Contig quality checks; read coverage, viral or not, completeness, and assembly graph components. 
-- Phage genome annotation'
-- Annotation of the phage genome 
+- Phage genome annotation
   
-A complete list of programs used for each step is mentioned in the sphae.CITATION file. 
+A complete list of programs used for each step is mentioned in the `sphae.CITATION` file. 
 
 ### Install 
 
@@ -35,7 +34,7 @@ A complete list of programs used for each step is mentioned in the sphae.CITATIO
 pip install sphae
 ```
 
-** conda install** 
+**Conda install** 
 ```bash
 conda install sphae
 ```
@@ -168,5 +167,5 @@ Genome summary file includes the following information to help,
 
 ## Issues and Questions
 
-This is still a work in progress, so if you come across any issues or errors, report them under Issues. 
+This is still a work in progress, so if you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 
 
