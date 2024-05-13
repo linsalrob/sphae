@@ -1,0 +1,26 @@
+import attrmap as ap
+#import attrmap.utils as au
+
+"""Parse config"""
+configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
+config.update(config["sphae"])
+config = ap.AttrMap(config)
+
+
+"""Rules"""
+include: os.path.join("rules", "1.preflight-annot.smk")
+include: os.path.join("rules", "2.targets-annot.smk")
+include: os.path.join("rules", "789.annot.smk")
+
+
+"""Mark target rules"""
+target_rules = []
+def targetRule(fn):
+    assert fn.__name__.startswith('__')
+    target_rules.append(fn.__name__[2:])
+    return fn
+
+@targetRule
+rule all:
+    input:
+        targets.annotate

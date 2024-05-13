@@ -1,5 +1,8 @@
 # Changes being added
 
+## v1.4.1
+- added the option to run `sphae annotae` so assembled genomes or reoriented genomes from dnaapler can be run through only the annotation steps
+  
 ## v1.4
 - Updated the annoation steps to [Pharokka](https://github.com/gbouras13/pharokka), [Phold](https://github.com/gbouras13/phold) and then [Phynteny](https://github.com/susiegriggo/Phynteny)
 - Also updated the summary file to confirm the presence/absence of specific genes from the annotation outputs

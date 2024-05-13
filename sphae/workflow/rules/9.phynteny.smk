@@ -62,3 +62,4 @@ rule phynteny_run_nanopore:
             touch {output.pkl}
         fi
         """
+

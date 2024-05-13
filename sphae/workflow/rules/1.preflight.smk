@@ -83,7 +83,6 @@ samples.names = list(au.get_keys(samples.reads))
 samples = au.convert_state(samples, read_only=True)
 fastq_finder.write_samples_tsv(samples.reads, os.path.join(dir.out, "samples.tsv"))
 
-
 """
 Wildcard constraints
 """

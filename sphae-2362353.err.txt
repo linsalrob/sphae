@@ -1,0 +1,371 @@
+[2024:05:13 15:59:14] Copying system default config to /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/sphae.config.yaml
+[2024:05:13 15:59:14] Updating config file with new values
+[2024:05:13 15:59:14] Writing config file to /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/sphae.config.yaml
+[2024:05:13 15:59:14] ------------------
+[2024:05:13 15:59:14] | Runtime config |
+[2024:05:13 15:59:14] ------------------
+
+args:
+  db_dir: null
+  input: null
+  output: null
+  sequencing: null
+db:
+  models: https://zenodo.org/record/8198288/files/phynteny_models_v0.1.11.tar.gz
+  pfam: ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/
+  pfam_file: Pfam35.0/Pfam-A.hmm.gz
+params:
+  flye: --nano-hq
+  genomeSize: 44k
+  medaka: r1041_e82_400bps_sup_v4.2.0
+resources:
+  bigjob:
+    cpu: 32
+    mem: 64000
+    time: 480
+  smalljob:
+    cpu: 8
+    mem: 16000
+    time: 480
+sphae:
+  args:
+    _input: /home/nala0006/scratch/crassus/CrassUS/43crassphages
+    conda_prefix: /scratch/user/nala0006/sphae/sphae/workflow/conda
+    configfile: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/sphae.config.yaml
+    db_dir: null
+    host: null
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/sphae.log
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot
+    profile: null
+    sequencing: paired
+    snake_args: []
+    snake_default:
+    - --rerun-incomplete
+    - --printshellcmds
+    - --nolock
+    - --show-failed-logs
+    system_config: /scratch/user/nala0006/sphae/sphae/config/config.yaml
+    temp_dir: null
+    threads: 1
+    use_conda: true
+trimnami:
+  host: null
+  qc:
+    subsample: --bases 1000M
+
+[2024:05:13 15:59:14] ---------------------
+[2024:05:13 15:59:14] | Snakemake command |
+[2024:05:13 15:59:14] ---------------------
+
+snakemake -s /scratch/user/nala0006/sphae/sphae/workflow/Snakefile-annot --configfile /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/sphae.config.yaml --cores 1 --use-conda --conda-prefix /scratch/user/nala0006/sphae/sphae/workflow/conda --rerun-incomplete --printshellcmds --nolock --show-failed-logs
+Config file /scratch/user/nala0006/sphae/sphae/workflow/../config/config.yaml is extended by additional config specified via the command line.
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however crucial for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                  count
+-----------------  -------
+all                      1
+pharokka_annotate       43
+phold_annotate          43
+phynteny_annotate       43
+total                  130
+
+Select jobs to execute...
+
+[Mon May 13 15:59:16 2024]
+rule pharokka_annotate:
+    input: /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_cds_functions.tsv
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221558.log
+    jobid: 18
+    benchmark: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/benchmarks/pharokka_annotate_OQ221558.txt
+    reason: Missing output files: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_cds_functions.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_length_gc_cds_density.tsv
+    wildcards: sample=OQ221558
+    resources: tmpdir=/local/nala0006/2362353, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta ]] ; then
+            pharokka.py                 -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta                 -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558                 -d /scratch/user/nala0006/sphae/sphae/workflow/databases/pharokka_db                 -t 1                 -f -p OQ221558                2> /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221558.log
+
+            pharokka_plotter.py -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta -n OQ221558_pharokka_plot -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558 -p OQ221558 -f
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_cds_functions.tsv
+        else
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558/OQ221558_cds_functions.tsv
+        fi
+        
+Activating conda environment: sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_
+2024-05-13 16:21:26.535 | INFO     | __main__:<module>:116 - Starting Pharokka v1.7.1
+2024-05-13 16:21:26.535 | INFO     | __main__:<module>:117 - Running pharokka_plotter.py to plot your phage.
+2024-05-13 16:21:26.535 | INFO     | __main__:<module>:118 - Command executed: Namespace(infile='/home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta', plot_name='OQ221558_pharokka_plot', outdir='/home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221558', gff='', genbank='', prefix='OQ221558', plot_title='Phage', force=True, label_hypotheticals=False, remove_other_features_labels=False, title_size='20', label_size='8', interval='5000', truncate='20', dpi='600', annotations='1', label_ids='')
+2024-05-13 16:21:26.535 | INFO     | __main__:<module>:119 - Repository homepage is https://github.com/gbouras13/pharokka
+2024-05-13 16:21:26.535 | INFO     | __main__:<module>:120 - Written by George Bouras: george.bouras@adelaide.edu.au
+2024-05-13 16:21:26.536 | INFO     | __main__:<module>:121 - Checking your inputs.
+2024-05-13 16:21:26.536 | WARNING  | __main__:<module>:170 - --force was specified even though the output plot file does not already exist.
+2024-05-13 16:21:26.536 | WARNING  | __main__:<module>:173 - Continuing
+2024-05-13 16:21:26.536 | WARNING  | __main__:<module>:184 - --force was specified even though the output plot file does not already exist.
+2024-05-13 16:21:26.536 | WARNING  | __main__:<module>:187 - Continuing
+2024-05-13 16:21:26.536 | INFO     | __main__:<module>:203 - You have specified a Pharokka output directory.
+2024-05-13 16:21:26.540 | INFO     | input_commands:validate_fasta:230 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta.
+2024-05-13 16:21:26.541 | INFO     | input_commands:validate_fasta:232 - Input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta is in FASTA format.
+2024-05-13 16:21:26.541 | INFO     | input_commands:validate_fasta:237 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta for duplicate FASTA headers.
+2024-05-13 16:21:26.542 | INFO     | input_commands:validate_fasta:239 - All headers in /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221558.fasta are unique.
+2024-05-13 16:21:26.542 | INFO     | __main__:<module>:290 - All files checked.
+2024-05-13 16:21:26.542 | INFO     | __main__:<module>:291 - Plotting the phage.
+/scratch/user/nala0006/sphae/sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_/lib/python3.10/site-packages/pycirclize/parser/genbank.py:62: UserWarning: min_range & max_range is no longer used in Genbank parser.
+  warnings.warn("min_range & max_range is no longer used in Genbank parser.")
+[Mon May 13 16:21:30 2024]
+Finished job 18.
+1 of 130 steps (1%) done
+Select jobs to execute...
+
+[Mon May 13 16:21:30 2024]
+rule pharokka_annotate:
+    input: /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_cds_functions.tsv
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.Bc07_polcacorrected.log
+    jobid: 25
+    benchmark: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/benchmarks/pharokka_annotate_Bc07_polcacorrected.txt
+    reason: Missing output files: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_cds_functions.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_pharokka_plot.png
+    wildcards: sample=Bc07_polcacorrected
+    resources: tmpdir=/local/nala0006/2362353, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta ]] ; then
+            pharokka.py                 -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta                 -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected                 -d /scratch/user/nala0006/sphae/sphae/workflow/databases/pharokka_db                 -t 1                 -f -p Bc07_polcacorrected                2> /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.Bc07_polcacorrected.log
+
+            pharokka_plotter.py -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta -n Bc07_polcacorrected_pharokka_plot -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected -p Bc07_polcacorrected -f
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_cds_functions.tsv
+        else
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected/Bc07_polcacorrected_cds_functions.tsv
+        fi
+        
+Activating conda environment: sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:116 - Starting Pharokka v1.7.1
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:117 - Running pharokka_plotter.py to plot your phage.
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:118 - Command executed: Namespace(infile='/home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta', plot_name='Bc07_polcacorrected_pharokka_plot', outdir='/home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/Bc07_polcacorrected', gff='', genbank='', prefix='Bc07_polcacorrected', plot_title='Phage', force=True, label_hypotheticals=False, remove_other_features_labels=False, title_size='20', label_size='8', interval='5000', truncate='20', dpi='600', annotations='1', label_ids='')
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:119 - Repository homepage is https://github.com/gbouras13/pharokka
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:120 - Written by George Bouras: george.bouras@adelaide.edu.au
+2024-05-13 16:43:25.591 | INFO     | __main__:<module>:121 - Checking your inputs.
+2024-05-13 16:43:25.591 | WARNING  | __main__:<module>:170 - --force was specified even though the output plot file does not already exist.
+2024-05-13 16:43:25.592 | WARNING  | __main__:<module>:173 - Continuing
+2024-05-13 16:43:25.592 | WARNING  | __main__:<module>:184 - --force was specified even though the output plot file does not already exist.
+2024-05-13 16:43:25.592 | WARNING  | __main__:<module>:187 - Continuing
+2024-05-13 16:43:25.592 | INFO     | __main__:<module>:203 - You have specified a Pharokka output directory.
+2024-05-13 16:43:25.596 | INFO     | input_commands:validate_fasta:230 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta.
+2024-05-13 16:43:25.597 | INFO     | input_commands:validate_fasta:232 - Input /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta is in FASTA format.
+2024-05-13 16:43:25.597 | INFO     | input_commands:validate_fasta:237 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta for duplicate FASTA headers.
+2024-05-13 16:43:25.598 | INFO     | input_commands:validate_fasta:239 - All headers in /home/nala0006/scratch/crassus/CrassUS/43crassphages/Bc07_polcacorrected.fasta are unique.
+2024-05-13 16:43:25.598 | INFO     | __main__:<module>:290 - All files checked.
+2024-05-13 16:43:25.598 | INFO     | __main__:<module>:291 - Plotting the phage.
+/scratch/user/nala0006/sphae/sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_/lib/python3.10/site-packages/pycirclize/parser/genbank.py:62: UserWarning: min_range & max_range is no longer used in Genbank parser.
+  warnings.warn("min_range & max_range is no longer used in Genbank parser.")
+[Mon May 13 16:43:29 2024]
+Finished job 25.
+2 of 130 steps (2%) done
+Select jobs to execute...
+
+[Mon May 13 16:43:29 2024]
+rule pharokka_annotate:
+    input: /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_cds_functions.tsv
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221538.log
+    jobid: 32
+    benchmark: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/benchmarks/pharokka_annotate_OQ221538.txt
+    reason: Missing output files: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_cds_functions.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_minced_spacers.txt
+    wildcards: sample=OQ221538
+    resources: tmpdir=/local/nala0006/2362353, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta ]] ; then
+            pharokka.py                 -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta                 -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538                 -d /scratch/user/nala0006/sphae/sphae/workflow/databases/pharokka_db                 -t 1                 -f -p OQ221538                2> /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221538.log
+
+            pharokka_plotter.py -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta -n OQ221538_pharokka_plot -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538 -p OQ221538 -f
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_cds_functions.tsv
+        else
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538_cds_functions.tsv
+        fi
+        
+Activating conda environment: sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_
+2024-05-13 17:05:41.409 | INFO     | __main__:<module>:116 - Starting Pharokka v1.7.1
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:117 - Running pharokka_plotter.py to plot your phage.
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:118 - Command executed: Namespace(infile='/home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta', plot_name='OQ221538_pharokka_plot', outdir='/home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538', gff='', genbank='', prefix='OQ221538', plot_title='Phage', force=True, label_hypotheticals=False, remove_other_features_labels=False, title_size='20', label_size='8', interval='5000', truncate='20', dpi='600', annotations='1', label_ids='')
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:119 - Repository homepage is https://github.com/gbouras13/pharokka
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:120 - Written by George Bouras: george.bouras@adelaide.edu.au
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:121 - Checking your inputs.
+2024-05-13 17:05:41.410 | WARNING  | __main__:<module>:170 - --force was specified even though the output plot file does not already exist.
+2024-05-13 17:05:41.410 | WARNING  | __main__:<module>:173 - Continuing
+2024-05-13 17:05:41.410 | WARNING  | __main__:<module>:184 - --force was specified even though the output plot file does not already exist.
+2024-05-13 17:05:41.410 | WARNING  | __main__:<module>:187 - Continuing
+2024-05-13 17:05:41.410 | INFO     | __main__:<module>:203 - You have specified a Pharokka output directory.
+2024-05-13 17:05:41.415 | INFO     | input_commands:validate_fasta:230 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta.
+2024-05-13 17:05:41.415 | INFO     | input_commands:validate_fasta:232 - Input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta is in FASTA format.
+2024-05-13 17:05:41.415 | INFO     | input_commands:validate_fasta:237 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta for duplicate FASTA headers.
+2024-05-13 17:05:41.416 | INFO     | input_commands:validate_fasta:239 - All headers in /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221538.fasta are unique.
+2024-05-13 17:05:41.416 | INFO     | __main__:<module>:290 - All files checked.
+2024-05-13 17:05:41.416 | INFO     | __main__:<module>:291 - Plotting the phage.
+/scratch/user/nala0006/sphae/sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_/lib/python3.10/site-packages/pycirclize/parser/genbank.py:62: UserWarning: min_range & max_range is no longer used in Genbank parser.
+  warnings.warn("min_range & max_range is no longer used in Genbank parser.")
+[Mon May 13 17:05:45 2024]
+Finished job 32.
+3 of 130 steps (2%) done
+Select jobs to execute...
+
+[Mon May 13 17:05:45 2024]
+rule pharokka_annotate:
+    input: /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_length_gc_cds_density.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_cds_functions.tsv
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221544.log
+    jobid: 39
+    benchmark: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/benchmarks/pharokka_annotate_OQ221544.txt
+    reason: Missing output files: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544.gbk, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_cds_functions.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_pharokka_plot.png, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_card.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_minced_spacers.txt, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_vfdb.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_top_hits_mash_inphared.tsv, /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_length_gc_cds_density.tsv
+    wildcards: sample=OQ221544
+    resources: tmpdir=/local/nala0006/2362353, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta ]] ; then
+            pharokka.py                 -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta                 -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544                 -d /scratch/user/nala0006/sphae/sphae/workflow/databases/pharokka_db                 -t 1                 -f -p OQ221544                2> /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/pharokka_annotate.OQ221544.log
+
+            pharokka_plotter.py -i /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta -n OQ221544_pharokka_plot -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544 -p OQ221544 -f
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_cds_functions.tsv
+        else
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544.gbk
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_pharokka_plot.png
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_card.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/top_hits_vfdb.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_minced_spacers.txt
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_top_hits_mash_inphared.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_length_gc_cds_density.tsv
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544/OQ221544_cds_functions.tsv
+        fi
+        
+Activating conda environment: sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_
+2024-05-13 17:28:06.055 | INFO     | __main__:<module>:116 - Starting Pharokka v1.7.1
+2024-05-13 17:28:06.055 | INFO     | __main__:<module>:117 - Running pharokka_plotter.py to plot your phage.
+2024-05-13 17:28:06.056 | INFO     | __main__:<module>:118 - Command executed: Namespace(infile='/home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta', plot_name='OQ221544_pharokka_plot', outdir='/home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221544', gff='', genbank='', prefix='OQ221544', plot_title='Phage', force=True, label_hypotheticals=False, remove_other_features_labels=False, title_size='20', label_size='8', interval='5000', truncate='20', dpi='600', annotations='1', label_ids='')
+2024-05-13 17:28:06.056 | INFO     | __main__:<module>:119 - Repository homepage is https://github.com/gbouras13/pharokka
+2024-05-13 17:28:06.056 | INFO     | __main__:<module>:120 - Written by George Bouras: george.bouras@adelaide.edu.au
+2024-05-13 17:28:06.056 | INFO     | __main__:<module>:121 - Checking your inputs.
+2024-05-13 17:28:06.056 | WARNING  | __main__:<module>:170 - --force was specified even though the output plot file does not already exist.
+2024-05-13 17:28:06.056 | WARNING  | __main__:<module>:173 - Continuing
+2024-05-13 17:28:06.056 | WARNING  | __main__:<module>:184 - --force was specified even though the output plot file does not already exist.
+2024-05-13 17:28:06.056 | WARNING  | __main__:<module>:187 - Continuing
+2024-05-13 17:28:06.056 | INFO     | __main__:<module>:203 - You have specified a Pharokka output directory.
+2024-05-13 17:28:06.061 | INFO     | input_commands:validate_fasta:230 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta.
+2024-05-13 17:28:06.061 | INFO     | input_commands:validate_fasta:232 - Input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta is in FASTA format.
+2024-05-13 17:28:06.061 | INFO     | input_commands:validate_fasta:237 - Checking input /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta for duplicate FASTA headers.
+2024-05-13 17:28:06.062 | INFO     | input_commands:validate_fasta:239 - All headers in /home/nala0006/scratch/crassus/CrassUS/43crassphages/OQ221544.fasta are unique.
+2024-05-13 17:28:06.062 | INFO     | __main__:<module>:290 - All files checked.
+2024-05-13 17:28:06.062 | INFO     | __main__:<module>:291 - Plotting the phage.
+/scratch/user/nala0006/sphae/sphae/workflow/conda/60c52198b3a74b9e81c67402e5684a8b_/lib/python3.10/site-packages/pycirclize/parser/genbank.py:62: UserWarning: min_range & max_range is no longer used in Genbank parser.
+  warnings.warn("min_range & max_range is no longer used in Genbank parser.")
+[Mon May 13 17:28:09 2024]
+Finished job 39.
+4 of 130 steps (3%) done
+Select jobs to execute...
+
+[Mon May 13 17:28:09 2024]
+rule phold_annotate:
+    input: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk
+    output: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-phold/OQ221538.gbk
+    log: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/logs/phold.OQ221538.log
+    jobid: 107
+    benchmark: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/benchmarks/phold_OQ221538.txt
+    reason: Missing output files: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-phold/OQ221538.gbk; Input files updated by another job: /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk
+    wildcards: sample=OQ221538
+    resources: tmpdir=/local/nala0006/2362353, mem_mb=16000, mem_mib=15259, time=480
+
+
+        if [[ -s /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk ]] ; then
+            phold predict -i /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-predict -p OQ221538 -t 1 --cpu -d /scratch/user/nala0006/sphae/sphae/workflow/databases/phold -f
+            phold compare -i /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk --predictions_dir /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-predict -p OQ221538 -o /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-phold -t 1 -d /scratch/user/nala0006/sphae/sphae/workflow/databases/phold -f
+        else
+            touch /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-phold/OQ221538.gbk
+        fi
+        
+Activating conda environment: sphae/workflow/conda/f572417ea00861c6c72ea578b2399b8e_
+2024-05-13 17:28:45.502 | INFO     | phold.utils.validation:instantiate_dirs:70 - Checking the output directory /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-predict
+2024-05-13 17:28:45.502 | INFO     | phold.utils.validation:instantiate_dirs:76 - --force was specified even though the output directory does not already exist. Continuing
+2024-05-13 17:28:45.511 | INFO     | phold.utils.util:begin_phold:72 - phold: annotating phage genomes with protein structures
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:74 - You are using phold version 0.1.4
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:75 - Repository homepage is https://github.com/gbouras13/phold
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:76 - You are running phold predict
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:77 - Listing parameters
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --input /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --output /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538-predict
+2024-05-13 17:28:45.512 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --threads 1
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --force True
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --prefix OQ221538
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --database /scratch/user/nala0006/sphae/sphae/workflow/databases/phold
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --batch_size 1
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --cpu True
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --omit_probs False
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --finetune False
+2024-05-13 17:28:45.513 | INFO     | phold.utils.util:begin_phold:79 - Parameter: --finetune_path None
+2024-05-13 17:28:45.513 | INFO     | phold.databases.db:validate_db:234 - Checking Phold database installation in /scratch/user/nala0006/sphae/sphae/workflow/databases/phold
+2024-05-13 17:28:45.516 | INFO     | phold.databases.db:validate_db:237 - All Phold databases files are present
+2024-05-13 17:28:45.517 | INFO     | phold.io.handle_genbank:get_genbank:57 - Checking if input /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk is a Genbank file
+2024-05-13 17:28:45.577 | INFO     | phold.utils.validation:validate_input:50 - Successfully parsed input /home/nala0006/scratch/crassus/CrassUS/43crassphages_annot/annotation/OQ221538/OQ221538.gbk as a Genbank format file
+2024-05-13 17:28:45.581 | INFO     | phold.features.predict_3Di:get_T5_model:121 - Using device: cpu
+2024-05-13 17:28:45.581 | INFO     | phold.features.predict_3Di:get_T5_model:127 - Loading T5 from: /scratch/user/nala0006/sphae/sphae/workflow/databases/phold/Rostlab/ProstT5_fp16
+2024-05-13 17:28:45.581 | INFO     | phold.features.predict_3Di:get_T5_model:128 - If /scratch/user/nala0006/sphae/sphae/workflow/databases/phold/Rostlab/ProstT5_fp16 is not found, it will be downloaded
+/scratch/user/nala0006/sphae/sphae/workflow/conda/f572417ea00861c6c72ea578b2399b8e_/lib/python3.10/site-packages/huggingface_hub/file_download.py:1132: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/scratch/user/nala0006/sphae/sphae/workflow/conda/f572417ea00861c6c72ea578b2399b8e_/lib/python3.10/site-packages/torch/_utils.py:831: UserWarning: TypedStorage is deprecated. It will be removed in the future and UntypedStorage will be the only storage class. This should only matter to you if you are using storages directly.  To access UntypedStorage directly, use tensor.untyped_storage() instead of tensor.storage()
+  return self.fget.__get__(instance, owner)()
+You are using the default legacy behaviour of the <class 'transformers.models.t5.tokenization_t5.T5Tokenizer'>. This is expected, and simply means that the `legacy` (previous) behavior will be used so nothing changes for you. If you want to use the new behaviour, set `legacy=False`. This should only be set if you understand what it means, and thoroughly read the reason why this was added as explained in https://github.com/huggingface/transformers/pull/24565
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+2024-05-13 17:29:07.738 | INFO     | phold.features.predict_3Di:get_T5_model:138 - Rostlab/ProstT5_fp16 loaded
+2024-05-13 17:29:07.830 | INFO     | phold.features.predict_3Di:get_embeddings:362 - Beginning ProstT5 predictions
+2024-05-13 17:29:07.830 | INFO     | phold.features.predict_3Di:get_embeddings:369 - Using models in full-precision

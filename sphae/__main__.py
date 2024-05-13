@@ -81,20 +81,8 @@ This command downloads the databases to the directory 'database'
 \b
 sphae install 
 \b
-\b
-CLUSTER EXECUTION:
-sphae run ... --profile [profile]
-For information on Snakemake profiles see:
-https://snakemake.readthedocs.io/en/stable/executing/cli.html#profiles
-\b
-RUN EXAMPLES:
-Required:           sphae run --input [file]
-Specify threads:    sphae run ... --threads [threads]
-Disable conda:      sphae run ... --no-use-conda 
-Change defaults:    sphae run ... --snake-default="-k --nolock"
-Add Snakemake args: sphae run ... --dry-run --keep-going --touch
-Specify targets:    sphae run ... all print_targets
-\b
+RUNNING ONLY ANNOTATE STEPS
+sphae anntoate --genome <genome directory>
 """
 
 
@@ -115,13 +103,31 @@ def install(**kwargs):
         **kwargs
     )
 
-
 @click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--input', '_input', help='Input samples TSV or directory of reads', type=str, required=False,
                 default='test/illumina-subset', show_default=True)
 @click.option('--host', help='Host genome for filtering', type=str, required=False)
 @click.option('--sequencing', help="sequencing method", default='paired', show_default=True,
                 type=click.Choice(['paired', 'longread']))
+
+@common_options
+def annotate(**kwargs):
+    """Annotate option"""
+    merge_config = {
+        'sphae': {
+            'args': kwargs   
+        }
+    }
+
+    # run!
+    run_snakemake(
+        snakefile_path=snake_base(os.path.join('workflow', 'Snakefile-annot')),
+        merge_config=merge_config,
+        **kwargs
+    )
+@click.command(epilog=help_msg_extra, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
+@click.option('--input', '_input', help='Input genome assembled or downloaded', type=str, required=False)
+                
 @common_options
 def run(**kwargs):
     """Run sphae"""
@@ -156,6 +162,7 @@ def citation(**kwargs):
 
 cli.add_command(run)
 cli.add_command(install)
+cli.add_command(annotate)
 cli.add_command(config)
 cli.add_command(citation)
 
