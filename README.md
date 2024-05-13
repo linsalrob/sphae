@@ -126,8 +126,6 @@ Genome summary file includes the following information to help,
  
 
 ### FAQ
-- Sure, here are the clarifications for each scenario:
-
 1. **"Failed during assembly":**
    - This message indicates that the assembly process was unsuccessful. It suggests that the assembler could not generate contigs, which are contiguous sequences of DNA, typically representing segments of a genome. 
    - To confirm this, you can check the logs located at `sphae.out/PROCESSING/assembly/flye/<sample name>/assembly_info.txt` or `sphae.out/PROCESSING/assembly/megahit/<sample name>/log`. These logs should provide details about the error or the step at which the assembly failed.
