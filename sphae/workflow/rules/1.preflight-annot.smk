@@ -26,7 +26,8 @@ DIRECTORIES
 """
 dir = ap.AttrMap()
 dir.out = config.args.output
-dir.pharokka = os.path.join(dir.out,'annotation')
+dir.pharokka = os.path.join(dir.out,'PROCESSING')
+dir.final = os.path.join(dir.out,'annotation')
 dir.log = os.path.join(dir.out, 'logs')
 dir.bench = os.path.join(dir.out, 'benchmarks')
 
