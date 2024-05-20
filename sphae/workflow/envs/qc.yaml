@@ -1,0 +1,8 @@
+name: fastp
+channels:
+    - defaults
+    - bioconda
+dependencies:
+    - fastp>=0.23.4
+    - filtlong>=0.2.1
+    - rasusa>=2.0.0

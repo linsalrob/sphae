@@ -2,7 +2,10 @@
 
 ## v1.4.1
 - added the option to run `sphae annotae` so assembled genomes or reoriented genomes from dnaapler can be run through only the annotation steps
-  
+- Cleaning up code, removed use of Attrmap package
+- Updating the summary file to include phage plot from phynteny output
+- adding phold results to the summary as needed - making note is phold identified any similar integrase like genes
+
 ## v1.4
 - Updated the annoation steps to [Pharokka](https://github.com/gbouras13/pharokka), [Phold](https://github.com/gbouras13/phold) and then [Phynteny](https://github.com/susiegriggo/Phynteny)
 - Also updated the summary file to confirm the presence/absence of specific genes from the annotation outputs

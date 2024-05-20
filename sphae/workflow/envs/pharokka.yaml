@@ -6,6 +6,7 @@ channels:
 dependencies:
     - gsl
     - pharokka>=1.5.0
+    - genbank_to
     - pip 
     - pip: 
         - bcbio-gff

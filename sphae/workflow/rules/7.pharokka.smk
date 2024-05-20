@@ -6,46 +6,43 @@ Running pharokka for anntoation
 """
 rule rename_contigs_megahit:
     input:
-        fin=os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta"),
+        fin=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta"),
     params:
         s ="{sample}"
     output:
-        out=os.path.join(dir.genome, "{sample}-pr", "{sample}_genome.fasta"),
-        csv=os.path.join(dir.genome, "{sample}-pr", "{sample}_temp.csv")
+        out=os.path.join(dir_genome, "{sample}-pr", "{sample}_genome.fasta"),
+        csv=os.path.join(dir_genome, "{sample}-pr", "{sample}_temp.csv")
     localrule: True
     log:
-        os.path.join(dir.log, "rename-contigs.{sample}.log")
+        os.path.join(dir_log, "rename-contigs.{sample}.log")
     script:
-        os.path.join(dir.script, 'rename_genomes.py')
+        os.path.join(dir_script, 'rename_genomes.py')
 
 rule pharokka_megahit:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir.genome, "{sample}-pr", "{sample}_genome.fasta"),
+        os.path.join(dir_genome, "{sample}-pr", "{sample}_genome.fasta"),
     params:
-        o=os.path.join(dir.pharokka, "{sample}-pr"),
-        db=os.path.join(dir.db, "pharokka_db"),
+        o=os.path.join(dir_pharokka, "{sample}-pharokka"),
+        db=os.path.join(dir_db, "pharokka_db"),
         sp="{sample}"
     output:
-        gbk=os.path.join(dir.pharokka, "{sample}-pr", "{sample}.gbk"),
-        plot=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_pharokka_plot.png"),
-        card=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir.pharokka, "{sample}-pr", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir.pharokka, "{sample}-pr", "{sample}_cds_functions.tsv")
+        gbk=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}.gbk"),
+        card=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
+        taxa=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_cds_functions.tsv")
     conda:
-        os.path.join(dir.env, "pharokka.yaml")
+        os.path.join(dir_env, "pharokka.yaml")
     threads:
-        config.resources.smalljob.cpu
+        config['resources']['smalljob']['cpu']
     resources:
-        mem_mb = config.resources.smalljob.mem,
-        time = config.resources.smalljob.time
+        mem_mb = config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
-        os.path.join(dir.log, "pharokka.{sample}.log")
-    benchmark:
-        os.path.join(dir.bench,"pharokka_megahit_{sample}.txt")
+        os.path.join(dir_log, "pharokka.{sample}.log")
     shell:
         """
         if [[ -s {input} ]] ; then
@@ -56,9 +53,7 @@ rule pharokka_megahit:
                 -t {threads} \
                 -f -p {params.sp}\
                 2> {log}
-            pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
             touch {output.gbk}
-            touch {output.plot}
             touch {output.card}
             touch {output.vfdb}
             touch {output.spacers}
@@ -67,7 +62,6 @@ rule pharokka_megahit:
             touch {output.cds}
         else
             touch {output.gbk}
-            touch {output.plot}
             touch {output.card}
             touch {output.vfdb}
             touch {output.spacers}
@@ -79,46 +73,43 @@ rule pharokka_megahit:
 
 rule rename_contigs_flye:
     input:
-        fin=os.path.join(dir.genome, "{sample}-sr", "{sample}.fasta"),
+        fin=os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta"),
     params:
         s ="{sample}"
     output:
-        out=os.path.join(dir.genome, "{sample}-sr", "{sample}_genome.fasta"),
-        csv=os.path.join(dir.genome, "{sample}-sr", "{sample}_temp.csv")
+        out=os.path.join(dir_genome, "{sample}-sr", "{sample}_genome.fasta"),
+        csv=os.path.join(dir_genome, "{sample}-sr", "{sample}_temp.csv")
     localrule: True
     log:
-        os.path.join(dir.log, "rename-contigs.{sample}.log")
+        os.path.join(dir_log, "rename-contigs.{sample}.log")
     script:
-        os.path.join(dir.script, 'rename_genomes.py')
+        os.path.join(dir_script, 'rename_genomes.py')
 
 rule pharokka_flye:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir.genome, "{sample}-sr", "{sample}_genome.fasta")
+        os.path.join(dir_genome, "{sample}-sr", "{sample}_genome.fasta")
     params:
-        o=os.path.join(dir.pharokka, "{sample}-sr"),
-        db=os.path.join(dir.db, "pharokka_db"),
+        o=os.path.join(dir_pharokka, "{sample}-pharokka"),
+        db=os.path.join(dir_db, "pharokka_db"),
         sp="{sample}"
     output:
-        gbk=os.path.join(dir.pharokka, "{sample}-sr", "{sample}.gbk"),
-        plot=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_pharokka_plot.png"),
-        card=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir.pharokka, "{sample}-sr", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir.pharokka, "{sample}-sr", "{sample}_cds_functions.tsv")
+        gbk=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}.gbk"),
+        card=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
+        taxa=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_cds_functions.tsv")
     conda:
-        os.path.join(dir.env, "pharokka.yaml")
+        os.path.join(dir_env, "pharokka.yaml")
     threads:
-        config.resources.smalljob.cpu
+        config['resources']['smalljob']['cpu']
     resources:
-        mem_mb = config.resources.smalljob.mem,
-        time = config.resources.smalljob.time
+        mem_mb = config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
-        os.path.join(dir.log, "pharokka.{sample}.log")
-    benchmark:
-        os.path.join(dir.bench,"pharokka_flye_{sample}.txt")
+        os.path.join(dir_log, "pharokka.{sample}.log")
     shell:
         """
         if [[ -s {input} ]] ; then
@@ -130,9 +121,7 @@ rule pharokka_flye:
                 -f -p {params.sp}\
                 2> {log}
 
-            pharokka_plotter.py -i {input} -n {params.sp}_pharokka_plot -o {params.o} -p {params.sp} -f
             touch {output.gbk}
-            touch {output.plot}
             touch {output.card}
             touch {output.vfdb}
             touch {output.spacers}
@@ -141,7 +130,6 @@ rule pharokka_flye:
             touch {output.cds}
         else
             touch {output.gbk}
-            touch {output.plot}
             touch {output.card}
             touch {output.vfdb}
             touch {output.spacers}

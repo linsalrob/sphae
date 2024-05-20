@@ -1,11 +1,9 @@
-import attrmap as ap
-#import attrmap.utils as au
-
+import yaml
+import os
+import glob
 
 """Parse config"""
 configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
-config.update(config["sphae"])
-config = ap.AttrMap(config)
 
 """Rules"""
 include: os.path.join("rules", "1.preflight.smk")
@@ -30,42 +28,26 @@ def targetRule(fn):
     target_rules.append(fn.__name__[2:])
     return fn
 
-
 @targetRule
 rule all:
     input:
-        targets.qc,
-        targets.assemble,
-        targets.annotate,
-        targets.coverage,
-
+        targets['qc'],
+        targets['assemble'],
+        targets['annotate']
 
 @targetRule
 rule qc:
     input:
-        targets.qc,
+        targets['qc']
 
 
 @targetRule
 rule assemble:
     input:
-        targets.assemble,
-
-
-@targetRule
-rule coverage:
-    input:
-        targets.coverage,
-
+        targets['assemble']
 
 @targetRule
 rule annotate:
     input:
-        targets.annotate,
+        targets['annotate']
 
-
-@targetRule
-rule print_targets:
-    run:
-        print("\nTop level rules are: \n", file=sys.stderr)
-        print("* " + "\n* ".join(target_rules) + "\n\n", file=sys.stderr)

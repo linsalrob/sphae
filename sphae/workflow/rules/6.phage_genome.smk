@@ -4,34 +4,34 @@ The resulting assemblies can have multiple contigs, so selecting the phage conti
 
 rule genomes_megahit:
     input:
-        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_megahit.csv")
+        csv = os.path.join(dir_assembly, "{sample}-assembly-stats_megahit.csv")
     output:
-        out = os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv")
+        out = os.path.join(dir_genome, "{sample}-pr", "{sample}-genome-candidates.csv")
     conda:
-        os.path.join(dir.env, "graph.yaml")
+        os.path.join(dir_env, "graph.yaml")
     localrule: True
     log:
-        os.path.join(dir.log, "picking_contigs.{sample}.log")
+        os.path.join(dir_log, "picking_contigs.{sample}.log")
     script:
-        os.path.join(dir.script, 'pick_phage_contigs.py')
+        os.path.join(dir_script, 'pick_phage_contigs.py')
 
 rule genomes_extract_megahit:
     input:
-        contigs = os.path.join(dir.megahit, "{sample}-pr", "final.contigs.fa"),
-        csv = os.path.join(dir.genome, "{sample}-pr", "{sample}-genome-candidates.csv"),
+        contigs = os.path.join(dir_megahit, "{sample}-pr", "final.contigs.fa"),
+        csv = os.path.join(dir_genome, "{sample}-pr", "{sample}-genome-candidates.csv"),
     output:
-        fasta=os.path.join(dir.genome, "{sample}-pr", "{sample}.fasta")  
+        fasta=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta")  
     params:
-        outdir = os.path.join(dir.genome, "{sample}-pr"),
+        outdir = os.path.join(dir_genome, "{sample}-pr"),
     conda:
-        os.path.join(dir.env, "samtools.yaml")
+        os.path.join(dir_env, "samtools.yaml")
     threads:
-        config.resources.smalljob.cpu
+        config['resources']['smalljob']['cpu']
     resources:
-        mem_mb = config.resources.smalljob.mem,
-        time = config.resources.smalljob.time
+        mem_mb = config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
-        os.path.join(dir.log, "samtools.{sample}.log")
+        os.path.join(dir_log, "samtools.{sample}.log")
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 
@@ -45,36 +45,36 @@ rule genomes_extract_megahit:
 
 rule genomes_flye:
     input:
-        csv = os.path.join(dir.assembly, "{sample}-assembly-stats_flye.csv")
+        csv = os.path.join(dir_assembly, "{sample}-assembly-stats_flye.csv")
     output:
-        out =os.path.join(dir.genome, "{sample}-sr", "{sample}-genome-candidates.csv")
+        out =os.path.join(dir_genome, "{sample}-sr", "{sample}-genome-candidates.csv")
     conda:
-        os.path.join(dir.env, "graph.yaml")
+        os.path.join(dir_env, "graph.yaml")
     localrule: True
     log:
-        os.path.join(dir.log, "picking_contigs.{sample}.log")
+        os.path.join(dir_log, "picking_contigs.{sample}.log")
     script:
-        os.path.join(dir.script, 'pick_phage_contigs.py')
+        os.path.join(dir_script, 'pick_phage_contigs.py')
 
 
 rule genomes_extract_flye:
     input:
-        contigs = os.path.join(dir.flye, "{sample}-sr", "assembly.fasta"),
-        csv = os.path.join(dir.genome, "{sample}-sr", "{sample}-genome-candidates.csv"),
+        contigs = os.path.join(dir_flye, "{sample}-sr", "assembly.fasta"),
+        csv = os.path.join(dir_genome, "{sample}-sr", "{sample}-genome-candidates.csv"),
     output:
-        os.path.join(dir.genome, "{sample}-sr", "{sample}.fasta")
+        os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta")
     params:
-        outdir = os.path.join(dir.genome, "{sample}-sr"),
+        outdir = os.path.join(dir_genome, "{sample}-sr"),
         sample = "{sample}"
     conda:
-        os.path.join(dir.env, "samtools.yaml")
+        os.path.join(dir_env, "samtools.yaml")
     threads:
-        config.resources.smalljob.cpu
+        config['resources']['smalljob']['cpu']
     resources:
-        mem_mb = config.resources.smalljob.mem,
-        time = config.resources.smalljob.time
+        mem_mb = config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
-        os.path.join(dir.log, "samtools.{sample}.log")
+        os.path.join(dir_log, "samtools.{sample}.log")
     shell:
         """
         #get the contig or contigs name from the csv file, and run samtools 

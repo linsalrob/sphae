@@ -64,10 +64,14 @@ sphae --help
 ```
 
 ## Installing databases
-Run command,
+Run the below command,
 
-```
+```bash
+#Installs the database to default directory, `sphae/workflow/databases`
 sphae install
+
+#Install database to specific directory
+sphae install --db-dir <directory> 
 ```
 
   Install the databases to a directory, `sphae/workflow/databases`
@@ -77,8 +81,9 @@ sphae install
   - CheckV database to test for phage completeness
   - Pharokka databases 
   - Phynteny models
+  - Phold databases
 
-This step takes approximately 1hr 30min to install and requires 9G of storage
+This step requires ~17G of storage
 
 ## Running the workflow
 
@@ -97,7 +102,14 @@ sphae run --input tests/data/nanopore-subset --sequencing longread --output exam
 
 #To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
 #Before running this below command, make sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
-sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k
+sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16
+```
+
+**Command to run only annotation steps**
+
+```bash
+#the genomes directory has the already assembled complete genomes
+sphae annotate --genome <genomes directory> --output example -k 
 ```
 
 **Output**
@@ -119,10 +131,9 @@ Genome summary file includes the following information to help,
   - Taxa mash includes the number of matching hashes of the assembled genome to the accession ID/Taxa name. Higher the matching hash- more likely the genome is related to the taxa predicted
   - Gene searches:
     - Whether integrase is found (search for integrase gene in annotations)
-    - Whether anti-microbial genes were found (Pharokka search against AMR database)
+    - Whether anti-microbial genes were found (Phold and Pharokka search against AMR database)
     - Whether any virulence factors were found (Pharokka search against virulence gene database)
     - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
- 
 
 ### FAQ
 1. **"Failed during assembly":**
@@ -154,7 +165,8 @@ Genome summary file includes the following information to help,
 1. **How do I visualize the phages and gene annotations?**
    To visualize the phages and gene annotations, I recommend using [Clinker](https://github.com/gamcil/clinker). First, gather all the sample genbank files from `sphae.out/RESULTS` and place them in a new directory. Then, execute the clinker command to generate clinker plots, which compare the genes in each genome to each other.
    
-   Additionally, for enhanced visualization, consider running [dnaapler](https://github.com/gbouras13/dnaapler) on the genomes in fasta format obtained from `sphae.out/RESULTS`. This step generates reoriented phages that start with terminase genes. Pharokka -> Phold -> Phynteny has to be rerun, and the resulting genbank files can be used for visualization. To perform the annotation steps, run the command 
+   Additionally, for enhanced visualization, consider running [dnaapler](https://github.com/gbouras13/dnaapler) on the genomes in fasta format obtained from 
+   `sphae.out/RESULTS`. This step generates reoriented phages that start with terminase genes. Pharokka -> Phold -> Phynteny has to be rerun, and the resulting genbank files can be used for visualization. To perform the annotation steps, run the command 
    `sphae annotate --input <reoriented genomes from dnaapler in fasta format directory>`
    
    Please note that dnaapler may fail if terminase genes are not found, particularly when working with novel phages. The reason these steps haven't been added to sphae. If you encounter any challenges during this process, please feel free to leave an issue, and I'll provide improved documentation to assist you further with the command on how to install and run the command different commands. 
@@ -171,5 +183,5 @@ Genome summary file includes the following information to help,
 
 ## Issues and Questions
 
-This is still a work in progress, so if you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 
+If you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 
 

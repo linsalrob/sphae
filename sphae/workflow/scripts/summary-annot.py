@@ -11,17 +11,7 @@ def copy_files(input_files, params):
 def generate_summary(input_files, output_summary, params):
     with open(output_summary, 'w') as summary:
         summary.write(f"Sample: {params['sample']}\n")
-        if Path(input_files['table']).exists():
-            line_count = sum(1 for line in open(input_files['table']))
-            if line_count > 1:
-                with open(input_files['table'], 'r') as table_file:
-                    lines = table_file.readlines()
-                    summary.write(f"Length: {lines[1].split(',')[2]}\n")
-                    summary.write(f"Circular: {lines[1].split(',')[3]}\n")
-                    summary.write(f"Graph connections: {lines[1].split(',')[4]}\n")
-                    summary.write(f"Completeness: {lines[1].split(',')[20]}\n")
-                    summary.write(f"Contamination: {lines[1].split(',')[22]}\n")
-                
+        if Path(input_files['genome']).exists():            
                 with open(input_files['taxa'], 'r') as taxa_file:
                     tax = pd.read_csv(taxa_file, sep='\t')
                     summary.write("Taxa name (Matching hashes):\t")
@@ -91,39 +81,9 @@ def generate_summary(input_files, output_summary, params):
                     summary.write("No Defense genes found\n")
                 else:
                     summary.write("Defense genes found\n")
-                
-            else:
-                summary.write("Genome includes multiple contigs, fragmented\n")
-        else:
-            summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
-
-
-def analyze_assembly(input_files, output_summary, params):
-    file_content = Path(input_files['assembly']).read_text().splitlines()[-1]
-    if 'Final assembly' in file_content or 'ALL DONE' in file_content:
-        if Path(input_files['table']).exists():
-            line_count = sum(1 for line in open(input_files['table']))
-            if line_count > 1:
-                copy_files(input_files, params)
-                generate_summary(input_files, output_summary, params)
-            else:
-                with open(output_summary, 'w') as summary:
-                    summary.write(f"Sample: {params['sample']}\n")
-                    summary.write("Genome includes multiple contigs, fragmented\n")
-
-        else:
-            with open(output_summary, 'w') as summary:
-                summary.write(f"Sample: {params['sample']}\n")
-                summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
-    else:
-        with open(output_summary, 'w') as summary:
-            summary.write(f"Sample: {params['sample']}\n")
-            summary.write("Failed during assembly\n")
 
 # Replace input_files and output_params with the actual paths to your input/output files and parameters
 input_files = {
-        'assembly': snakemake.input.assembly,
-        'table': snakemake.input.table,
         'genome': snakemake.input.genome,
         'gbk': snakemake.input.gbk,
         'plot': snakemake.input.plot,
@@ -150,7 +110,6 @@ params = {
 
 """
 input_files = {
-    'assembly': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/assembly/flye/SQK-RBK114-24_barcode19-sr/flye.log',
     'table': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/genome/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19-genome-candidates.csv',
     'genome': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/genome/SQK-RBK114-24_barcode19-sr/SQK-RBK114-24_barcode19_genome.fasta',
     'gbk': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/PROCESSING/pharokka/SQK-RBK114-24_barcode19-sr/phynteny/phynteny.gbk',
@@ -172,4 +131,4 @@ params = {
     'plots': '/home/nala0006/scratch/wine_achromobacter_sarah_output/sphae.out/RESULTS/SQK-RBK114-24_barcode19_pharokka_plot.png'
 }
 """
-analyze_assembly(input_files, output_summary, params)
+generate_summary(input_files, output_summary, params)
