@@ -5,6 +5,10 @@
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/linsalrob/spae/main)
 [![CI](https://github.com/linsalrob/spae/actions/workflows/testing.yml/badge.svg)](https://github.com/linsalrob/spae/actions/workflows/testing.yml)
+[![install with pip](https://img.shields.io/static/v1?label=Install%20with&message=PIP&color=success)](https://pypi.org/project/sphae/)
+[![Pip Downloads](https://static.pepy.tech/badge/sphae)](https://www.pepy.tech/projects/sphae)
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http:(http://bioconda.github.io/recipes/sphae/README.html)
+[![Bioconda Downloads](https://img.shields.io/conda/dn/bioconda/sphae)](https://img.shields.io/conda/dn/bioconda/sphae)
 
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
