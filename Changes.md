@@ -1,5 +1,10 @@
 # Changes being added
 
+## v1.4.2 
+I am updating the default snakemake to v8.11. There have been some changes from v7 to v8, which for now has required me to update 
+- how snakemake can submit jobs to the local cluster - https://snakemake.readthedocs.io/en/v8.4.0/executing/cli.html 
+- 
+
 ## v1.4.1
 - added the option to run `sphae annotae` so assembled genomes or reoriented genomes from dnaapler can be run through only the annotation steps
 - Cleaning up code, removed use of Attrmap package

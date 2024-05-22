@@ -10,6 +10,9 @@ rule summarize_annotations_paired:
         pharokka_func=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_pr_pharokka.functions"),
         phold_func=os.path.join(dir_pharokka,"{sample}-pr-phold","{sample}_pr_phold.functions"),
         pkl_func=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "phynteny_pr.functions"),
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
@@ -42,6 +45,7 @@ rule annotate_summary_paired:
         summary_gbk=os.path.join(dir_final, "{sample}-pr", "{sample}_summary.functions")
     params:
         tmp=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "temp")
+    localrule: True
     script:
         os.path.join(dir_script, "summary_functions.py")
 
@@ -83,6 +87,9 @@ rule summarize_annotations_longreads:
         pharokka_func=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_sr_pharokka.functions"),
         phold_func=os.path.join(dir_pharokka,"{sample}-sr-phold","{sample}_sr_phold.functions"),
         pkl_func=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "phynteny_sr.functions"),
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
@@ -115,6 +122,7 @@ rule annotate_summary_longreads:
         summary_gbk=os.path.join(dir_final, "{sample}-sr", "{sample}_summary.functions")
     params:
         tmp=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "temp")
+    localrule: True
     script:
         os.path.join(dir_script, "summary_functions.py")
 

@@ -4,4 +4,4 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - phold
+    - phold >=0.1.4

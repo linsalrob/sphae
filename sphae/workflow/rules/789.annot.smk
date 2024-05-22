@@ -123,6 +123,9 @@ rule phynteny_plotter:
         output=os.path.join(dir_annot, "{sample}-phynteny")
     output:
         plot=os.path.join(dir_annot, "{sample}-phynteny", "pharokka_plot.png")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
@@ -145,6 +148,9 @@ rule summarize_annotations:
         pharokka_func=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_pharokka.functions"),
         phold_func=os.path.join(dir_annot,"{sample}-phold","{sample}_phold.functions"),
         pkl_func=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.functions"),
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
@@ -177,6 +183,7 @@ rule annotate_summary:
         summary_gbk=os.path.join(dir_final, "{sample}", "{sample}_summary.functions")
     params:
         tmp=os.path.join(dir_annot, "{sample}-phynteny", "temp")
+    localrule: True
     script:
         os.path.join(dir_script, "summary_functions.py")
 

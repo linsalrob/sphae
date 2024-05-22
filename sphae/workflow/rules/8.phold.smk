@@ -32,6 +32,10 @@ rule phold_run_paired:
             phold compare -i {input.gbk} --predictions_dir {params.predict} -p {params.prefix} -o {params.o} -t {threads} -d {params.db} -f 2> {log}
         else
             touch {output.gbk}
+            touch {output.acr}
+            touch {output.card}
+            touch {output.defense}
+            touch {output.vfdb}
         fi
         """
 
@@ -65,5 +69,9 @@ rule phold_run_longreads:
             phold compare -i {input.gbk} --predictions_dir {params.predict} -p {params.prefix} -o {params.o} -t {threads} -d {params.db} -f 2> {log}
         else
             touch {output.gbk}
+            touch {output.acr}
+            touch {output.card}
+            touch {output.defense}
+            touch {output.vfdb}
         fi
         """

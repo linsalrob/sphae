@@ -101,14 +101,18 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 
 ```bash
 #For illumina reads, place the reads both forward and reverse reads to one directory
+#Make sure the fastq reads are saved as {sample_name}_R1.fastq and {sample_name}_R2.fastq or with extensions 
+#{sample_name}_R1.fastq.gz
 sphae run --input tests/data/illumina-subset --output example -k 
 
 #For nanopore reads, place the reads, one file per sample in a directory
 sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k
 
-#To run either of the commands on the cluster, add --profile slurm to the command. For instance here is the command for longreads/nanopore reads 
-#Before running this below command, make sure have slurm config files setup, here is a tutorial, https://fame.flinders.edu.au/blog/2021/08/02/snakemake-profiles-updated 
+#To run either of the commands on the cluster, add --executor slurm to the command. There is a little bit of setup to do here.
+#Setup a ~/.config/snakemake/slurm/config.yaml file - https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html#advanced-resource-specifications
+#I may have set this workflow to run only slurm right now, will make it more generic soon.
 sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16
+
 ```
 
 **Command to run only annotation steps**

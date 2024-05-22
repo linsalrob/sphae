@@ -40,6 +40,9 @@ rule phynteny_plotter_paired:
         output=os.path.join(dir_pharokka, "{sample}-pr-phynteny")
     output:
         plot=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "pharokka_plot.png")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
@@ -92,6 +95,9 @@ rule phynteny_plotter_longreads:
         output=os.path.join(dir_pharokka, "{sample}-sr-phynteny")
     output:
         plot=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "pharokka_plot.png")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:

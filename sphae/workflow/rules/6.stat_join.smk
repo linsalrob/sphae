@@ -7,6 +7,7 @@ rule join_assembly_stats_megahit:
         csv = os.path.join(dir_assembly, "{sample}-assembly-stats_megahit.csv")
     conda:
         os.path.join(dir_env, "graph.yaml")
+    localrule: True
     script:
         os.path.join(dir_script, 'joining_stats.py')
 
@@ -20,5 +21,6 @@ rule join_assembly_stats_flye:
         csv = os.path.join(dir_assembly, "{sample}-assembly-stats_flye.csv")
     conda:
         os.path.join(dir_env, "graph.yaml")
+    localrule: True
     script:
         os.path.join(dir_script, 'joining_stats.py')

@@ -55,13 +55,14 @@ def main():
         classifiers=CLASSIFIERS,
         install_requires=[
             "snaketool-utils>=0.0.4",
-            "snakemake>=7.14.0",
+            "snakemake>=8.11.6",
             "pyyaml>=6.0",
             "Click==8.1.3",
             "metasnek>=0.0.4",
             "attrmap>=0.0.7",
             "biopython>=1.8.1",
-            "pandas"
+            "pandas",
+            "snakemake-executor-plugin-slurm>=0.5.1"
         ],
         entry_points={
             'console_scripts': [
@@ -69,6 +70,8 @@ def main():
             ]
         },
     )
+
+
 
 if __name__ == "__main__":
     main()

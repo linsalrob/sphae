@@ -13,9 +13,13 @@ rule fastp:
         html = os.path.join(dir_fastp,"{sample}.stats.html")
     conda:
         os.path.join(dir_env, "qc.yaml")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
         os.path.join(dir_log, "fastp.{sample}.log")
-    threads: 16
+    threads: 
+        config['resources']['smalljob']['cpu']
     shell:
         """
         fastp -i {input.r1} -I {input.r2} -o {output.r1} -O {output.r2} -j {output.stats} -h {output.html} --thread {threads} 2>{log}
@@ -33,6 +37,11 @@ rule rasusa:
         gen_size=config['params']['genomeSize']
     conda:
         os.path.join(dir_env, "qc.yaml")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
+    threads:
+        config['resources']['smalljob']['cpu'],
     log:
         os.path.join(dir_log, "rasusa_paired.{sample}.log")
     shell:
@@ -55,6 +64,10 @@ rule filtlong_long:
         qual=config['params']['min_mean_quality'],
         length=config['params']['min_length'],
         target_bases=config['params']['bases']
+    resources:
+        cpu =config['resources']['smalljob']['cpu'],
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
     log:
         os.path.join(dir_log, "filtlong", "{sample}.log"),
     shell:
