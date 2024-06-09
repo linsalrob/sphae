@@ -3,12 +3,14 @@ Running phynteny to improve the anntoation
 """
 rule phynteny_run_paired:
     input:
-        gbk=os.path.join(dir_pharokka,"{sample}-pr-phold","{sample}.gbk")
+        gbk=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "{sample}_1.gbk"),
     params:
-        odir=os.path.join(dir_pharokka, "{sample}-pr-phynteny"),
+        inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
+        idir=os.path.join(dir_annotate, "phold-pr"),
+        odir=os.path.join(dir_annotate, "phynteny-pr"),
         model=os.path.join(dir_db, "phynteny_models_zenodo")
     output:
-        pkl=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "phynteny.gbk")
+        pkl=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk")
     conda:
         os.path.join(dir_env, "phynteny.yaml")
     threads:
@@ -21,9 +23,12 @@ rule phynteny_run_paired:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            phynteny {input.gbk} -o {params.odir} \
-                -m {params.model} -f\
-                2> {log}
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                phynteny {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
+                    -m {params.model} -f\
+                    2> {log}
+            done
             touch {output.pkl}
         else
             touch {output.pkl}
@@ -32,14 +37,13 @@ rule phynteny_run_paired:
 
 rule phynteny_plotter_paired:
     input:
-        gbk=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "phynteny.gbk"),
-        fasta=os.path.join(dir_genome, "{sample}-pr", "{sample}_genome.fasta")
+        gbk=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk"),
+        fasta=os.path.join(dir_annotate, "{sample}-pr-genomes" , "{sample}_1.fasta")
     params:
-        gff3=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "phynteny.gff3"),
-        prefix="phynteny",
-        output=os.path.join(dir_pharokka, "{sample}-pr-phynteny")
+        inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
+        idir=os.path.join(dir_annotate, "phynteny-pr"), 
     output:
-        plot=os.path.join(dir_pharokka, "{sample}-pr-phynteny", "pharokka_plot.png")
+        plot=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "pharokka_plot.png")
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
@@ -48,8 +52,12 @@ rule phynteny_plotter_paired:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            genbank_to -g {input.gbk} --gff3 {params.gff3}
-            pharokka_plotter.py -i {input.fasta} --genbank {input.gbk} --gff {params.gff3} -f -p {params.prefix} -o {params.output}
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                genbank_to -g {params.idir}/"$data"_phynteny/phynteny.gbk --gff3 {params.idir}/"$data"_phynteny/phynteny.gff3
+                pharokka_plotter.py -i {params.inputdir}/"$data".fasta --genbank {params.idir}/"$data"_phynteny/phynteny.gbk --gff {params.idir}/"$data"_phynteny/phynteny.gff3 \
+                    -f -p "$data"_phyntney -o {params.idir}/"$data"_phynteny
+            done
             touch {output.plot}
         else
             touch {output.plot}
@@ -58,12 +66,14 @@ rule phynteny_plotter_paired:
 
 rule phynteny_run_nanopore:
     input:
-        gbk=os.path.join(dir_pharokka,"{sample}-sr-phold","{sample}.gbk")
+        gbk=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "{sample}_1.gbk"),
     params:
-        odir=os.path.join(dir_pharokka, "{sample}-sr-phynteny"),
+        odir=os.path.join(dir_annotate, "phynteny-sr"),
+        idir=os.path.join(dir_annotate, "phold-sr"),
+        inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
         model=os.path.join(dir_db, "phynteny_models_zenodo")
     output:
-        pkl=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "phynteny.gbk")
+        pkl=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "phynteny.gbk")
     conda:
         os.path.join(dir_env, "phynteny.yaml")
     threads:
@@ -76,9 +86,12 @@ rule phynteny_run_nanopore:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            phynteny {input.gbk} -o {params.odir} \
-                -m {params.model} -f\
-                2> {log}
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                phynteny {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
+                    -m {params.model} -f\
+                    2> {log}
+            done
             touch {output.pkl}
         else
             touch {output.pkl}
@@ -87,14 +100,14 @@ rule phynteny_run_nanopore:
 
 rule phynteny_plotter_longreads:
     input:
-        gbk=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "phynteny.gbk"),
-        fasta=os.path.join(dir_genome, "{sample}-sr", "{sample}_genome.fasta")
+        gbk=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "phynteny.gbk"),
+        fasta=os.path.join(dir_annotate, "{sample}-sr-genomes", "{sample}_1.fasta")
     params:
-        gff3=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "phynteny.gff3"),
+        inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
+        idir=os.path.join(dir_annotate, "phynteny-sr"), 
         prefix="phynteny",
-        output=os.path.join(dir_pharokka, "{sample}-sr-phynteny")
     output:
-        plot=os.path.join(dir_pharokka, "{sample}-sr-phynteny", "pharokka_plot.png")
+        plot=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "pharokka_plot.png")
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
@@ -103,8 +116,12 @@ rule phynteny_plotter_longreads:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            genbank_to -g {input.gbk} --gff3 {params.gff3}
-            pharokka_plotter.py -i {input.fasta} --genbank {input.gbk} --gff {params.gff3} -f -p {params.prefix} -o {params.output}
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                genbank_to -g {params.idir}/"$data"_phynteny/phynteny.gbk --gff3 {params.idir}/"$data"_phynteny/phynteny.gff3
+                pharokka_plotter.py -i {params.inputdir}/"$data".fasta --genbank {params.idir}/"$data"_phynteny/phynteny.gbk --gff {params.idir}/"$data"_phynteny/phynteny.gff3 \
+                    -f -p "$data"_phytney -o {params.idir}/"$data"_phynteny
+            done
             touch {output.plot}
         else
             touch {output.plot}

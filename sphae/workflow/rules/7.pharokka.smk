@@ -1,39 +1,22 @@
 """
-Running pharokka for anntoation 
+Running pharokka for annotation 
 """
-"""
-Running pharokka for anntoation 
-"""
-rule rename_contigs_megahit:
-    input:
-        fin=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta"),
-    params:
-        s ="{sample}"
-    output:
-        out=os.path.join(dir_genome, "{sample}-pr", "{sample}_genome.fasta"),
-        csv=os.path.join(dir_genome, "{sample}-pr", "{sample}_temp.csv")
-    localrule: True
-    log:
-        os.path.join(dir_log, "rename-contigs.{sample}.log")
-    script:
-        os.path.join(dir_script, 'rename_genomes.py')
-
 rule pharokka_megahit:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir_genome, "{sample}-pr", "{sample}_genome.fasta"),
+        os.path.join(dir_annotate, "{sample}-pr-genomes", "{sample}_1.fasta"),
     params:
-        o=os.path.join(dir_pharokka, "{sample}-pharokka"),
+        inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
+        output=os.path.join(dir_annotate, "pharokka-pr"),
         db=os.path.join(dir_db, "pharokka_db"),
-        sp="{sample}"
     output:
-        gbk=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}.gbk"),
-        card=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_cds_functions.tsv")
+        gbk=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk"),
+        card=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
+        taxa=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
@@ -46,13 +29,16 @@ rule pharokka_megahit:
     shell:
         """
         if [[ -s {input} ]] ; then
-            pharokka.py \
-                -i {input} \
-                -o {params.o} \
-                -d {params.db} \
-                -t {threads} \
-                -f -p {params.sp}\
-                2> {log}
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                pharokka.py \
+                    -i "$f" \
+                    -o {params.output}/"$data"_pharokka \
+                    -d {params.db} \
+                    -t {threads} \
+                    -f -p "$data"\
+                    2> {log}
+            done 
             touch {output.gbk}
             touch {output.card}
             touch {output.vfdb}
@@ -71,36 +57,22 @@ rule pharokka_megahit:
         fi
         """
 
-rule rename_contigs_flye:
-    input:
-        fin=os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta"),
-    params:
-        s ="{sample}"
-    output:
-        out=os.path.join(dir_genome, "{sample}-sr", "{sample}_genome.fasta"),
-        csv=os.path.join(dir_genome, "{sample}-sr", "{sample}_temp.csv")
-    localrule: True
-    log:
-        os.path.join(dir_log, "rename-contigs.{sample}.log")
-    script:
-        os.path.join(dir_script, 'rename_genomes.py')
-
 rule pharokka_flye:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir_genome, "{sample}-sr", "{sample}_genome.fasta")
+        os.path.join(dir_annotate, "{sample}-sr-genomes", "{sample}_1.fasta")
     params:
-        o=os.path.join(dir_pharokka, "{sample}-pharokka"),
+        inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
+        output=os.path.join(dir_annotate, "pharokka-sr"),
         db=os.path.join(dir_db, "pharokka_db"),
-        sp="{sample}"
     output:
-        gbk=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}.gbk"),
-        card=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_pharokka, "{sample}-pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_pharokka, "{sample}-pharokka", "{sample}_cds_functions.tsv")
+        gbk=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),
+        card=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
+        taxa=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
@@ -113,14 +85,16 @@ rule pharokka_flye:
     shell:
         """
         if [[ -s {input} ]] ; then
-            pharokka.py \
-                -i {input} \
-                -o {params.o} \
-                -d {params.db} \
-                -t {threads} \
-                -f -p {params.sp}\
-                2> {log}
-
+            for f in {params.inputdir}/*; do 
+                data="$(basename "$f" .fasta)"
+                pharokka.py \
+                    -i "$f" \
+                    -o {params.output}/"$data"_pharokka \
+                    -d {params.db} \
+                    -t {threads} \
+                    -f -p "$data"\
+                    2> {log}
+            done
             touch {output.gbk}
             touch {output.card}
             touch {output.vfdb}

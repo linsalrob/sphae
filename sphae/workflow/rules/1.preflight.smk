@@ -28,7 +28,7 @@ dir_assembly = os.path.join(dir_out, 'PROCESSING','assembly')
 dir_megahit = os.path.join(dir_assembly, 'megahit')
 dir_flye = os.path.join(dir_assembly, 'flye')
 dir_genome = os.path.join(dir_out, 'PROCESSING','genome')
-dir_pharokka = os.path.join(dir_out, 'PROCESSING','annotate')
+dir_annotate = os.path.join(dir_out, 'PROCESSING','annotate')
 dir_log = os.path.join(dir_out, 'logs')
 dir_final = os.path.join(dir_out, 'RESULTS')
 
@@ -87,7 +87,7 @@ onstart:
             os.unlink(os.path.join(dir["log"], logfile))
 onsuccess:
     """Print a success message"""
-    sys.stderr.write('\n\nSphaehost ran successfully!\n\n')
+    sys.stderr.write('\n\nSphae ran successfully!\n\n')
 onerror:
     """Print an error message"""
-    sys.stderr.write('\n\nSphaehost run failed\n\n')
+    sys.stderr.write('\n\nSphae run failed\n\n')

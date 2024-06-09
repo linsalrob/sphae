@@ -33,8 +33,7 @@ rule rasusa:
         r1 = os.path.join(dir_fastp,"{sample}_subsampled_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_subsampled_R2.fastq.gz"),
     params:
-        coverage=config['params']['bases'],
-        gen_size=config['params']['genomeSize']
+        coverage=config['params']['bases']
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
@@ -46,7 +45,7 @@ rule rasusa:
         os.path.join(dir_log, "rasusa_paired.{sample}.log")
     shell:
         """
-        rasusa reads --coverage {params.coverage} --genome-size {params.gen_size} -o {output.r1} -o {output.r2} {input.r1} {input.r2} 2>{log}
+        rasusa reads --bases {params.coverage} -o {output.r1} -o {output.r2} {input.r1} {input.r2} 2>{log}
         """
 
 

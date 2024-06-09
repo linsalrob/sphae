@@ -14,7 +14,7 @@ params:
   genomeSize: 44k 
   min_mean_quality: 9 
   min_length: 1000 
-  bases: 1000000
+  bases: 10000000
 
 db:
   pfam: "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/"

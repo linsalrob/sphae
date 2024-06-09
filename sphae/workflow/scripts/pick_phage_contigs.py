@@ -17,8 +17,8 @@ def picking_contigs(file,out):
         datav = data[data["Length_x"] > 1000]
         datav = datav[datav["Prediction"] == "Virus"]
         datac = datav[datav["completeness"]> 70.00]
-        #print (len(data))
-        #print (data)
+        print (len(data))
+        print (data)
     else:
         open(out, 'a').close()
         return None

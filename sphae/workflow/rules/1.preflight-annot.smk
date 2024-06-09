@@ -29,7 +29,7 @@ if config['args']['db_dir'] is None:
 else:
     dir_db = config['args']['db_dir']
 
-dir_annot = os.path.join(dir_out,'PROCESSING')
+dir_annot = os.path.join(dir_out,'PROCESSING', "genome-annotate")
 dir_final = os.path.join(dir_out,'final-annotate')
 dir_log = os.path.join(dir_out, 'logs')
 
@@ -81,7 +81,7 @@ onstart:
             os.unlink(os.path.join(dir["log"], logfile))
 onsuccess:
     """Print a success message"""
-    sys.stderr.write('\n\nSphaehost ran successfully!\n\n')
+    sys.stderr.write('\n\nSphae ran successfully!\n\n')
 onerror:
     """Print an error message"""
-    sys.stderr.write('\n\nSphaehost run failed\n\n')
+    sys.stderr.write('\n\nSphae run failed\n\n')

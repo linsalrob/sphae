@@ -55,16 +55,16 @@ rule phold_run:
     input:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
     params:
-        predict=os.path.join(dir_annot,"{sample}-predict"),
-        o=os.path.join(dir_annot,"{sample}-phold"),
+        predict=os.path.join(dir_annot, "{sample}-predict"),
+        o=os.path.join(dir_annot, "{sample}-phold"),
         prefix="{sample}",
         db=os.path.join(dir_db, "phold")
     output:
-        gbk=os.path.join(dir_annot,"{sample}-phold","{sample}.gbk"),
-        acr=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
-        card=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
-        defense=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
-        vfdb=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
+        gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk"),
+        acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
         config['resources']['smalljob']['cpu']
     conda:
@@ -86,7 +86,7 @@ rule phold_run:
 
 rule phynteny_run:
     input:
-        gbk=os.path.join(dir_annot,"{sample}-phold","{sample}.gbk")
+        gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk")
     params:
         odir=os.path.join(dir_annot, "{sample}-phynteny"),
         model=os.path.join(dir_db, "phynteny_models_zenodo")
@@ -142,11 +142,11 @@ rule phynteny_plotter:
 rule summarize_annotations:
     input: 
         pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
-        phold=os.path.join(dir_annot,"{sample}-phold","{sample}.gbk"),
+        phold=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk"),
         pkl=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk")
     output:
         pharokka_func=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_pharokka.functions"),
-        phold_func=os.path.join(dir_annot,"{sample}-phold","{sample}_phold.functions"),
+        phold_func=os.path.join(dir_annot, "{sample}-phold","{sample}_phold.functions"),
         pkl_func=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.functions"),
     resources:
         mem =config['resources']['smalljob']['mem'],
@@ -185,7 +185,7 @@ rule annotate_summary:
         tmp=os.path.join(dir_annot, "{sample}-phynteny", "temp")
     localrule: True
     script:
-        os.path.join(dir_script, "summary_functions.py")
+        os.path.join(dir_script, "summary_annot_functions.py")
 
 rule summarize:
     input:

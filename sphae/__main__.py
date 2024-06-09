@@ -34,6 +34,10 @@ def default_to_output(ctx, param, value):
         return os.path.join(ctx.params["output"], value)
     return value
 
+# This is to ensure that the output directory gets generated if it hasnt already been generated
+def ensure_directory_exists(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 def common_options(func):
     """Common command line args
@@ -169,13 +173,14 @@ def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
 def run(_input, output, db_dir, sequencing, temp_dir, configfile, **kwargs):
     """Run sphae"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
-    
+
     merge_config = {
         "args": {
             "input": _input, 
             "output": output, 
             "db_dir": db_dir,  
-            "sequencing": sequencing, 
+            "sequencing": sequencing,
+            "configfile": configfile,
             "temp_dir": temp_dir,
         }
     }

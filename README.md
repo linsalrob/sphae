@@ -32,6 +32,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 A complete list of programs used for each step is mentioned in the `sphae.CITATION` file. 
 
 ### Install 
+## Abeey broke me here - need to add more instructions on creating new environments and installing etc.... 
 
 **Pip install**
 
@@ -48,7 +49,7 @@ conda install sphae
 Setting up a new conda environment 
 
 ```bash
-conda create -n sphae python=3.11
+conda create -n sphae python=3.12
 conda activate sphae
 conda install -n base -c conda-forge mamba #if you don't already have mamba installed
 ```
@@ -172,7 +173,7 @@ Genome summary file includes the following information to help,
    
    [Phynteny](https://github.com/susiegriggo/Phynteny), the tool used for this prediction, assigns a confidence score to each gene prediction. If this score falls below a certain threshold (typically 90%), the gene remains classified as having an unknown function. To further investigate these genes, advanced techniques such as folding using tools like [ColabFold](https://github.com/sokrypton/ColabFold) and [Foldseek](https://github.com/steineggerlab/foldseek) can be employed. Analyzing the structure of these genes may provide additional insights into their functionality and potential role in biological processes.
 
-1. **How do I visualize the phages and gene annotations?**
+5. **How do I visualize the phages and gene annotations?**
    To visualize the phages and gene annotations, I recommend using [Clinker](https://github.com/gamcil/clinker). First, gather all the sample genbank files from `sphae.out/RESULTS` and place them in a new directory. Then, execute the clinker command to generate clinker plots, which compare the genes in each genome to each other.
    
    Additionally, for enhanced visualization, consider running [dnaapler](https://github.com/gbouras13/dnaapler) on the genomes in fasta format obtained from 
@@ -181,16 +182,23 @@ Genome summary file includes the following information to help,
    
    Please note that dnaapler may fail if terminase genes are not found, particularly when working with novel phages. The reason these steps haven't been added to sphae. If you encounter any challenges during this process, please feel free to leave an issue, and I'll provide improved documentation to assist you further with the command on how to install and run the command different commands. 
 
-2. **Where are the intermediate files being saved?**
+6. **Where are the intermediate files being saved?**
    These files are being saved in `sphae.out/PROCESSING`. If you need more information on the file structure here, or have ideas of better organization then leave an issue and I will make a note to have more documentation. 
 
-3. **Just run annotation on already assembled genomes?**
+7. **Just run annotation on already assembled genomes?**
    
     `sphae annotate --input <input genomes>`
     This command runs only Pharokka, Phold and Phynteny to annotate the assembled genomes. The results are saved to a new directory labeled `sphae.out/annotation`. 
 
     Note: Currently, Sphae runs Phold in CPU mode, but efforts are underway to support Phold GPU mode for faster processing of this step.
 
+8. Adding new tools to worklow
+9. How to change the number of base pairs to subsample for a sample?
+    Run the command `sphae config`
+    This copies the config file within the workflow to the current directory. Open this file and update the line `bases: 10000000` to for instance `bases: 300000`
+    Then run sphae run with the command `sphae run --input tests/data/illumina-subset --output example -k --config <path to the config file with the change>`
+    
+   
 ## Issues and Questions
 
 If you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 

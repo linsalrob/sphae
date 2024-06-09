@@ -43,6 +43,22 @@ rule genomes_extract_megahit:
         for f in `cat {params.outdir}/phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output.fasta} ; done 
         """    
 
+#this rule is to separate out multiple phage genomes assembled from one sample    
+rule split_genome:
+    input:
+        fasta=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta")  
+    params:
+        sample="{sample}",
+        outdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
+    output: 
+        txt=os.path.join(dir_annotate, "{sample}-pr-genomes", "{sample}_1.fasta"),
+    localrule: True
+    log:
+        os.path.join(dir_log, "spliting_genomes_{sample}.log")
+    script:
+         os.path.join(dir_script, 'split_fasta.py')
+
+
 rule genomes_flye:
     input:
         csv = os.path.join(dir_assembly, "{sample}-assembly-stats_flye.csv")
@@ -86,3 +102,17 @@ rule genomes_extract_flye:
         for f in `cat {params.outdir}/phage-genome-contig`; do samtools faidx {input.contigs} "$f" >> {output} ; done 
         """ 
 
+#this rule is to separate out multiple phage genomes assembled from one sample    
+rule split_genome_longreads:
+    input:
+        fasta=os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta")  
+    params:
+        sample="{sample}",
+        outdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
+    output: 
+        txt=os.path.join(dir_annotate, "{sample}-sr-genomes", "{sample}_1.fasta"),
+    localrule: True
+    log:
+        os.path.join(dir_log, "spliting_genomes_{sample}.log")
+    script:
+        os.path.join(dir_script, 'split_fasta.py')

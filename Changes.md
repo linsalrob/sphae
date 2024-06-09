@@ -4,9 +4,11 @@
 I am updating the default snakemake to v8.11. There have been some changes from v7 to v8, which for now has required me to update 
 - how snakemake can submit jobs to the local cluster - https://snakemake.readthedocs.io/en/v8.4.0/executing/cli.html 
 - The paired end reads have to have the pattern _R1 and _R2 in the sample names, made a note in readme.
+- Adding documentation on how to add specific number of base pairs to include in the analysis if phage genome length is known by defining the config file handling multiple phages assembled from one sample
+- Checking for DTRs from checkv results to confirm if the contig is an assembled genome.
   
 ## v1.4.1
-- added the option to run `sphae annotae` so assembled genomes or reoriented genomes from dnaapler can be run through only the annotation steps
+- added the option to run `sphae annotate` so assembled genomes or reoriented genomes from dnaapler can be run through only the annotation steps
 - Cleaning up code, removed use of Attrmap package
 - Updating the summary file to include phage plot from phynteny output
 - adding phold results to the summary as needed - making note is phold identified any similar integrase like genes
