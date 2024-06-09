@@ -142,7 +142,7 @@ Genome summary file includes the following information to help,
   - Sample name
   - Length of the genome 
   - Coding density
-  - If the assembled contig is circular or not (From the assembly graph)
+  - If the assembled contig is circular or not (From checkv)
   - Completeness (calculated from CheckV)
   - Contamination (calculated from CheckV)
   - Taxonomy accession ID (Pharokka output, searches the genome against INPHARED database using mash)
