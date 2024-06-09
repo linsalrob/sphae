@@ -32,16 +32,23 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 A complete list of programs used for each step is mentioned in the `sphae.CITATION` file. 
 
 ### Install 
-## Abeey broke me here - need to add more instructions on creating new environments and installing etc.... 
 
 **Pip install**
 
 ```bash
+#creating a new envrionment
+conda create -y -n sphae python=3.12
+conda activate sphae
+#install sphae 
 pip install sphae
 ```
 
 **Conda install** 
 ```bash
+#creating a new environment
+conda create -y -n sphae 
+conda activate sphae
+#install sphae
 conda install sphae
 ```
 **Source Install**
