@@ -5,17 +5,13 @@ import os
 def extract_sample_name(file_path, suffix):
     return os.path.basename(file_path).replace(suffix, '').replace('_pharokka', '')
 
-def create_summary(pharokka_dir, phold_dir, pkl_dir, output_dir):
+def create_summary(sample, pharokka_dir, phold_dir, pkl_dir, output_dir):
     # Find all *.functions files in the pharokka directory (assuming others follow the same structure)
-    pharokka_funcs = glob.glob(os.path.join(pharokka_dir, '*', '*_pharokka.functions'))
+    pharokka_funcs = glob.glob(os.path.join(pharokka_dir, f"{sample}_*_pharokka", '*_pharokka.functions'))
 
     # Extract sample names
     sample_names = [extract_sample_name(f, '_pharokka.functions') for f in pharokka_funcs]
-    #print("Sample names:", sample_names) 
-    
-    if len(sample_names) == 1:
-        sample_name = sample_names[0].rstrip('_1')
-        sample_names = [sample_name]
+    print("Sample names:", sample_names) 
 
     # Process each sample individually
     for sample_name in sample_names:
@@ -30,6 +26,8 @@ def create_summary(pharokka_dir, phold_dir, pkl_dir, output_dir):
                 and os.path.isfile(pkl_func) and os.path.getsize(pkl_func) > 0):
             # If any of the input files are empty, create an empty output file
             print(f"One or more input files for {sample_name} are empty. Creating empty output file.")
+            output_file = os.path.join(output_dir, f"{sample_name}_summary.functions")
+            open(output_file, 'w').close()  # Create an empty file
             continue
 
         # Load the data
@@ -60,5 +58,6 @@ create_summary(
     pharokka_dir=snakemake.params.pharokka_func,
     phold_dir=snakemake.params.phold_func,
     pkl_dir=snakemake.params.pkl_func,
-    output_dir=snakemake.params.output
+    output_dir=snakemake.params.output,
+    sample=snakemake.params.ids,
 )

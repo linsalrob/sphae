@@ -51,10 +51,11 @@ else:
 input_dir = config['args']['input']
 
 # List of file paths matching the pattern
+#replace R1 to 1 for SRA reads
 if config['args']['sequencing'] == 'paired':
-    file_paths = glob.glob(os.path.join(input_dir, '*_R1*.fastq*'))
-    samples_names = [os.path.splitext(os.path.basename(file_path))[0].rsplit('_R1', 1)[0] for file_path in file_paths]
-    extn = [os.path.splitext(os.path.basename(file_path))[0].rsplit('_R1', 1)[1] + os.path.splitext(os.path.basename(file_path))[1] for file_path in file_paths]
+    file_paths = glob.glob(os.path.join(input_dir, '*_1*.fastq*'))
+    samples_names = [os.path.splitext(os.path.basename(file_path))[0].rsplit('_1', 1)[0] for file_path in file_paths]
+    extn = [os.path.splitext(os.path.basename(file_path))[0].rsplit('_1', 1)[1] + os.path.splitext(os.path.basename(file_path))[1] for file_path in file_paths]
 elif config['args']['sequencing'] == 'longread':
     file_paths = glob.glob(os.path.join(input_dir, '*.fastq*'))
     samples_names, extn = zip(*(os.path.splitext(os.path.basename(file_path)) if '.' in os.path.basename(file_path) else (os.path.basename(file_path), '') for file_path in file_paths))
@@ -63,8 +64,8 @@ print(f"Samples are {samples_names}")
 print(f"Extensions are {extn}")
 
 FQEXTN = extn[0]
-PATTERN_R1 = '{sample}_R1' + FQEXTN
-PATTERN_R2 = '{sample}_R2' + FQEXTN
+PATTERN_R1 = '{sample}_1' + FQEXTN
+PATTERN_R2 = '{sample}_2' + FQEXTN
 PATTERN_LONG='{sample}'+FQEXTN
 
 """ONSTART/END/ERROR

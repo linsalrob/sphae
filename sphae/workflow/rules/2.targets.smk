@@ -45,6 +45,7 @@ if config['args']['sequencing'] == 'paired':
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "pharokka_plot.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_summary.txt"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_1_summary.functions"), sample=samples_names))
 elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),sample=samples_names))
@@ -61,3 +62,5 @@ elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "phynteny.gbk"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "pharokka_plot.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_summary.txt"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions"), sample=samples_names))
+

@@ -23,6 +23,8 @@ rule fastp:
     shell:
         """
         fastp -i {input.r1} -I {input.r2} -o {output.r1} -O {output.r2} -j {output.stats} -h {output.html} --thread {threads} 2>{log}
+        touch {output.r1}
+        touch {output.r2}
         """
 
 rule rasusa:
@@ -45,7 +47,11 @@ rule rasusa:
         os.path.join(dir_log, "rasusa_paired.{sample}.log")
     shell:
         """
-        rasusa reads --bases {params.coverage} -o {output.r1} -o {output.r2} {input.r1} {input.r2} 2>{log}
+        if [[ -s {input.r1} ]] ; then
+            rasusa reads --bases {params.coverage} -o {output.r1} -o {output.r2} {input.r1} {input.r2} 2>{log}
+        fi
+        touch {output.r1}
+        touch {output.r2}
         """
 
 
@@ -72,4 +78,5 @@ rule filtlong_long:
     shell:
         """
         filtlong --target_bases {params.target_bases} --min_mean_q {params.qual} --min_length {params.length} {input.fastq} | pigz > {output.fastq} 2> {log}
+        touch {output.fastq}
         """

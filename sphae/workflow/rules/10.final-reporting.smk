@@ -59,7 +59,8 @@ rule annotate_summary_paired:
         pharokka_func=os.path.join(dir_annotate, "pharokka-pr"),
         phold_func=os.path.join(dir_annotate, "phold-pr"),
         pkl_func=os.path.join(dir_annotate, "phynteny-pr"),
-        output=os.path.join(dir_final, "{sample}-pr",)
+        output=os.path.join(dir_final, "{sample}-pr"),
+        ids="{sample}",
     output:
         summary_gbk=os.path.join(dir_final, "{sample}-pr", "{sample}_1_summary.functions")
     localrule: True
@@ -157,7 +158,8 @@ rule annotate_summary_longreads:
         pharokka_func=os.path.join(dir_annotate, "pharokka-sr"),
         phold_func=os.path.join(dir_annotate, "phold-sr"),
         pkl_func=os.path.join(dir_annotate, "phynteny-sr"),
-        output=os.path.join(dir_final, "{sample}-sr",)
+        output=os.path.join(dir_final, "{sample}-sr"),
+        ids="{sample}",
     output:
         summary_gbk=os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions")
     localrule: True

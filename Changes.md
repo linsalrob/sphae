@@ -1,5 +1,14 @@
 # Changes being added
 
+## v1.4.3
+- Summary file update
+  - missed adding DTR found or not when only one genome assembled per sample, added this in now
+  - If recombinases or transposases are found, the genes are written to the summary. Also if AMR, virulence genes, CRSIPR spacers etc are found. 
+    The files are written output. 
+- Updating the QC rule to touch the output file so the error is correctly recorded
+- the annotate function table after the 3Ps werent being generated, so added that in
+
+
 ## v1.4.2 
 I am updating the default snakemake to v8.11. There have been some changes from v7 to v8, which for now has required me to update 
 - how snakemake can submit jobs to the local cluster - https://snakemake.readthedocs.io/en/v8.4.0/executing/cli.html 
