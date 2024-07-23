@@ -5,8 +5,7 @@
     - wrong file 
     - correct file with final_contigs.fa has really short contigs- filter for this earlier
   
-2. add the number of unknown proteins to the final summary file
-3. add a genome coverage to the summary file - genome length/rasusa subsample reads count
-4. add another module to map the reads to the assembled genome 
+2. add a genome coverage to the summary file - genome length/rasusa subsample reads count
+3. add another module to map the reads to the assembled genome 
     - other fun things to do here
     - calculate the mutations/variants per postion?

@@ -7,6 +7,8 @@
     The files are written output. 
 - Updating the QC rule to touch the output file so the error is correctly recorded
 - the annotate function table after the 3Ps werent being generated, so added that in
+- add the number of unknown proteins to the final summary file
+
 
 
 ## v1.4.2 

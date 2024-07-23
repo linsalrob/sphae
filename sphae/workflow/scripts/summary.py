@@ -43,7 +43,17 @@ def copy_multiple_files(params):
         new_png_path = os.path.join(outdir, f"{samplenames}.png")
         print(f"Copying {plt} to {new_png_path}")
         shutil.copy(plt, new_png_path)
-    
+
+def count_hypothetical_proteins(params):
+    count = 0
+    for record in SeqIO.parse(input_files['gbk'], "genbank"):
+        for feature in record.features:
+            if feature.type == "CDS":
+                if "product" in feature.qualifiers:
+                    if "hypothetical protein" in feature.qualifiers["product"]:
+                        count += 1
+    return count
+
 def write_single_genome_summary(input_files, summary):
     with open(input_files['table'], 'r') as table_file:
         lines = table_file.readlines()
@@ -77,7 +87,10 @@ def write_single_genome_summary(input_files, summary):
             cds_data = cds_df[cds_df['Description'] == 'CDS']
             count_value = cds_data['Count'].values[0]
             summary.write(f"Number of CDS: {count_value}\n")
-                
+        
+        hypothetical_protein_count = count_hypothetical_proteins(params)
+        summary.write(f"Total number of CDS annotated as 'hypothetical protein': {hypothetical_protein_count}\n")
+        
         with open(input_files['cdden'], 'r') as cdden:
             cdn=pd.read_csv(cdden, sep='\t')
             gc_percent = cdn['gc_perc'].values[0]

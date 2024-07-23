@@ -7,4 +7,6 @@ dependencies:
     - python==3.10.0
     - pip 
     - pip:
+        - numpy==1.21.0
+        - scikit-learn==1.2.2 
         - phynteny==0.1.13
