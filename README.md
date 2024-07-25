@@ -85,7 +85,7 @@ Run the below command,
 sphae install
 
 #Install database to specific directory
-sphae install --db-dir <directory> 
+sphae install --db_dir <directory> 
 ```
 
   Install the databases to a directory, `sphae/workflow/databases`

@@ -70,6 +70,7 @@ rule annotate_summary_paired:
 rule summarize_paired:
     input:
         #this is literally here to make sure there is a file for each sample
+        r=os.path.join(dir_fastp, "{sample}_fastp.txt"),
         assembly=os.path.join(dir_megahit, "{sample}-pr", "log"),
         table= os.path.join(dir_genome, "{sample}-pr", "{sample}-genome-candidates.csv"),
         genome=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta"),
@@ -168,6 +169,7 @@ rule annotate_summary_longreads:
 
 rule summarize_longread:
     input:
+        r=os.path.join(dir_nanopore, "{sample}_filt.txt"),
         assembly=os.path.join(dir_flye, "{sample}-sr", "flye.log"),
         table= os.path.join(dir_genome, "{sample}-sr", "{sample}-genome-candidates.csv"),
         genome=os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta"),

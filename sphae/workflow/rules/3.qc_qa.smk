@@ -54,6 +54,43 @@ rule rasusa:
         touch {output.r2}
         """
 
+rule run_seqkit_short:
+    input:
+        r1 = os.path.join(dir_fastp,"{sample}_subsampled_R1.fastq.gz"),
+        r2 = os.path.join(dir_fastp,"{sample}_subsampled_R2.fastq.gz"),
+    output:
+        r=os.path.join(dir_fastp, "{sample}_fastp.txt")
+    params:
+        r1_temp = os.path.join(dir_fastp, "{sample}_r1.txt"),
+        r2_temp = os.path.join(dir_fastp, "{sample}_r2.txt"),
+    conda:
+        os.path.join(dir_env, "qc.yaml")
+    resources:
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
+    threads: 
+        config['resources']['smalljob']['cpu'],
+    log:
+        os.path.join(dir_log, "seqkit", "{sample}_seqkit_short.log"),
+    shell:
+        """
+        if [[ -s input.r1 ]]; then
+            seqkit stats {input.r1} -T > {params.r1_temp}
+            seqkit stats {input.r2} -T > {params.r2_temp}
+
+            # Extract numeric values from the second line of the output files
+            value1=$(awk 'NR==2 {{print $5}}' {params.r1_temp})
+            value2=$(awk 'NR==2 {{print $5}}' {params.r2_temp})
+
+            # Add the values
+            sum=$((value1 + value2))
+
+            # Write the sum to output.r
+            echo $sum > {output.r}
+        else
+            echo 0 > {output.r}
+        fi
+        """
 
 rule filtlong_long:
     """
@@ -79,4 +116,28 @@ rule filtlong_long:
         """
         filtlong --target_bases {params.target_bases} --min_mean_q {params.qual} --min_length {params.length} {input.fastq} | pigz > {output.fastq} 2> {log}
         touch {output.fastq}
+        """
+
+rule run_seqkit_long:
+    input:
+        fastq=os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"),
+    output:
+        r=os.path.join(dir_nanopore, "{sample}_filt.txt"),
+    conda:
+        os.path.join(dir_env, "qc.yaml")
+    resources:
+        cpu =config['resources']['smalljob']['cpu'],
+        mem =config['resources']['smalljob']['mem'],
+        time = config['resources']['smalljob']['time']
+    threads:
+        config['resources']['smalljob']['cpu'],
+    log:
+        os.path.join(dir_log, "{sample}_long_seqkit.log"),
+    shell:
+        """
+        if [[ -s {input.fastq} ]] ; then
+            seqkit stats {input.fastq} -T -N 50 -N 90 | awk 'NR==2 {{print $5}}' > {output.r}
+
+        fi
+        echo 0 > {output.r}
         """

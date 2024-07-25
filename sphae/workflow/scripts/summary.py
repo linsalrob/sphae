@@ -1,3 +1,5 @@
+#!/usr/bin/env python 
+
 from pathlib import Path
 import shutil
 import pandas as pd
@@ -44,9 +46,9 @@ def copy_multiple_files(params):
         print(f"Copying {plt} to {new_png_path}")
         shutil.copy(plt, new_png_path)
 
-def count_hypothetical_proteins(params):
+def count_hypothetical_proteins(gbk_file):
     count = 0
-    for record in SeqIO.parse(input_files['gbk'], "genbank"):
+    for record in SeqIO.parse(gbk_file, "genbank"):
         for feature in record.features:
             if feature.type == "CDS":
                 if "product" in feature.qualifiers:
@@ -54,15 +56,25 @@ def count_hypothetical_proteins(params):
                         count += 1
     return count
 
+def get_num(params):
+    length=(input_files['read'])
+    sum_len_value = length[0]
+
+    return sum_len_value
+
 def write_single_genome_summary(input_files, summary):
     with open(input_files['table'], 'r') as table_file:
         lines = table_file.readlines()
         if len(lines) > 1:  # Ensure there is at least one data line
             fields = lines[1].strip().split(',')  # Split the second line into fields
 
+            read_length = get_num(params)
+            summary.write(f"Total length of reads after QC and subsampling:{read_length}\n")
+        
         # Ensure fields list has enough elements to access the desired indices
             if len(fields) >= 23:
                 summary.write(f"Length: {lines[1].split(',')[2]}\n")
+
                 if fields[3].strip() == 'True':
                     summary.write("Circular: True\t")
                 else:
@@ -78,9 +90,11 @@ def write_single_genome_summary(input_files, summary):
                 
         with open(input_files['taxa'], 'r') as taxa_file:
             tax = pd.read_csv(taxa_file, sep='\t')
-            summary.write("Taxa name (Matching hashes):\t")
+            summary.write("Taxa Description (Matching hashes):\t")
             for index, row in tax.iterrows():
                 summary.write(f"{row['Description']}\t{row['mash_matching_hashes']}\n")
+                summary.write(f"Lowest Taxa classification: {row['Lowest_Taxa']}\n")
+                summary.write(f"Isolation host of described taxa: {row['Isolation_Host_(beware_inconsistent_and_nonsense_values)']}\n")
 
         with open(input_files['cds'], 'r') as cds:
             cds_df=pd.read_csv(cds, sep='\t')
@@ -88,7 +102,7 @@ def write_single_genome_summary(input_files, summary):
             count_value = cds_data['Count'].values[0]
             summary.write(f"Number of CDS: {count_value}\n")
         
-        hypothetical_protein_count = count_hypothetical_proteins(params)
+        hypothetical_protein_count = count_hypothetical_proteins(input_files['gbk'])
         summary.write(f"Total number of CDS annotated as 'hypothetical protein': {hypothetical_protein_count}\n")
         
         with open(input_files['cdden'], 'r') as cdden:
@@ -183,6 +197,8 @@ def write_single_genome_summary(input_files, summary):
 def write_multiple_genome_summary(input_files, summary):
     summary.write("Multiple phages assembled from this sample\n")
     summary.write("Their characteristics are:\n")
+    read_length = get_num(params)
+    summary.write(f"Total length of reads after QC and subsampling:{read_length}\n")
     summary.write("\n\n")
 
     with open(input_files['table'], 'r') as table_file:
@@ -209,9 +225,11 @@ def write_multiple_genome_summary(input_files, summary):
                 taxa_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_top_hits_mash_inphared.tsv"
                 for taxa_file in glob.glob(taxa_pattern):
                     tax = pd.read_csv(taxa_file, sep='\t')
-                    summary.write("Taxa name (Matching hashes):\t")
+                    summary.write("Taxa description (Matching hashes):\t")
                     for index, row in tax.iterrows():
                         summary.write(f"{row['Description']}\t{row['mash_matching_hashes']}\n")
+                        summary.write(f"Lowest Taxa classification: {row['Lowest_Taxa']}\n")
+                        summary.write(f"Isolation host of described taxa: {row['Isolation_Host_(beware_inconsistent_and_nonsense_values)']}\n")
 
                 cds_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_cds_functions.tsv"
                 for cds_file in glob.glob(cds_pattern):
@@ -219,7 +237,12 @@ def write_multiple_genome_summary(input_files, summary):
                     cds_data = cds_df[cds_df['Description'] == 'CDS']
                     count_value = cds_data['Count'].values[0]
                     summary.write(f"Number of CDS: {count_value}\n")
-                                 
+                
+                gbk_pattern = f"{annot}/phynteny-pr/{samplenames}_phynteny/phynteny.gbk"
+                for gbk_file in glob.glob(gbk_pattern):
+                    hypothetical_protein_count = count_hypothetical_proteins(gbk_file)
+                    summary.write(f"Total number of CDS annotated as 'hypothetical protein': {hypothetical_protein_count}\n")
+
                 cds_dens_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_length_gc_cds_density.tsv"
                 for cdsdens_file in glob.glob(cds_dens_pattern):
                     cdn=pd.read_csv(cdsdens_file, sep='\t')
@@ -315,7 +338,7 @@ def write_multiple_genome_summary(input_files, summary):
                 if spacers_lines_count == 0 and  phold_lines_count == 0:
                     summary.write("No CRISPR spacers or anti CRISPR spacers found\n")
                 elif spacers_lines_count != 0:
-                    summary.write("CRISPR spacers found\n")
+                    summary.write("anti-CRISPR spacers found\n")
                     shutil.copy(spacers_pattern, out_spacers)
                 elif phold_lines_count != 0:
                     summary.write("anti-CRISPR spacers found\n")
@@ -370,6 +393,7 @@ def analyze_assembly(input_files, output_summary, params):
 
 # Replace input_files and output_params with the actual paths to your input/output files and parameters
 input_files = {
+        'read': snakemake.input.r,
         'assembly': snakemake.input.assembly,
         'table': snakemake.input.table,
         'genome': snakemake.input.genome,

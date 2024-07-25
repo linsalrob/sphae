@@ -8,7 +8,10 @@
 - Updating the QC rule to touch the output file so the error is correctly recorded
 - the annotate function table after the 3Ps werent being generated, so added that in
 - add the number of unknown proteins to the final summary file
-
+- updated phytnteny yaml file to include numpy version
+- added a python script to the misc folder to merge the RESULTS to one tsv file
+- adding the total read length to summary file
+- updating the taxa description in the summary file to include the taxa description, lowest taxa and the isolated host from the pharokka inphared result
 
 
 ## v1.4.2 
@@ -36,3 +39,9 @@ Sphae can be run on illumina reads and nanopore reads
   Post assembly the reads are run through [CheckV](https://bitbucket.org/berkeleylab/CheckV/src), [viraverify](https://github.com/ablab/viralVerify) and looking into graph connection to confirm the genome is assembled 
 - Annotation - [Pharokka](https://github.com/gbouras13/pharokka) followed by [Phynteny](https://github.com/susiegriggo/Phynteny)
 - Generate a summary report file
+
+
+## Ideas to add
+add another module to map the reads to the assembled genome 
+  - other fun things to do here
+  - calculate the mutations/variants per postion?

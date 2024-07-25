@@ -6,9 +6,11 @@ targets['qc'] = []
 if config['args']['sequencing'] == 'paired':
     for sample in samples_names:
         targets['qc'].append(expand(os.path.join(dir_fastp, "{sample}_subsampled_{r12}.fastq.gz"), sample=sample, r12=["R1", "R2"]))
+        targets['qc'].append(expand(os.path.join(dir_fastp, "{sample}_fastp.txt"), sample=sample))
 elif config['args']['sequencing'] == 'longread':
     for sample in samples_names:
         targets['qc'].append(expand(os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"), sample=sample))
+        targets['qc'].append(expand(os.path.join(dir_nanopore, "{sample}_filt.txt"), sample=sample))
        
 if config['args']['sequencing'] == 'paired':
     targets['assemble'].append(expand(os.path.join(dir_megahit, "{sample}-pr", "final.contigs.fa"),sample=samples_names))

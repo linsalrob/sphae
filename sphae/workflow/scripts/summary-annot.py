@@ -8,6 +8,16 @@ def copy_files(input_files, params):
     shutil.copy(input_files['gbk'], params['gbks'])
     shutil.copy(input_files['plot'], params['plots'])
 
+def count_hypothetical_proteins(params):
+    count = 0
+    for record in SeqIO.parse(input_files['gbk'], "genbank"):
+        for feature in record.features:
+            if feature.type == "CDS":
+                if "product" in feature.qualifiers:
+                    if "hypothetical protein" in feature.qualifiers["product"]:
+                        count += 1
+    return count
+
 def generate_summary(input_files, output_summary, params):
     copy_files(input_files, params)
     with open(output_summary, 'w') as summary:
@@ -25,6 +35,9 @@ def generate_summary(input_files, output_summary, params):
                     count_value = cds_data['Count'].values[0]
                     summary.write(f"Number of CDS: {count_value}\n")
                 
+                hypothetical_protein_count = count_hypothetical_proteins(params)
+                summary.write(f"Total number of CDS annotated as 'hypothetical protein': {hypothetical_protein_count}\n")
+
                 with open(input_files['cdden'], 'r') as cdden:
                     cdn=pd.read_csv(cdden, sep='\t')
                     gc_percent = cdn['gc_perc'].values[0]
