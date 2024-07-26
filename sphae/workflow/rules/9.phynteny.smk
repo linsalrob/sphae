@@ -43,7 +43,7 @@ rule phynteny_plotter_paired:
         inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
         idir=os.path.join(dir_annotate, "phynteny-pr"), 
     output:
-        plot=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "pharokka_plot.png")
+        plot=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "plots", "{sample}_1.png")
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']

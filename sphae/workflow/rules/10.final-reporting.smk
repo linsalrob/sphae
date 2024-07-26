@@ -75,7 +75,7 @@ rule summarize_paired:
         table= os.path.join(dir_genome, "{sample}-pr", "{sample}-genome-candidates.csv"),
         genome=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta"),
         gbk=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk"),
-        plot=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "plots", "{sample}_1.png"),
+        plot=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "plots", "{sample}_1.png"),
         ph_taxa=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
         cds=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv"),
