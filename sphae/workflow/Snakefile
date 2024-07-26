@@ -9,7 +9,10 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 include: os.path.join("rules", "1.preflight.smk")
 include: os.path.join("rules", "2.targets.smk")
 include: os.path.join("rules", "3.qc_qa.smk")
-include: os.path.join("rules", "4.assembly.smk")
+if config["args"]["no_medaka"] is False:
+    include: os.path.join("rules", "4.assembly.smk")
+else:
+    include: os.path.join("rules", "4.assembly_no_medaka.smk")
 include: os.path.join("rules", "5.components.smk")
 include: os.path.join("rules", "5.viralverify.smk")
 include: os.path.join("rules", "5.checkv.smk")

@@ -170,7 +170,8 @@ def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
 @click.command(epilog=help_msg_run, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @common_options
 @click.option('--sequencing', 'sequencing', help="sequencing method", default='paired', show_default=True, type=click.Choice(['paired', 'longread']))
-def run(_input, output, db_dir, sequencing, temp_dir, configfile, **kwargs):
+@click.option('--no_medaka', 'no_medaka', help="turns off Medaka polishing for --sequencing longread", is_flag=True, default=False)
+def run(_input, output, db_dir, sequencing, no_medaka, temp_dir, configfile, **kwargs):
     """Run sphae"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -180,6 +181,7 @@ def run(_input, output, db_dir, sequencing, temp_dir, configfile, **kwargs):
             "output": output, 
             "db_dir": db_dir,  
             "sequencing": sequencing,
+            "no_medaka": no_medaka,
             "configfile": configfile,
             "temp_dir": temp_dir,
         }

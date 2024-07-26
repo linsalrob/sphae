@@ -55,8 +55,7 @@ rule phynteny_plotter_paired:
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
                 genbank_to -g {params.idir}/"$data"_phynteny/phynteny.gbk --gff3 {params.idir}/"$data"_phynteny/phynteny.gff3
-                pharokka_plotter.py -i {params.inputdir}/"$data".fasta --genbank {params.idir}/"$data"_phynteny/phynteny.gbk --gff {params.idir}/"$data"_phynteny/phynteny.gff3 \
-                    -f -p "$data"_phyntney -o {params.idir}/"$data"_phynteny
+                phold plot -i {params.idir}/"$data"_phynteny/phynteny.gbk -f -p "$data"_phynteny -o {params.idir}/"$data"_phynteny           
             done
             touch {output.plot}
         else
@@ -107,20 +106,19 @@ rule phynteny_plotter_longreads:
         idir=os.path.join(dir_annotate, "phynteny-sr"), 
         prefix="phynteny",
     output:
-        plot=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "pharokka_plot.png")
+        plot=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "plots", "{sample}_1.png")
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
                 genbank_to -g {params.idir}/"$data"_phynteny/phynteny.gbk --gff3 {params.idir}/"$data"_phynteny/phynteny.gff3
-                pharokka_plotter.py -i {params.inputdir}/"$data".fasta --genbank {params.idir}/"$data"_phynteny/phynteny.gbk --gff {params.idir}/"$data"_phynteny/phynteny.gff3 \
-                    -f -p "$data"_phytney -o {params.idir}/"$data"_phynteny
+                phold plot -i {params.idir}/"$data"_phynteny/phynteny.gbk -f -o {params.idir}/"$data"_phynteny/plots                
             done
             touch {output.plot}
         else
