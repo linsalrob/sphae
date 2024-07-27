@@ -45,7 +45,7 @@ if config['args']['sequencing'] == 'paired':
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk"), sample=samples_names))
-    targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "pharokka_plot.png"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "plots", "{sample}_1.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_1_summary.functions"), sample=samples_names))
 elif config['args']['sequencing']== 'longread':
@@ -62,7 +62,7 @@ elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "phynteny.gbk"), sample=samples_names))
-    targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "pharokka_plot.png"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "plots", "{sample}_1.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions"), sample=samples_names))
 

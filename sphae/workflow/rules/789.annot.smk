@@ -120,19 +120,19 @@ rule phynteny_plotter:
     params:
         gff3=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gff3"),
         prefix="phynteny",
-        output=os.path.join(dir_annot, "{sample}-phynteny")
+        output=os.path.join(dir_annot, "{sample}-phynteny", "plots")
     output:
-        plot=os.path.join(dir_annot, "{sample}-phynteny", "pharokka_plot.png")
+        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png")
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
             genbank_to -g {input.gbk} --gff3 {params.gff3}
-            pharokka_plotter.py -i {input.fasta} --genbank {input.gbk} --gff {params.gff3} -f -p {params.prefix} -o {params.output}
+            phold plot -i {input.gbk} -f -p {wildcards.sample} -o {params.output}
             touch {output.plot}
         else
             touch {output.plot}
@@ -191,7 +191,7 @@ rule summarize:
     input:
         genome=os.path.join(input_dir, PATTERN_LONG),
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        plot=os.path.join(dir_annot, "{sample}-phynteny", "pharokka_plot.png"),
+        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
         cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
