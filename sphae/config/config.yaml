@@ -9,6 +9,7 @@ resources:
     time: 480
 
 params:
+  no_medaka: False
   medaka: "r1041_e82_400bps_sup_v4.2.0" # the current default in medaka v1.8 and the most recent model
   flye: "--nano-hq"
   genomeSize: 44k 

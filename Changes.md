@@ -8,10 +8,11 @@
 - Updating the QC rule to touch the output file so the error is correctly recorded
 - the annotate function table after the 3Ps werent being generated, so added that in
 - add the number of unknown proteins to the final summary file
-- updated phytnteny yaml file to include numpy version
+- updated phynteny yaml file to include numpy version
 - added a python script to the misc folder to merge the RESULTS to one tsv file
 - adding the total read length to summary file
 - updating the taxa description in the summary file to include the taxa description, lowest taxa and the isolated host from the pharokka inphared result
+- added the --no-polish option
 
 
 ## v1.4.2 

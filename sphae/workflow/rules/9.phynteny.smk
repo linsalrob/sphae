@@ -48,14 +48,14 @@ rule phynteny_plotter_paired:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
                 genbank_to -g {params.idir}/"$data"_phynteny/phynteny.gbk --gff3 {params.idir}/"$data"_phynteny/phynteny.gff3
-                phold plot -i {params.idir}/"$data"_phynteny/phynteny.gbk -f -p "$data"_phynteny -o {params.idir}/"$data"_phynteny           
+                phold plot -i {params.idir}/"$data"_phynteny/phynteny.gbk -f -o {params.idir}/"$data"_phynteny/plots    
             done
             touch {output.plot}
         else
