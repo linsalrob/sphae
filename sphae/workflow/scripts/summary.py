@@ -56,27 +56,23 @@ def count_hypothetical_proteins(gbk_file):
                         count += 1
     return count
 
-def get_num(params):
-    length=(input_files['read'])
-    sum_len_value = length[0]
-
-    return sum_len_value
-
 def write_single_genome_summary(input_files, summary):
     with open(input_files['table'], 'r') as table_file:
         lines = table_file.readlines()
         if len(lines) > 1:  # Ensure there is at least one data line
             fields = lines[1].strip().split(',')  # Split the second line into fields
 
-            read_length = get_num(params)
-            summary.write(f"Total length of reads after QC and subsampling:{read_length}\n")
+            filename = input_files['read']
+            with open(filename, 'r') as file:
+                contents = file.read()
+            summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
         
         # Ensure fields list has enough elements to access the desired indices
             if len(fields) >= 23:
                 summary.write(f"Length: {lines[1].split(',')[2]}\n")
 
                 if fields[3].strip() == 'True':
-                    summary.write("Circular: True\t")
+                    summary.write("Circular: True\n")
                 else:
                     summary.write("Circular: False\n")
 
@@ -179,9 +175,9 @@ def write_single_genome_summary(input_files, summary):
 
         #CRISPR spacers 
         if (len(open(input_files['spacers']).readlines()) == 0) and (len(open(input_files['acr']).readlines()) == 0):
-            summary.write("No CRISPR spacers or anti CRISPR spacers found\n")
+            summary.write("No anti CRISPR spacers found\n")
         elif (len(open(input_files['spacers']).readlines()) != 0):
-            summary.write("CRISPR spacers found\n")
+            summary.write("anti-CRISPR spacers found\n")
             shutil.copy(input_files['spacers'], outdir)
         elif (len(open(input_files['acr']).readlines()) != 0):
             summary.write("anti-CRISPR spacers found\n")
@@ -197,8 +193,10 @@ def write_single_genome_summary(input_files, summary):
 def write_multiple_genome_summary(input_files, summary):
     summary.write("Multiple phages assembled from this sample\n")
     summary.write("Their characteristics are:\n")
-    read_length = get_num(params)
-    summary.write(f"Total length of reads after QC and subsampling:{read_length}\n")
+    filename = input_files['read']
+    with open(filename, 'r') as file:
+        contents = file.read()
+    summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
     summary.write("\n\n")
 
     with open(input_files['table'], 'r') as table_file:
@@ -336,7 +334,7 @@ def write_multiple_genome_summary(input_files, summary):
                 out_spacers = f"{outdir}/{samplenames}_pharokka_crispr.tsv"
                 out_acr = f"{outdir}/{samplenames}_phold_acr.tsv"
                 if spacers_lines_count == 0 and  phold_lines_count == 0:
-                    summary.write("No CRISPR spacers or anti CRISPR spacers found\n")
+                    summary.write("No anti CRISPR spacers found\n")
                 elif spacers_lines_count != 0:
                     summary.write("anti-CRISPR spacers found\n")
                     shutil.copy(spacers_pattern, out_spacers)
@@ -381,14 +379,26 @@ def analyze_assembly(input_files, output_summary, params):
             elif line_count == 1 :
                 with open(output_summary, 'w') as summary:
                     summary.write(f"Sample: {params['sample']}\n")
+                    filename = input_files['read']
+                    with open(filename, 'r') as file:
+                        contents = file.read()
+                    summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
                     summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
         else:
             with open(output_summary, 'w') as summary:
                 summary.write(f"Sample: {params['sample']}\n")
+                filename = input_files['read']
+                with open(filename, 'r') as file:
+                    contents = file.read()
+                summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
                 summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
     else:
         with open(output_summary, 'w') as summary:
             summary.write(f"Sample: {params['sample']}\n")
+            filename = input_files['read']
+            with open(filename, 'r') as file:
+                contents = file.read()
+            summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
             summary.write("Failed during assembly\n")            
 
 # Replace input_files and output_params with the actual paths to your input/output files and parameters

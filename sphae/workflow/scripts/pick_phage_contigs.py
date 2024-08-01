@@ -17,8 +17,8 @@ def picking_contigs(file,out):
         datav = data[data["Length_x"] > 1000]
         datav = datav[datav["Prediction"] == "Virus"]
         datac = datav[datav["completeness"]> 70.00]
-        print (len(data))
-        print (data)
+        #print (len(data))
+        #print (datac)
     else:
         open(out, 'a').close()
         return None
@@ -38,12 +38,15 @@ def picking_contigs(file,out):
         #print ("entering this if statement")
         if (datac["Connections"] == 0).any():
             print("The genome is assembled, yay!")
+            #print("writing to", out)
             datac.to_csv(out, index=False)
         else:
             print ("The genome has some regions that are frgamented, but mostly assembled")
             print ("Take a look at the assembly graph file in bandage for more information on where the genome is fragmented")
             datac.to_csv(out, index=False)
 
+    with open(out, 'a'):
+        os.utime(out, None)
 
 picking_contigs(snakemake.input.csv, snakemake.output.out)
 

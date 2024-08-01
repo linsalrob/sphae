@@ -71,25 +71,21 @@ rule run_seqkit_short:
     threads: 
         config['resources']['smalljob']['cpu'],
     log:
-        os.path.join(dir_log, "seqkit", "{sample}_seqkit_short.log"),
+        os.path.join(dir_log, "seqkit", "{sample}_bases_short.log"),
     shell:
         """
-        if [[ -s input.r1 ]]; then
-            seqkit stats {input.r1} -T > {params.r1_temp}
-            seqkit stats {input.r2} -T > {params.r2_temp}
+        seqkit stats {input.r1} -T > {params.r1_temp}
+        seqkit stats {input.r2} -T > {params.r2_temp}
 
-            # Extract numeric values from the second line of the output files
-            value1=$(awk 'NR==2 {{print $5}}' {params.r1_temp})
-            value2=$(awk 'NR==2 {{print $5}}' {params.r2_temp})
+        # Extract numeric values from the second line of the output files
+        value1=$(awk 'NR==2 {{print $5}}' {params.r1_temp})
+        value2=$(awk 'NR==2 {{print $5}}' {params.r2_temp})
 
-            # Add the values
-            sum=$((value1 + value2))
+        # Add the values
+        sum=$((value1 + value2))
 
-            # Write the sum to output.r
-            echo $sum > {output.r}
-        else
-            echo 0 > {output.r}
-        fi
+        # Write the sum to output.r
+        echo $sum > {output.r}
         """
 
 rule filtlong_long:
@@ -135,9 +131,5 @@ rule run_seqkit_long:
         os.path.join(dir_log, "{sample}_long_seqkit.log"),
     shell:
         """
-        if [[ -s {input.fastq} ]] ; then
-            seqkit stats {input.fastq} -T -N 50 -N 90 | awk 'NR==2 {{print $5}}' > {output.r}
-
-        fi
-        echo 0 > {output.r}
+        seqkit stats {input.fastq} -T -N 50 -N 90 | awk 'NR==2 {{print $5}}' > {output.r}
         """
