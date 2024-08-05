@@ -15,12 +15,18 @@
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
 <p align="center">
-  <img src="sphae.png#gh-light-mode-only" width="300">
-  <img src="sphaedark.png#gh-dark-mode-only" width="300">
+  <img src="img/sphae.png#gh-light-mode-only" width="300">
+  <img src="img/sphaedark.png#gh-dark-mode-only" width="300">
 </p>
 
 
 **Overview**
+
+The steps that sphae takes are shown here:
+<p align="center">
+  <img src="img/sphae_steps.png#gh-light-mode-only" width="300">
+  <img src="img/sphae_stepsdark.png#gh-dark-mode-only" width="300">
+</p>
 
 This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently, this tool is being developed for phage genomes. The steps include,
 
