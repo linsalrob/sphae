@@ -16,6 +16,8 @@ params:
   min_mean_quality: 9 
   min_length: 1000 
   bases: 10000000
+  gene-predict: 'phanotate'
+  #gene-predict: 'prodigal-gv' #to test alternate codons, uncomment this
 
 db:
   pfam: "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/"

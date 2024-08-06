@@ -5,7 +5,8 @@ rule pharokka_annotate:
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=os.path.join(dir_db, "pharokka_db"),
-        sp="{sample}"
+        sp="{sample}",
+        genes= config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
         card=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
@@ -30,6 +31,7 @@ rule pharokka_annotate:
                 -i {input} \
                 -o {params.o} \
                 -d {params.db} \
+                -g {params.genes} \
                 -t {threads} \
                 -f -p {params.sp}\
                 2> {log}

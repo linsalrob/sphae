@@ -1,5 +1,8 @@
 # Changes being added
 
+## v1.4.4
+- adding the option to run pharokka with --pyrodigal-gv to test for alternate coding genes
+
 ## v1.4.3
 - Summary file update
   - missed adding DTR found or not when only one genome assembled per sample, added this in now

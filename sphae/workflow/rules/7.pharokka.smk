@@ -9,6 +9,7 @@ rule pharokka_megahit:
         inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
         output=os.path.join(dir_annotate, "pharokka-pr"),
         db=os.path.join(dir_db, "pharokka_db"),
+        genes= config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk"),
         card=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "top_hits_card.tsv"),
@@ -35,6 +36,7 @@ rule pharokka_megahit:
                     -i "$f" \
                     -o {params.output}/"$data"_pharokka \
                     -d {params.db} \
+                    -g {params.genes} \
                     -t {threads} \
                     -f -p "$data"\
                     2> {log}
@@ -65,6 +67,7 @@ rule pharokka_flye:
         inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
         output=os.path.join(dir_annotate, "pharokka-sr"),
         db=os.path.join(dir_db, "pharokka_db"),
+        genes= config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),
         card=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),
@@ -91,6 +94,7 @@ rule pharokka_flye:
                     -i "$f" \
                     -o {params.output}/"$data"_pharokka \
                     -d {params.db} \
+                    -g {params.genes} \
                     -t {threads} \
                     -f -p "$data"\
                     2> {log}
