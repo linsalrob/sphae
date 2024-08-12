@@ -1,7 +1,10 @@
 # Changes being added
 
+## dev branch 
+- working on adding a map module
+
 ## v1.4.4
-- adding the option to run pharokka with --pyrodigal-gv to test for alternate coding genes
+- adding the option to run pharokka with --pyrodigal-gv to test for alternate coding genes in config file
 - sphae plots fix
 
 ## v1.4.3
