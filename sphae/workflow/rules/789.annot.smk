@@ -121,7 +121,7 @@ rule phynteny_plotter:
         fasta=os.path.join(input_dir, PATTERN_LONG)
     params:
         gff3=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gff3"),
-        prefix="phynteny",
+        prefix="{sample}",
         output=os.path.join(dir_annot, "{sample}-phynteny", "plots")
     output:
         plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png")
@@ -134,10 +134,10 @@ rule phynteny_plotter:
         """
         if [[ -s {input.gbk} ]] ; then
             genbank_to -g {input.gbk} --gff3 {params.gff3}
-            phold plot -i {input.gbk} -f -p {wildcards.sample} -o {params.output}
-            touch {output.plot}
+            phold plot -i {input.gbk} -f -p {params.prefix} -o {params.output}
+            mv {params.output}/*.png {output.plot}
         else
-            touch {output.plot}
+            mv {params.output}/*.png {output.plot}
         fi
         """
 

@@ -2,6 +2,7 @@
 
 ## v1.4.4
 - adding the option to run pharokka with --pyrodigal-gv to test for alternate coding genes
+- sphae plots fix
 
 ## v1.4.3
 - Summary file update

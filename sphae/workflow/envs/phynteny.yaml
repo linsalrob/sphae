@@ -5,6 +5,7 @@ channels:
     - defaults
 dependencies:
     - python==3.10.0
+    - wget >=1.21.4
     - pip 
     - pip:
         - numpy==1.26.4

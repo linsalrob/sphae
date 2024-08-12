@@ -39,7 +39,7 @@ def copy_multiple_files(params):
         shutil.copy(gbk, new_gbk_path)
 
     # Find and copy _plot.png files with renaming
-    plot_files = glob.glob(f"{params['annot']}/phynteny-*/{params['sample']}_*_phynteny/*_plot.png")
+    plot_files = glob.glob(f"{params['annot']}/phynteny-*/{params['sample']}_*_phynteny/plots/*.png")
     for i, plt in enumerate(plot_files, start=1):
         samplenames = f"{params['sample']}_{i}"
         new_png_path = os.path.join(outdir, f"{samplenames}.png")

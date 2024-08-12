@@ -25,7 +25,6 @@
 The steps that sphae takes are shown here:
 <p align="center">
   <img src="img/sphae_steps.png#gh-light-mode-only" width="300">
-  <img src="img/sphae_stepsdark.png#gh-dark-mode-only" width="300">
 </p>
 
 This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journal.pcbi.1010705], to assemble and annotate phage sequences. Currently, this tool is being developed for phage genomes. The steps include,
@@ -55,7 +54,7 @@ pip install sphae
 conda create -y -n sphae 
 conda activate sphae
 #install sphae
-conda install sphae
+mamba install sphae
 ```
 **Source Install**
 
@@ -123,9 +122,6 @@ sphae run --input tests/data/nanopore-subset --sequencing longread --output exam
 
 #For newer ONT sequencing data where polishing is not required, run the command
 sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --no_medaka
-
-#For PacBio sequencing data, run the longread seuqencing with no polishing
-sphae run --input <pacbio sequencing>  --sequencing longread --output example -k --no_medaka
 
 #To run either of the commands on the cluster, add --executor slurm to the command. There is a little bit of setup to do here.
 #Setup a ~/.config/snakemake/slurm/config.yaml file - https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html#advanced-resource-specifications
@@ -210,8 +206,7 @@ Genome summary file includes the following information to help,
 
     Note: Currently, Sphae runs Phold in CPU mode, but efforts are underway to support Phold GPU mode for faster processing of this step.
 
-8. Adding new tools to worklow
-9. How to change the number of base pairs to subsample for a sample?
+8. How to change the number of base pairs to subsample for a sample?
     Run the command `sphae config`
     This copies the config file within the workflow to the current directory. Open this file and update the line `bases: 10000000` to for instance `bases: 300000`
     Then run sphae run with the command `sphae run --input tests/data/illumina-subset --output example -k --config <path to the config file with the change>`

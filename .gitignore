@@ -6,8 +6,6 @@ sphae-Bu*
 sphae-Bf*
 
 sphae/workflow/conda/
-sphae.sh
-sphae.out
 .snakemake/
 sphae/.snakemake
 sphae/workflow/databases/
