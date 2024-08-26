@@ -36,6 +36,8 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
   
 A complete list of programs used for each step is mentioned in the `sphae.CITATION` file. 
 
+**If you are new to bioinformatics, here is a tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
+
 ### Install 
 
 **Pip install**
