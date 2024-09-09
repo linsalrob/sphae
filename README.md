@@ -83,6 +83,24 @@ pip install -e .
 #confirm the workflow is installed by running the below command 
 sphae --help
 ```
+**Container Install**
+
+You can use the pre-built sphae container with Docker/Singularity/apptainer available [here](https://quay.io/repository/gbouras13/sphae). It is very large as it comes with all the required software pre-installed, so may take a while to download and install.
+
+As an example of installing the sphae .sif file and running sphae v1.4.4  with Singularity:
+
+```
+TMPDIR=<where your tmpdir lives>
+IMAGEDIR-<where you want the image to live>
+
+singularity pull --tmpdir=$TMPDIR  --dir $IMAGEDIR docker://quay.io/gbouras13/sphae:1.4.4
+singularity exec  sphae_1.4.4.sif sphae --help 
+singularity exec  sphae_1.4.4.sif sphae run --help
+singularity exec  sphae_1.4.4.sif sphae install --help 
+```
+
+You will still need to install the databases with `sphae install` as outlined below.
+
 
 ## Installing databases
 Run the below command,
