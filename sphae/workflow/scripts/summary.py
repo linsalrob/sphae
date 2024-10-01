@@ -6,6 +6,57 @@ import pandas as pd
 from Bio import SeqIO
 import os
 import glob
+import re
+
+#Code from https://github.com/linsalrob/EdwardsLab/blob/e49085a1b0c97735f93bc1a1261514b4829e0ef3/roblib/functions.py#L10-L59
+def is_hypothetical(func):
+    """
+    Returns True if the function is hypothetical. Otherwise returns false
+    :param func: string
+    :return: boolean
+    """
+
+    if not func: return True
+    if func.lower() == 'hypothetical protein': return True
+    if re.search(r'lmo\d+ protein', func, re.IGNORECASE): return True
+    if re.search(r'hypoth', func, re.IGNORECASE): return True
+    if re.search(r'conserved protein', func, re.IGNORECASE): return True
+    if re.search(r'gene product', func, re.IGNORECASE): return True
+    if re.search(r'interpro', func, re.IGNORECASE): return True
+    if re.search(r'B[sl][lr]\d', func, re.IGNORECASE): return True
+    if re.search(r'^U\d', func, re.IGNORECASE): return True
+    if re.search(r'^orf[^_]', func, re.IGNORECASE): return True
+    if re.search(r'uncharacterized', func, re.IGNORECASE): return True
+    if re.search(r'pseudogene', func, re.IGNORECASE): return True
+    if re.search(r'^predicted', func, re.IGNORECASE): return True
+    if re.search(r'AGR_', func, re.IGNORECASE): return True
+    if re.search(r'similar to', func, re.IGNORECASE): return True
+    if re.search(r'similarity', func, re.IGNORECASE): return True
+    if re.search(r'glimmer', func, re.IGNORECASE): return True
+    if re.search(r'unknown', func, re.IGNORECASE): return True
+    if re.search(r'domain', func, re.IGNORECASE): return True
+    if re.search(r'^y[a-z]{2,4}\b', func, re.IGNORECASE): return True
+    if re.search(r'complete', func, re.IGNORECASE): return True
+    if re.search(r'ensang', func, re.IGNORECASE): return True
+    if re.search(r'unnamed', func, re.IGNORECASE): return True
+    if re.search(r'EG:', func, re.IGNORECASE): return True
+    if re.search(r'orf\d+', func, re.IGNORECASE): return True
+    if re.search(r'RIKEN', func, re.IGNORECASE): return True
+    if re.search(r'Expressed', func, re.IGNORECASE): return True
+    if re.search(r'[a-zA-Z]{2,3}\|', func, re.IGNORECASE): return True
+    if re.search(r'predicted by Psort', func, re.IGNORECASE): return True
+    if re.search(r'^bh\d+', func, re.IGNORECASE): return True
+    if re.search(r'cds_', func, re.IGNORECASE): return True
+    if re.search(r'^[a-z]{2,3}\d+[^:\+\-0-9]', func, re.IGNORECASE): return True
+    if re.search(r'similar to', func, re.IGNORECASE): return True
+    if re.search(r' identi', func, re.IGNORECASE): return True
+    if re.search(r'ortholog of', func, re.IGNORECASE): return True
+    if re.search(r'ortholog of', func, re.IGNORECASE): return True
+    if re.search(r'structural feature', func, re.IGNORECASE): return True
+    if re.search(r'Phage protein', func, re.IGNORECASE): return True
+    if re.search(r'mobile element', func, re.IGNORECASE): return True
+
+    return False
 
 #copying files if there is only one genome
 def copy_files(input_files, params):
@@ -52,7 +103,9 @@ def count_hypothetical_proteins(gbk_file):
         for feature in record.features:
             if feature.type == "CDS":
                 if "product" in feature.qualifiers:
-                    if "hypothetical protein" in feature.qualifiers["product"]:
+                    # Take the first entry of the 'product' list
+                    fn = feature.qualifiers["product"][0]
+                    if is_hypothetical(fn):
                         count += 1
     return count
 
@@ -110,48 +163,61 @@ def write_single_genome_summary(input_files, summary):
 
         found_gene = False
         gbk_records = SeqIO.parse(input_files['gbk'], 'genbank')
+        integrase_info = []
+        recombinase_info = []
+        transposase_info = []
+        toxin_info = []
+
         for record in gbk_records:
             for feature in record.features:
-                if feature.type == "CDS" and 'product' in feature.qualifiers and 'integra' in feature.qualifiers['product'][0].lower():
-                    #print (feature)
-                    found_gene = True
-                    gene_id = feature.qualifiers['locus_tag'][0]
-                    function = feature.qualifiers['function'][0]
-                    product = feature.qualifiers['product'][0]
-                    summary.write(f"Integrase found: \t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
+                if feature.type == "CDS":
+                    product = feature.qualifiers.get('product', [''])[0].lower()
+                    gene_id = feature.qualifiers.get('locus_tag', ['Unknown'])[0]
+                    function = feature.qualifiers.get('function', ['Unknown'])[0]
 
-                elif feature.type == "CDS" and 'product' in feature.qualifiers and 'recombinase' in feature.qualifiers['product'][0].lower():
-                    #print (feature)
-                    found_gene = True
-                    gene_id = feature.qualifiers['locus_tag'][0]
-                    function = feature.qualifiers['function'][0]
-                    product = feature.qualifiers['product'][0]
-                    summary.write(f"Recombinase found: \t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
+                    if 'integrase' in product:
+                        integrase_info.append((gene_id, function))
+                    elif 'recombinase' in product:
+                        recombinase_info.append((gene_id, function))
+                    elif 'transposase' in product:
+                        transposase_info.append((gene_id, function))
+                    elif 'toxin' in product:
+                        toxin_info.append((gene_id, function))
+                                
+        # Write results for each gene
+        summary.write("Gene search results:\n")
                 
-                elif feature.type == "CDS" and 'product' in feature.qualifiers and 'transposase' in feature.qualifiers['product'][0].lower():
-                    #print (feature)
-                    found_gene = True
-                    gene_id = feature.qualifiers['locus_tag'][0]
-                    function = feature.qualifiers['function'][0]
-                    product = feature.qualifiers['product'][0]
-                    summary.write(f"Transposase found: \t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
-
-        if not found_gene:
-            if 'integra' not in open(input_files['gbk']).read().lower():
-                summary.write("No Integrases\n")
-            else:
-                summary.write("No Integrases\n")
-                summary.write("\t...but Phynteny predicted a few unknown function genes to have some similarity with integrase genes but with low confidence. Maybe a false positive or a novel integrase gene\n")
-
-            if 'recombinase' not in open(input_files['gbk']).read().lower():
-                summary.write("No recombinase\n")
-            else: 
-                summary.write("Recombinases found in genome\n")
-            
-            if 'transposase' not in open(input_files['gbk']).read().lower():
-                summary.write("No transposase\n")
-            else: 
-                summary.write("Transposases found in genome\n")
+        # Integrase
+        if integrase_info:
+            summary.write(f"Integrase found at {len(integrase_info)} location(s):\n")
+            for gene_id, function in integrase_info:
+                summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+        else:
+            summary.write("No Integrase found\n")
+                
+        # Recombinase
+        if recombinase_info:
+            summary.write(f"Recombinase found at {len(recombinase_info)} location(s):\n")
+            for gene_id, function in recombinase_info:
+                summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+        else:
+            summary.write("No Recombinase found\n")
+                
+        # Transposase
+        if transposase_info:
+            summary.write(f"Transposase found at {len(transposase_info)} location(s):\n")
+            for gene_id, function in transposase_info:
+                summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+        else:
+            summary.write("No Transposase found\n")
+                
+        # Toxin
+        if toxin_info:
+            summary.write(f"Toxin found at {len(toxin_info)} location(s):\n")
+            for gene_id, function in toxin_info:
+                summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+        else:
+            summary.write("No Toxins found\n")
             
         #AMR genes 
         if (len(open(input_files['amr']).readlines()) == 1) and (len(open(input_files['card']).readlines()) == 0):
@@ -175,12 +241,12 @@ def write_single_genome_summary(input_files, summary):
 
         #CRISPR spacers 
         if (len(open(input_files['spacers']).readlines()) == 0) and (len(open(input_files['acr']).readlines()) == 0):
-            summary.write("No anti CRISPR spacers found\n")
+            summary.write("No anti CRISPR proteins found\n")
         elif (len(open(input_files['spacers']).readlines()) != 0):
-            summary.write("anti-CRISPR spacers found\n")
+            summary.write("anti-CRISPR proteins found\n")
             shutil.copy(input_files['spacers'], outdir)
         elif (len(open(input_files['acr']).readlines()) != 0):
-            summary.write("anti-CRISPR spacers found\n")
+            summary.write("anti-CRISPR proteins found\n")
             shutil.copy(input_files['acr'], outdir)
                 
         #Defense finder genes  
@@ -193,6 +259,7 @@ def write_single_genome_summary(input_files, summary):
 def write_multiple_genome_summary(input_files, summary):
     summary.write("Multiple phages assembled from this sample\n")
     summary.write("Their characteristics are:\n")
+    
     filename = input_files['read']
     with open(filename, 'r') as file:
         contents = file.read()
@@ -219,8 +286,8 @@ def write_multiple_genome_summary(input_files, summary):
                 
                 summary.write(f"Completeness: {fields[20]}\n")
                 summary.write(f"Contamination: {fields[22]}\n")
-                
-                taxa_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_top_hits_mash_inphared.tsv"
+
+                taxa_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/{samplenames}_top_hits_mash_inphared.tsv"
                 for taxa_file in glob.glob(taxa_pattern):
                     tax = pd.read_csv(taxa_file, sep='\t')
                     summary.write("Taxa description (Matching hashes):\t")
@@ -229,19 +296,19 @@ def write_multiple_genome_summary(input_files, summary):
                         summary.write(f"Lowest Taxa classification: {row['Lowest_Taxa']}\n")
                         summary.write(f"Isolation host of described taxa: {row['Isolation_Host_(beware_inconsistent_and_nonsense_values)']}\n")
 
-                cds_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_cds_functions.tsv"
+                cds_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/{samplenames}_cds_functions.tsv"
                 for cds_file in glob.glob(cds_pattern):
                     cds_df=pd.read_csv(cds_file, sep='\t')
                     cds_data = cds_df[cds_df['Description'] == 'CDS']
                     count_value = cds_data['Count'].values[0]
                     summary.write(f"Number of CDS: {count_value}\n")
                 
-                gbk_pattern = f"{annot}/phynteny-pr/{samplenames}_phynteny/phynteny.gbk"
+                gbk_pattern = f"{params['annot']}/phynteny-{params['seq']}/{samplenames}_phynteny/phynteny.gbk"
                 for gbk_file in glob.glob(gbk_pattern):
                     hypothetical_protein_count = count_hypothetical_proteins(gbk_file)
                     summary.write(f"Total number of CDS annotated as 'hypothetical protein': {hypothetical_protein_count}\n")
 
-                cds_dens_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_length_gc_cds_density.tsv"
+                cds_dens_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/{samplenames}_length_gc_cds_density.tsv"
                 for cdsdens_file in glob.glob(cds_dens_pattern):
                     cdn=pd.read_csv(cdsdens_file, sep='\t')
                     gc_percent = cdn['gc_perc'].values[0]
@@ -249,54 +316,68 @@ def write_multiple_genome_summary(input_files, summary):
                     summary.write(f"GC percent: {gc_percent}\n")
                     summary.write(f"Coding density: {coding_density}\n")
 
-                found_gene = False
-                gbk_pattern = f"{annot}/phynteny-pr/{samplenames}_phynteny/phynteny.gbk"
+                # Gene searches (Integrase, Recombinase, etc.)
+                gbk_pattern = f"{params['annot']}/phynteny-{params['seq']}/{samplenames}_phynteny/phynteny.gbk"
+                integrase_info = []
+                recombinase_info = []
+                transposase_info = []
+                toxin_info = []
+                
                 for gbk_file in glob.glob(gbk_pattern):
                     gbk_records = SeqIO.parse(gbk_file, 'genbank')
                     for record in gbk_records:
                         for feature in record.features:
-                            if feature.type == "CDS" and 'product' in feature.qualifiers and 'integra' in feature.qualifiers['product'][0].lower():
-                                #print (feature)
-                                found_gene = True
-                                gene_id = feature.qualifiers['locus_tag'][0]
-                                function = feature.qualifiers['function'][0]
-                                product = feature.qualifiers['product'][0]
-                                summary.write(f"Integrase found: \t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
-                            elif feature.type == "CDS" and 'product' in feature.qualifiers and 'recombinase' in feature.qualifiers['product'][0].lower():
-                                #print (feature)
-                                found_gene = True
-                                gene_id = feature.qualifiers['locus_tag'][0]
-                                function = feature.qualifiers['function'][0]
-                                product = feature.qualifiers['product'][0]
-                                summary.write(f"Recombinase found: \t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
-                            elif feature.type == "CDS" and 'product' in feature.qualifiers and 'transposase' in feature.qualifiers['product'][0].lower():
-                                #print (feature)
-                                found_gene = True
-                                gene_id = feature.qualifiers['locus_tag'][0]
-                                function = feature.qualifiers['function'][0]
-                                product = feature.qualifiers['product'][0]
-                                summary.write(f"Transposase found:\t{gene_id}: function=\"{function}\", product=\"{product}\"\n")
+                            if feature.type == "CDS":
+                                product = feature.qualifiers.get('product', [''])[0].lower()
+                                gene_id = feature.qualifiers.get('locus_tag', ['Unknown'])[0]
+                                function = feature.qualifiers.get('function', ['Unknown'])[0]
 
-                if not found_gene:
-                    if 'integra' not in open(gbk_file).read().lower():
-                        summary.write("No Integrases\n")
-                    else:
-                        summary.write("No Integrases\n")
-                        summary.write("\t...but Phynteny predicted a few unknown function genes to have some similarity with integrase genes but with low confidence. Maybe a false positive or a novel integrase gene\n")
-
-                    if 'recombinase' not in open(gbk_file).read().lower():
-                        summary.write("No recombinase\n")
-                    else: 
-                        summary.write("Recombinases found in genome\n")
-                        
-                    if 'transposase' not in open(gbk_file).read().lower():
-                        summary.write("No transposase\n")
-                    else: 
-                        summary.write("Transposases found in genome\n")
-
+                                if 'integrase' in product:
+                                    integrase_info.append((gene_id, function))
+                                elif 'recombinase' in product:
+                                    recombinase_info.append((gene_id, function))
+                                elif 'transposase' in product:
+                                    transposase_info.append((gene_id, function))
+                                elif 'toxin' in product:
+                                    toxin_info.append((gene_id, function))
+                                
+                # Write results for each gene
+                summary.write("Gene search results:\n")
+                
+                # Integrase
+                if integrase_info:
+                    summary.write(f"Integrase found at {len(integrase_info)} location(s):\n")
+                    for gene_id, function in integrase_info:
+                        summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+                else:
+                    summary.write("No Integrase found\n")
+                
+                # Recombinase
+                if recombinase_info:
+                    summary.write(f"Recombinase found at {len(recombinase_info)} location(s):\n")
+                    for gene_id, function in recombinase_info:
+                        summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+                else:
+                    summary.write("No Recombinase found\n")
+                
+                # Transposase
+                if transposase_info:
+                    summary.write(f"Transposase found at {len(transposase_info)} location(s):\n")
+                    for gene_id, function in transposase_info:
+                        summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+                else:
+                    summary.write("No Transposase found\n")
+                
+                # Toxin
+                if toxin_info:
+                    summary.write(f"Toxin found at {len(toxin_info)} location(s):\n")
+                    for gene_id, function in toxin_info:
+                        summary.write(f"  Gene ID: {gene_id}, Function: {function}\n")
+                else:
+                    summary.write("No Toxin found\n")
                 #AMR genes 
-                amr_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/top_hits_card.tsv"
-                card_pattern = f"{annot}/phold-pr/{samplenames}_phold/sub_db_tophits/card_cds_predictions.tsv"
+                amr_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/top_hits_card.tsv"
+                card_pattern = f"{params['annot']}/phold-{params['seq']}/{samplenames}_phold/sub_db_tophits/card_cds_predictions.tsv"
                 out_amr = f"{outdir}/{samplenames}_pharokka_card.tsv"
                 out_card = f"{outdir}/{samplenames}_phold_card.tsv"
                 amr_lines_count = count_lines(amr_pattern)
@@ -311,8 +392,8 @@ def write_multiple_genome_summary(input_files, summary):
                     shutil.copy(card_pattern, out_card)
 
                 # Virulence genes
-                vfdb_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/top_hits_vfdb.tsv"
-                vfdb_phold_pattern = f"{annot}/phold-pr/{samplenames}_phold/sub_db_tophits/vfdb_cds_predictions.tsv"
+                vfdb_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/top_hits_vfdb.tsv"
+                vfdb_phold_pattern = f"{params['annot']}/phold-{params['seq']}/{samplenames}_phold/sub_db_tophits/vfdb_cds_predictions.tsv"
                 vfdb_lines_count = count_lines(vfdb_pattern)
                 phold_lines_count = count_lines(vfdb_phold_pattern)
                 out_ph = f"{outdir}/{samplenames}_pharokka_vfdb.tsv"
@@ -327,23 +408,23 @@ def write_multiple_genome_summary(input_files, summary):
                     shutil.copy(vfdb_phold_pattern, out_phold)
 
                 # CRISPR spacers
-                spacers_pattern = f"{annot}/pharokka-pr/{samplenames}_pharokka/{samplenames}_minced_spacers.txt"
-                acr_pattern = f"{annot}/phold-pr/{samplenames}_phold/sub_db_tophits/acr_cds_predictions.tsv"
+                spacers_pattern = f"{params['annot']}/pharokka-{params['seq']}/{samplenames}_pharokka/{samplenames}_minced_spacers.txt"
+                acr_pattern = f"{params['annot']}/phold-{params['seq']}/{samplenames}_phold/sub_db_tophits/acr_cds_predictions.tsv"
                 spacers_lines_count = count_lines(spacers_pattern)
                 phold_lines_count = count_lines(acr_pattern)
                 out_spacers = f"{outdir}/{samplenames}_pharokka_crispr.tsv"
                 out_acr = f"{outdir}/{samplenames}_phold_acr.tsv"
                 if spacers_lines_count == 0 and  phold_lines_count == 0:
-                    summary.write("No anti CRISPR spacers found\n")
+                    summary.write("No anti CRISPR proteins found\n")
                 elif spacers_lines_count != 0:
-                    summary.write("anti-CRISPR spacers found\n")
+                    summary.write("anti-CRISPR proteins found\n")
                     shutil.copy(spacers_pattern, out_spacers)
                 elif phold_lines_count != 0:
-                    summary.write("anti-CRISPR spacers found\n")
+                    summary.write("anti-CRISPR proteins found\n")
                     shutil.copy(acr_pattern, out_acr)
 
                 # Defense genes
-                defense_pattern = f"{annot}/phold-pr/{samplenames}_phold/sub_db_tophits/defensefinder_cds_predictions.tsv"
+                defense_pattern = f"{params['annot']}/phold-{params['seq']}/{samplenames}_phold/sub_db_tophits/defensefinder_cds_predictions.tsv"
                 phold_lines_count = count_lines(defense_pattern)
                 out_defense = f"{outdir}/{samplenames}_phold_defense.tsv"
                 if phold_lines_count == 0:
@@ -352,18 +433,6 @@ def write_multiple_genome_summary(input_files, summary):
                     summary.write("Defense genes found\n")
                     shutil.copy(defense_pattern, out_defense)
                 summary.write("\n\n")
-
-def generate_summary(input_files, output_summary, params):
-    with open(output_summary, 'w') as summary:
-        summary.write(f"Sample: {params['sample']}\n")
-        if Path(input_files['table']).exists():
-            line_count = sum(1 for line in open(input_files['table']))
-            if line_count == 2:
-                write_single_genome_summary(input_files, summary)
-            elif line_count > 2:
-                write_multiple_genome_summary(input_files, summary)
-        else:
-            summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
 
 def analyze_assembly(input_files, output_summary, params):
     file_content = Path(input_files['assembly']).read_text().splitlines()[-1]
@@ -401,6 +470,18 @@ def analyze_assembly(input_files, output_summary, params):
             summary.write(f"Total length of reads after QC and subsampling: {contents}\n")
             summary.write("Failed during assembly\n")            
 
+def generate_summary(input_files, output_summary, params):
+    with open(output_summary, 'w') as summary:
+        summary.write(f"Sample: {params['sample']}\n")
+        if Path(input_files['table']).exists():
+            line_count = sum(1 for line in open(input_files['table']))
+            if line_count == 2:
+                write_single_genome_summary(input_files, summary)
+            elif line_count > 2:
+                write_multiple_genome_summary(input_files, summary)
+        else:
+            summary.write("No contigs from the assembly were assigned viral, likely contigs too short in size\n")
+
 # Replace input_files and output_params with the actual paths to your input/output files and parameters
 input_files = {
         'read': snakemake.input.r,
@@ -429,7 +510,8 @@ params = {
     'genomes': snakemake.params.genomes,
     'gbks' : snakemake.params.gbks,
     'plots': snakemake.params.plots,
-    'annot': snakemake.params.annot
+    'annot': snakemake.params.annot,
+    'seq': snakemake.params.seq
 }
 
 """

@@ -97,6 +97,7 @@ rule summarize_paired:
         plots=os.path.join(dir_final, "{sample}-pr", "{sample}_phynteny_plot.png"),
         outdir=os.path.join(dir_final,"{sample}-pr"),
         ID="{sample}",
+        seq= "pr"
     localrule: True
     script:
         os.path.join(dir_script, 'summary.py')
@@ -196,6 +197,7 @@ rule summarize_longread:
         ID="{sample}",
         plots=os.path.join(dir_final, "{sample}-sr", "{sample}_phynteny_plot.png"),
         outdir=os.path.join(dir_final, "{sample}-sr"),
+        seq= "sr"
     localrule: True
     script:
         os.path.join(dir_script, 'summary.py')

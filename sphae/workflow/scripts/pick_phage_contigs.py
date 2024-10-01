@@ -17,7 +17,7 @@ def picking_contigs(file,out):
         datav = data[data["Length_x"] > 1000]
         datav = datav[datav["Prediction"] == "Virus"]
         datac = datav[datav["completeness"]> 70.00]
-        #print (len(data))
+        #print (len(datac))
         #print (datac)
     else:
         open(out, 'a').close()
@@ -33,6 +33,9 @@ def picking_contigs(file,out):
             print ("The genome is fragmented")
             datac.to_csv(out, index=False)
         #return None
+        else:
+            print ("Multiple genomes")
+            datac.to_csv(out, index=False)
     
     elif (len(datac))==1:
         #print ("entering this if statement")

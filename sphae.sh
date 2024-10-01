@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=sphae-medaka
+#SBATCH --job-name=sphae
 #SBATCH --mail-type=ALL
 #SBATCH --output=%x-%j.out.txt
 #SBATCH --error=%x-%j.err.txt
@@ -12,8 +12,8 @@
 #SBATCH --qos=hc-concurrent-jobs
 
 #sphae install
-#sphae run --input tests/data/illumina-subset --threads 64 -k 
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka 
+sphae run --input tests/data/illumina-subset --threads 64 -k 
+sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
+sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka 
 #sphae annotate --genome tests/data/genome --threads 64
 

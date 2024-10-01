@@ -1,7 +1,9 @@
 # Changes being added
 
-## dev branch 
-- working on adding a map module
+## v1.4.5
+- catches a specific cases of having mutiple circular phages from assembly
+- updating the code to count number of hypothetical proteins to catch other genes that dont have a biological function assigned
+- Addressing issue#36- Phrogs annotated toxin not recognised in sphae summary output
 
 ## v1.4.4
 - adding the option to run pharokka with --pyrodigal-gv to test for alternate coding genes in config file
