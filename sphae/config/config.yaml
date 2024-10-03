@@ -23,3 +23,7 @@ db:
   pfam: "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/"
   pfam_file: 'Pfam35.0/Pfam-A.hmm.gz'
   models: "https://zenodo.org/record/8198288/files/phynteny_models_v0.1.11.tar.gz"
+
+args:
+  output: "sphae.out"
+  db_dir: ${DIR_DB}

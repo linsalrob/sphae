@@ -41,6 +41,8 @@ if config['args']['db_dir'] is None:
 else:
     dir_db = config['args']['db_dir']
 
+print(f"Database directory {dir_db}")
+
 # temp dir
 if config['args']['temp_dir'] is None:
     dir_temp = os.path.join(dir_out, "temp")

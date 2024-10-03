@@ -1,4 +1,7 @@
 # Changes being added
+## v1.4.6
+- updating sphae code to make it a smaller container
+  - fixing rules to allow --conda-create-envs-only
 
 ## v1.4.5
 - catches a specific cases of having mutiple circular phages from assembly
