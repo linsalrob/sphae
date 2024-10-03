@@ -37,14 +37,12 @@ ENV PATH /opt/miniforge3/bin:$PATH
 
 # Install conda environment
 RUN set -eux ; \
-  mamba install -y -c conda-forge -c bioconda -c defaults python==3.11 
+  mamba install -y -c conda-forge -c bioconda -c defaults sphae=${SPHAE_VERSION}=pyhdfd78af_0 python==3.11 
 ENV PATH /opt/miniforge3/bin:$PATH
 RUN conda clean -af -y
 
-# Source install sphae
+# Download test data
 RUN git clone "https://github.com/linsalrob/sphae.git"
-RUN cp sphae 
-RUN pip install -e .
 
 # Install Sphae databases (with dynamic threads)
 #RUN sphae install --threads ${THREADS} --conda-frontend mamba
