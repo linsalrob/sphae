@@ -93,10 +93,10 @@ As an example of installing the sphae .sif file and running sphae v1.4.4  with S
 TMPDIR=<where your tmpdir lives>
 IMAGEDIR-<where you want the image to live>
 
-singularity pull --tmpdir=$TMPDIR  --dir $IMAGEDIR docker://quay.io/gbouras13/sphae:1.4.4
-singularity exec  sphae_1.4.4.sif sphae --help 
-singularity exec  sphae_1.4.4.sif sphae run --help
-singularity exec  sphae_1.4.4.sif sphae install --help 
+singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
+singularity exec sphae_latest.sif sphae --help
+singularity exec sphae_latest.sif sphae run --help
+singularity exec sphae_latest.sif sphae install --help
 ```
 
 You will still need to install the databases with `sphae install` as outlined below.
