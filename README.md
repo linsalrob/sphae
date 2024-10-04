@@ -96,8 +96,8 @@ We have two containers available,
     #test if sphae is installed 
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
-    #mount the databases to the image and run with a dataset
-    singularity exec -B </path/to/databases>:/databases sphae_latest.sif sphae run --input <input files> --db_dir /databases
+    #mount the databases and input files to the image and run with a dataset
+    singularity exec -B </path/to/databases>:/databases, <path/to/inputfiles>:/input sphae_latest.sif sphae run --input /input --db_dir /databases
    ```
    
 **Source install**
