@@ -51,12 +51,13 @@ RUN git clone "https://github.com/linsalrob/sphae.git"
 ENV LC_ALL=C
 ENV LANGUAGE=
 
-#remove one of the test datasets
-RUN rm -rf sphae/tests/data/illumina-subset/SRR16219309*
+# Create the directory if it doesn't exist, then list its contents
+RUN mkdir -p sphae/tests/db && ls sphae/tests/db
+RUN mkdir sphae/tests/db/Pfam35.0 && touch sphae/tests/db/Pfam35.0/Pfam-A.hmm.gz
 
 # Create required conda environments without running
-RUN sphae run --threads ${THREADS} --input sphae/tests/data/illumina-subset -k --conda-frontend mamba --conda-create-envs-only --db_dir $DIR_DB
-RUN sphae run --threads ${THREADS} --input sphae/tests/data/nanopore-subset --sequencing longread -k --conda-frontend mamba --conda-create-envs-only --db_dir $DIR_DB
+RUN sphae run --threads ${THREADS} --input sphae/tests/data/illumina-subset -k --use-conda --db_dir sphae/tests/db --conda-create-envs-only
+RUN sphae run --threads ${THREADS} --input sphae/tests/data/nanopore-subset --sequencing longread -k --conda-create-envs-only --db_dir sphae/tests/db
 
 # Cleanup
 RUN rm -rf sphae.out /tmp/* /var/tmp/* /var/lib/apt/lists/*
