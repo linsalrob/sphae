@@ -11,6 +11,8 @@
 [![Pip Downloads](https://static.pepy.tech/badge/sphae)](https://www.pepy.tech/projects/sphae)
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/sphae/README.html)
 [![Bioconda Downloads](https://img.shields.io/conda/dn/bioconda/sphae)](https://img.shields.io/conda/dn/bioconda/sphae)
+![Docker Pulls](https://img.shields.io/docker/pulls/npbhavya/sphae.svg)
+
 
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
