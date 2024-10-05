@@ -81,6 +81,8 @@ We have two containers available,
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
     singularity exec sphae_latest.sif sphae install --help
+
+    singularity exec -B <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
     ```
     
 2. [Sphae v1.4.5 **without** databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
@@ -97,7 +99,7 @@ We have two containers available,
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
     #mount the databases and input files to the image and run with a dataset
-    singularity exec -B </path/to/databases>:/databases, <path/to/inputfiles>:/input sphae_latest.sif sphae run --input /input --db_dir /databases
+    singularity exec -B </path/to/databases>:/databases, <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --db_dir /databases --output /output
    ```
    
 **Source install**
