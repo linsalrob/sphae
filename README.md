@@ -38,6 +38,8 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 
 **If you are new to bioinformatics or running command line tools, here is a great tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
 
+**Cite Sphae: https://doi.org/10.1101/2024.11.18.624194**
+
 ### Install 
 
 **Pip install**
@@ -252,8 +254,11 @@ Genome summary file includes the following information to help,
     Run the command `sphae config`
     This copies the config file within the workflow to the current directory. Open this file and update the line `bases: 10000000` to for instance `bases: 300000`
     Then run sphae run with the command `sphae run --input tests/data/illumina-subset --output example -k --config <path to the config file with the change>`
-    
    
+   
+## Citation
+To cite sphae, doi: https://doi.org/10.1101/2024.11.18.624194
+
 ## Issues and Questions
 
 If you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 
