@@ -11,6 +11,8 @@
 [![Pip Downloads](https://static.pepy.tech/badge/sphae)](https://www.pepy.tech/projects/sphae)
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/sphae/README.html)
 [![Bioconda Downloads](https://img.shields.io/conda/dn/bioconda/sphae)](https://img.shields.io/conda/dn/bioconda/sphae)
+![Docker Pulls](https://img.shields.io/docker/pulls/npbhavya/sphae.svg)
+
 
 # Sphae 
 ## Phage toolkit to detect phage candidates for phage therapy
@@ -33,10 +35,10 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 - Assembly
 - Contig quality checks; read coverage, viral or not, completeness, and assembly graph components. 
 - Phage genome annotation
-  
-A complete list of programs used for each step is mentioned in the `sphae.CITATION` file. 
 
-**If you are new to bioinformatics, here is a tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
+**If you are new to bioinformatics or running command line tools, here is a great tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
+
+**Cite Sphae: https://doi.org/10.1101/2024.11.18.624194**
 
 ### Install 
 
@@ -68,7 +70,43 @@ conda activate sphae
 conda install -n base -c conda-forge mamba #if you don't already have mamba installed
 ```
 
-Steps for installing sphae workflow 
+**Container Install**
+
+We have two containers available, 
+1. [Sphae v1.4.5 with databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   This is very large container, about 17.5 GB, so it may take a while to download and install.
+
+   Here are the commands to download sphae container with databases
+    ```
+    TMPDIR=<where your tmpdir lives>
+    IMAGEDIR-<where you want the image to live>
+    
+    singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
+    singularity exec sphae_latest.sif sphae --help
+    singularity exec sphae_latest.sif sphae run --help
+    singularity exec sphae_latest.sif sphae install --help
+
+    singularity exec -B <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
+    ```
+    
+2. [Sphae v1.4.5 **without** databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   This version of sphae container does not include the databases, so they would have to be downloaded separately. The advantage of this is the container is smaller, so quick to donwnload and the databases can be downloaded separately. 
+
+   You will still need to install the databases with `sphae install` as outlined below.
+
+   ```
+   TMPDIR=<where your tmpdir lives>
+    IMAGEDIR-<where you want the image to live>
+    
+    singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
+    #test if sphae is installed 
+    singularity exec sphae_latest.sif sphae --help
+    singularity exec sphae_latest.sif sphae run --help
+    #mount the databases and input files to the image and run with a dataset
+    singularity exec -B </path/to/databases>:/databases, <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --db_dir /databases --output /output
+   ```
+   
+**Source install**
 
 ```bash
 #clone sphae repository
@@ -83,22 +121,6 @@ pip install -e .
 #confirm the workflow is installed by running the below command 
 sphae --help
 ```
-**Container Install**
-
-You can use the pre-built sphae container with Docker/Singularity/apptainer available [here](https://quay.io/repository/gbouras13/sphae). It is very large as it comes with all the required software pre-installed, so may take a while to download and install.
-
-As an example of installing the sphae .sif file and running sphae v1.4.4  with Singularity:
-
-```
-TMPDIR=<where your tmpdir lives>
-IMAGEDIR-<where you want the image to live>
-
-singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
-singularity exec sphae_latest.sif sphae --help
-singularity exec sphae_latest.sif sphae run --help
-singularity exec sphae_latest.sif sphae install --help
-```
-
 You will still need to install the databases with `sphae install` as outlined below.
 
 
@@ -126,8 +148,10 @@ This step requires ~17G of storage
 
 ## Running the workflow
 
-The command `sphae run` will run QC, assembly and annotation
-
+Sphae is developed to be modular: 
+- `sphae run` will run QC, assembly and annotation
+- `sphae annotate` will run only annotation steps
+  
 **Commands to run**
 
 Only one command needs to be submitted to run all the above steps: QC, assembly and assembly stats
@@ -230,9 +254,13 @@ Genome summary file includes the following information to help,
     Run the command `sphae config`
     This copies the config file within the workflow to the current directory. Open this file and update the line `bases: 10000000` to for instance `bases: 300000`
     Then run sphae run with the command `sphae run --input tests/data/illumina-subset --output example -k --config <path to the config file with the change>`
-    
    
+   
+## Citation
+To cite sphae, doi: https://doi.org/10.1101/2024.11.18.624194
+
 ## Issues and Questions
 
 If you come across any issues or errors, report them under [Issues](https://github.com/linsalrob/sphae/issues). 
+
 
