@@ -14,6 +14,7 @@
 #sphae install
 #sphae run --input tests/data/illumina-subset --threads 64 -k 
 #sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
-sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  --db_dir tests/db
-#sphae annotate --genome tests/data/genome --threads 64
+#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  --db_dir tests/db
+sphae annotate --genome /home/nala0006/scratch/mycobac --output mycob_test --threads 64
 
+#sphae run --input tests/data/illumina-subset/ --threads 64 -k --db_dir tests/db --conda-create-envs-only

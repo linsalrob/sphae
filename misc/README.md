@@ -19,3 +19,4 @@ This has a list of misc scripts that can be run on the sphae output
   For example, 
     `python merging_sphae_output.py KlebPhages_v1.4-out/RESULTS/ test.tsv`
 
+- merging_output.py : Takes a directory with the summary files for each sample. 
