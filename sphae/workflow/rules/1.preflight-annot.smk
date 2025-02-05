@@ -30,6 +30,7 @@ else:
     dir_db = config['args']['db_dir']
 
 dir_annot = os.path.join(dir_out,'PROCESSING', "genome-annotate")
+dir_tree = os.path.join(dir_out,'PROCESSING', "trees")
 dir_final = os.path.join(dir_out,'final-annotate')
 dir_log = os.path.join(dir_out, 'logs')
 

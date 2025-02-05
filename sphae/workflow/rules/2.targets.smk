@@ -23,8 +23,7 @@ if config['args']['sequencing'] == 'paired':
     targets['assemble'].append(expand(os.path.join(dir_annotate, "{sample}-pr-genomes", "{sample}_1.fasta"), sample=samples_names))
 elif config['args']['sequencing'] == 'longread':
     targets['assemble'].append(expand(os.path.join(dir_flye, "{sample}-sr", "assembly.fasta"),sample=samples_names, file=[".fasta", "_graph.gfa", "_info.txt"]))
-    targets['assemble'].append(expand(os.path.join(dir_flye, "{sample}-sr", "consensus.fasta"),sample=samples_names))
-    targets['assemble'].append(expand(os.path.join(dir_flye,"{sample}-sr","{file}"),sample=samples_names, file=["assembly_result_table.csv","graph_seq_details_flye.tsv"]))
+    targets['assemble'].append(expand(os.path.join(dir_flye, "{sample}-sr", "consensus.fasta"),sample=samples_names))#    targets['assemble'].append(expand(os.path.join(dir_flye,"{sample}-sr","{file}"),sample=samples_names, file=["assembly_result_table.csv","graph_seq_details_flye.tsv"]))
     targets['assemble'].append(expand(os.path.join(dir_flye, "{sample}-sr", "checkv", "quality_summary.tsv"), sample=samples_names))
     targets['assemble'].append(expand(os.path.join(dir_assembly,"{sample}-assembly-stats_flye.csv"),sample=samples_names))
     targets['assemble'].append(expand(os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta"), sample=samples_names))

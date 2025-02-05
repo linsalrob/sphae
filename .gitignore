@@ -1,17 +1,20 @@
 problem_test/
+sphae.out
 genbank_to.log
 sphae-*.err.txt
 sphae-*.out.txt
 sphae-Bu*
-sphae-Bf*
+sphae-Bf* 
 
 sphae/workflow/conda/
 .snakemake/
+sphae/__pycache__
 sphae/.snakemake
 sphae/workflow/databases/
 sphae/sphae.egg-info
 sphae.egg-info
 logs_slurm/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

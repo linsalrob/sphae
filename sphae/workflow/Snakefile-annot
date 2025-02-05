@@ -9,6 +9,7 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 include: os.path.join("rules", "1.preflight-annot.smk")
 include: os.path.join("rules", "2.targets-annot.smk")
 include: os.path.join("rules", "789.annot.smk")
+include: os.path.join("rules", "10.trees.smk")
 
 
 """Mark target rules"""

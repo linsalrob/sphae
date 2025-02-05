@@ -16,3 +16,11 @@ targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phynteny", "
 targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_summary.txt"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_summary.functions"), sample=samples_names))
+
+#phylogenetic trees
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_terL.faa"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_portal.faa"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_terL.aln"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_portal.aln"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_terL.nwk"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_portal.nwk"), sample=samples_names))

@@ -11,8 +11,8 @@ rule fastp:
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
         stats = os.path.join(dir_fastp,"{sample}.stats.json"),
         html = os.path.join(dir_fastp,"{sample}.stats.html")
-    conda:
-        os.path.join(dir_env, "qc.yaml")
+    container:
+        "docker://biocontainers/fastp:v0.20.1_cv1"
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
@@ -36,8 +36,8 @@ rule rasusa:
         r2 = os.path.join(dir_fastp,"{sample}_subsampled_R2.fastq.gz"),
     params:
         coverage=config['params']['bases']
-    conda:
-        os.path.join(dir_env, "qc.yaml")
+    container:
+        "docker://staphb/rasusa:2.1.0"
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
@@ -63,8 +63,8 @@ rule run_seqkit_short:
     params:
         r1_temp = os.path.join(dir_fastp, "{sample}_r1.txt"),
         r2_temp = os.path.join(dir_fastp, "{sample}_r2.txt"),
-    conda:
-        os.path.join(dir_env, "qc.yaml")
+    container:
+        "docker://nanozoo/seqkit:2.6.1--022e008"
     resources:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
@@ -96,8 +96,8 @@ rule filtlong_long:
         fastq=os.path.join(input_dir, PATTERN_LONG)
     output:
         fastq=os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"),
-    conda:
-        os.path.join(dir_env, "qc.yaml")
+    container:
+        "docker://staphb/filtlong:0.2.1"
     params:
         qual=config['params']['min_mean_quality'],
         length=config['params']['min_length'],
@@ -119,8 +119,8 @@ rule run_seqkit_long:
         fastq=os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"),
     output:
         r=os.path.join(dir_nanopore, "{sample}_filt.txt"),
-    conda:
-        os.path.join(dir_env, "qc.yaml")
+    container:
+        "docker://nanozoo/seqkit:2.6.1--022e008"
     resources:
         cpu =config['resources']['smalljob']['cpu'],
         mem =config['resources']['smalljob']['mem'],

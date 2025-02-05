@@ -23,8 +23,8 @@ rule genomes_extract_megahit:
         fasta=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta")  
     params:
         outdir = os.path.join(dir_genome, "{sample}-pr"),
-    conda:
-        os.path.join(dir_env, "samtools.yaml")
+    container:
+        "docker://staphb/samtools:1.21"
     threads:
         config['resources']['smalljob']['cpu']
     resources:
@@ -82,8 +82,8 @@ rule genomes_extract_flye:
     params:
         outdir = os.path.join(dir_genome, "{sample}-sr"),
         sample = "{sample}"
-    conda:
-        os.path.join(dir_env, "samtools.yaml")
+    container:
+        "docker://staphb/samtools:1.21"
     threads:
         config['resources']['smalljob']['cpu']
     resources:

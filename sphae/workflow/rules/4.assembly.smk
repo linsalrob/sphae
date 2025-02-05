@@ -19,8 +19,8 @@ rule flye:
         g = config['params']['genomeSize']
     log:
         os.path.join(dir_log, "flye.{sample}.log")
-    conda:
-        os.path.join(dir_env, "flye.yaml")
+    container:
+        "docker://nanozoo/flye:2.9.3--973d045"
     threads:
         config['resources']['bigjob']['cpu']
     resources:
@@ -55,8 +55,8 @@ rule medaka:
         fastq = os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"),
     output:
         fasta = os.path.join(dir_flye,"{sample}-sr", "consensus.fasta")
-    conda:
-        os.path.join(dir_env, "medaka.yaml")
+    container:
+        "docker://nanozoo/medaka:2.0.0--5234ec7"
     params:
         model = config['params']['medaka'],
         dir= directory(os.path.join(dir_flye,"{sample}-sr"))
@@ -101,8 +101,8 @@ rule megahit:
     resources:
         mem_mb=config['resources']['bigjob']['mem'],
         time=config['resources']['bigjob']['time']
-    conda:
-        os.path.join(dir_env, "megahit.yaml")
+    container:
+        "docker://nanozoo/megahit:1.2.9--87c4487"
     shell:
         """
         if megahit \

@@ -19,8 +19,8 @@ rule flye:
         g = config['params']['genomeSize']
     log:
         os.path.join(dir_log, "flye.{sample}.log")
-    conda:
-        os.path.join(dir_env, "flye.yaml")
+    container:
+        "docker://nanozoo/flye:2.9.3--973d045"
     threads:
         config['resources']['bigjob']['cpu']
     resources:
@@ -54,8 +54,6 @@ rule no_medaka:
         fasta = os.path.join(dir_flye, "{sample}-sr", "assembly.fasta"),
     output:
         fasta = os.path.join(dir_flye,"{sample}-sr", "consensus.fasta")
-    conda:
-        os.path.join(dir_env, "flye.yaml")
     threads:
         config['resources']['smalljob']['cpu']
     resources:
@@ -72,7 +70,6 @@ rule no_medaka:
             touch {output.fasta}
         fi
         """
-
 
 rule megahit:
     """Assemble short reads with MEGAHIT"""
@@ -91,8 +88,8 @@ rule megahit:
     resources:
         mem_mb=config['resources']['bigjob']['mem'],
         time=config['resources']['bigjob']['time']
-    conda:
-        os.path.join(dir_env, "megahit.yaml")
+    container:
+        "docker://nanozoo/megahit:1.2.9--87c4487"
     shell:
         """
         if megahit \

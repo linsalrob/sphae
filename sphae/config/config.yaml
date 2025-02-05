@@ -27,3 +27,5 @@ db:
 args:
   output: "sphae.out"
   db_dir: ${DIR_DB}
+
+singularity: true

@@ -13,10 +13,8 @@ This has a list of misc scripts that can be run on the sphae output
     | tail protein | 2 | 1 | 1 |
     | holin | 0 | 0 | 0 |
 
+- merging_output.py : Takes a directory with the summary files for each sample. Run this script using the command, 
 
-- merging_sphae_output.py: Take a directory of RESULTS from the sphae output, to write the output to a tsv file
-  
-  For example, 
-    `python merging_sphae_output.py KlebPhages_v1.4-out/RESULTS/ test.tsv`
+  `python misc/merging_output.py <directory with summary files> <output file name>`
 
-- merging_output.py : Takes a directory with the summary files for each sample. 
+
