@@ -24,3 +24,5 @@ targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all
 targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_portal.aln"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_terL.nwk"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_tree, "marker_proteins", "all_portal.nwk"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_final, "trees", "all_portal.nwk"), sample=samples_names))
+targets['annotate'].append(expand(os.path.join(dir_final, "trees", "all_terL.nwk"), sample=samples_names))

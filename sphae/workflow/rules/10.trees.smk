@@ -100,3 +100,16 @@ rule iqtree_portal:
         """
         fasttree -nopr {input} > {output} 
         """
+
+rule_tree_output:
+    input:
+        terl=os.path.join(dir_final, "marker_proteins", "all_terL.nwk"),
+        portal=os.path.join(dir_final, "marker_proteins", "all_portal.nwk")
+    output:
+        terl=os.path.join(dir_final, "trees", "all_terL.nwk"),
+        portal=os.path.join(dir_final, "trees", "all_portal.nwk")
+    shell:
+        """
+        cp {input.terl} {output.terl}
+        cp {input.portal} {output.portal}
+        """

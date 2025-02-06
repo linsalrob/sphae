@@ -38,7 +38,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 
 **If you are new to bioinformatics or running command line tools, here is a great tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
 
-**Cite Sphae: https://doi.org/10.1101/2024.11.18.624194**
+**Cite Sphae: https://doi.org/10.1093/bioadv/vbaf004**
 
 ### Install 
 
