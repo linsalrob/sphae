@@ -4,7 +4,7 @@
   - fixing rules to allow --conda-create-envs-only
   - changed some environemnts to containers
       - added --use-singularity --sdm apptainer to run the command 
-  - adding a phylogeny module to sphae
+  - adding a phylogeny module to sphae annotate
 
 ## v1.4.5
 - catches a specific cases of having mutiple circular phages from assembly

@@ -1,11 +1,11 @@
 import os
+import shutil
 from setuptools import setup, find_packages
 
 
 def get_version():
     with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'sphae', 'sphae.VERSION')) as f:
         return f.readline().strip()
-
 
 def get_description():
     with open("README.md", "r") as fh:
@@ -22,7 +22,6 @@ def get_requirements():
 def get_data_files():
     data_files = [(".", ["README.md"])]
     return data_files
-
 
 CLASSIFIERS = [
     "Environment :: Console",
@@ -70,8 +69,6 @@ def main():
             ]
         },
     )
-
-
 
 if __name__ == "__main__":
     main()

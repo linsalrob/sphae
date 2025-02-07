@@ -39,34 +39,26 @@ rule get_marker_proteins_portal:
 
 rule msa_terL:
     input:
-        marker_proteins = os.path.join(dir_tree, "marker_proteins", "all_terL.faa"),
-    params:
-        dirs= os.path.join(dir_tree, "marker_proteins"),
+        os.path.join(dir_tree, "marker_proteins", "all_terL.faa")
+    container:
+        "docker://nanozoo/mafft:7.508--c9dd46e"
     output:
         os.path.join(dir_tree, "marker_proteins", "all_terL.aln")
-    threads:
-        config['resources']['bigjob']['cpu']
-    container:
-        "docker://biocontainers/mafft:v7.407-2-deb_cv1"
     shell:
         """
-        mafft {input.marker_proteins} > {output} 
+        mafft {input} > {output} 
         """
 
 rule msa_portal:
     input:
-        marker_proteins = os.path.join(dir_tree, "marker_proteins", "all_portal.faa"),
-    params:
-        dirs= os.path.join(dir_tree, "marker_proteins"),
+        os.path.join(dir_tree, "marker_proteins", "all_portal.faa"),
     output:
         os.path.join(dir_tree, "marker_proteins", "all_portal.aln")
-    threads:
-        config['resources']['bigjob']['cpu']
     container:
-        "docker://staphb/mafft:7.526"
+        "docker://biocontainers/mafft:v7.407-2-deb_cv1"
     shell:
         """
-        mafft {input.marker_proteins} > {output} 
+        mafft {input} > {output} 
         """
 
 rule iqtree_terL:
@@ -101,15 +93,18 @@ rule iqtree_portal:
         fasttree -nopr {input} > {output} 
         """
 
-rule_tree_output:
+rule tree_output:
     input:
-        terl=os.path.join(dir_final, "marker_proteins", "all_terL.nwk"),
-        portal=os.path.join(dir_final, "marker_proteins", "all_portal.nwk")
+        terl=os.path.join(dir_tree, "marker_proteins", "all_terL.nwk"),
+        portal=os.path.join(dir_tree, "marker_proteins", "all_portal.nwk")
+    params:
+        dors=os.path.join(dir_final, "trees")
     output:
         terl=os.path.join(dir_final, "trees", "all_terL.nwk"),
         portal=os.path.join(dir_final, "trees", "all_portal.nwk")
     shell:
         """
-        cp {input.terl} {output.terl}
-        cp {input.portal} {output.portal}
+	    mkdir -p {params.dors}
+        mv {input.terl} {output.terl}
+        mv {input.portal} {output.portal}
         """

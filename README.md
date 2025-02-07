@@ -174,11 +174,14 @@ sphae run --input tests/data/nanopore-subset --preprocess longread --output exam
 
 ```
 
-**Command to run only annotation steps**
-
+**Command to run only annotation steps and phylogenetic trees**
+This step reruns 
+   - Pharokka, Phold, Phynteny
+   - Phylogenetic tree with terminase large subunit, portal protein
+   
 ```bash
 #the genomes directory has the already assembled complete genomes
-sphae annotate --genome <genomes directory> --output example -k 
+sphae annotate --genome <genomes directory> --output example -k --use-singularity --sdm apptainer --use-conda
 ```
 
 **Output**

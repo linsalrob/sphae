@@ -1,4 +1,0 @@
-Sample: DRR536257
-Total length of reads after QC and subsampling: 10002483
-
-No contigs from the assembly were assigned viral, likely contigs too short in size

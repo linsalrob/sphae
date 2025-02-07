@@ -1,7 +1,10 @@
+# Use Ubuntu 20.04 as the base image with amd64 support
 FROM --platform=linux/amd64 ubuntu:20.04
 
+# Set environment variables
 ENV DEBIAN_FRONTEND="noninteractive"
 
+# Define build arguments
 ARG LIBFABRIC_VERSION=1.18.1
 ARG SPHAE_VERSION=1.4.5
 ARG THREADS=8
@@ -9,7 +12,7 @@ ARG THREADS=8
 # Install required packages and dependencies
 RUN   apt -y update \
       && apt -y install build-essential wget doxygen gnupg gnupg2 curl apt-transport-https software-properties-common libgl1  \
- git vim gfortran libtool python3-venv ninja-build python3-pip \
+      git vim gfortran libtool python3-venv ninja-build python3-pip \
       libnuma-dev python3-dev \
       && apt -y remove --purge --auto-remove cmake \
       && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null \
@@ -45,7 +48,7 @@ RUN conda clean -af -y
 RUN git clone "https://github.com/linsalrob/sphae.git"
 
 # Install Sphae databases (with dynamic threads)
-#RUN sphae install --threads ${THREADS} --conda-frontend mamba
+RUN sphae install --threads ${THREADS} --conda-frontend mamba
 
 # Environment settings for filtlong bug
 ENV LC_ALL=C
@@ -53,11 +56,17 @@ ENV LANGUAGE=
 
 # Create the directory if it doesn't exist, then list its contents
 RUN mkdir -p sphae/tests/db && ls sphae/tests/db
-RUN mkdir sphae/tests/db/Pfam35.0 && touch sphae/tests/db/Pfam35.0/Pfam-A.hmm.gz
 
 # Create required conda environments without running
-RUN sphae run --threads ${THREADS} --input sphae/tests/data/illumina-subset -k --use-conda --db_dir sphae/tests/db --conda-create-envs-only
-RUN sphae run --threads ${THREADS} --input sphae/tests/data/nanopore-subset --sequencing longread -k --conda-create-envs-only --db_dir sphae/tests/db
+RUN sphae run --threads ${THREADS} --input sphae/tests/data/illumina-subset -k --use-conda --db_dir sphae/tests/db --conda-create-envs-only --use-singularity --sdm apptainer --use-conda
+RUN sphae run --threads ${THREADS} --input sphae/tests/data/nanopore-subset --sequencing longread -k --conda-create-envs-only --db_dir sphae/tests/db --use-singularity --sdm apptainer --use-conda
+RUN sphae annotate --threads ${THREADS} --input sphae/tests/data/genome -k --conda-create-envs-only --db_dir sphae/tests/db --use-singularity --sdm apptainer --use-conda
 
 # Cleanup
 RUN rm -rf sphae.out /tmp/* /var/tmp/* /var/lib/apt/lists/*
+
+# Set default working directory
+WORKDIR /sphae
+
+# Set container entrypoint
+CMD ["/bin/bash"]

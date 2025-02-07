@@ -1,4 +1,0 @@
-Sample: DRR536259
-Total length of reads after QC and subsampling: 10000347
-
-Failed during assembly
