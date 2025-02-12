@@ -1,0 +1,7 @@
+name: rasusa
+channels:
+    - defaults
+    - conda-forge
+    - bioconda
+dependencies:
+    - rasusa==2.0.0

@@ -40,13 +40,18 @@ rule get_marker_proteins_portal:
 rule msa_terL:
     input:
         os.path.join(dir_tree, "marker_proteins", "all_terL.faa")
-    container:
-        "docker://nanozoo/mafft:7.508--c9dd46e"
+    conda:
+        os.path.join(dir_env, "trees.yaml")
     output:
         os.path.join(dir_tree, "marker_proteins", "all_terL.aln")
     shell:
         """
-        mafft {input} > {output} 
+        if [[ -f {input} && -s {input} ]]; then
+            mafft {input} > {output}
+        else
+            echo "Input {input} is empty or does not exist. Skipping alignment."
+        fi
+        touch {output}
         """
 
 rule msa_portal:
@@ -54,11 +59,16 @@ rule msa_portal:
         os.path.join(dir_tree, "marker_proteins", "all_portal.faa"),
     output:
         os.path.join(dir_tree, "marker_proteins", "all_portal.aln")
-    container:
-        "docker://biocontainers/mafft:v7.407-2-deb_cv1"
+    conda:
+        os.path.join(dir_env, "trees.yaml")
     shell:
         """
-        mafft {input} > {output} 
+        if [[ -f {input} && -s {input} ]]; then
+            mafft {input} > {output}
+        else
+            echo "Input {input} is empty or does not exist. Skipping alignment."
+        fi
+        touch {output}
         """
 
 rule iqtree_terL:
@@ -68,13 +78,19 @@ rule iqtree_terL:
         os.path.join(dir_tree, "marker_proteins", "all_terL.nwk")
     params:
         prefix="terL"
-    container:
-        "docker://biocontainers/fasttree:v2.1.10-2-deb_cv1"
+    conda:
+        os.path.join(dir_env, "trees.yaml")
     threads:
         config['resources']['bigjob']['cpu']
     shell:
         """
-        fasttree -nopr {input} > {output} 
+        if [[ -f {input} && -s {input} ]]; then
+            cat {input}
+            fasttree -nopr {input} > {output}
+        else
+            echo "Input {input} is empty or does not exist. Skipping tree generation."
+        fi
+        touch {output}
         """
 
 rule iqtree_portal:
@@ -84,13 +100,19 @@ rule iqtree_portal:
         os.path.join(dir_tree, "marker_proteins", "all_portal.nwk")
     params:
         prefix="terL"
-    container:
-        "docker://biocontainers/fasttree:v2.1.10-2-deb_cv1"
+    conda:
+        os.path.join(dir_env, "trees.yaml")
     threads:
         config['resources']['bigjob']['cpu']
     shell:
         """
-        fasttree -nopr {input} > {output} 
+        if [[ -f {input} && -s {input} ]]; then
+            cat {input}
+            fasttree -nopr {input} > {output}
+        else
+            echo "Input {input} is empty or does not exist. Skipping tree generation."
+        fi
+        touch {output}
         """
 
 rule tree_output:
@@ -105,6 +127,18 @@ rule tree_output:
     shell:
         """
 	    mkdir -p {params.dors}
-        mv {input.terl} {output.terl}
-        mv {input.portal} {output.portal}
+        
+        if [[ -f {input.terl} && -s {input.terl} ]]; then
+            mv {input.terl} {output.terl}
+        else
+            echo "Input {input.terl} is empty or does not exist. Touching {output.terl}."
+            touch {output.terl}
+        fi
+
+        if [[ -f {input.portal} && -s {input.portal} ]]; then
+            mv {input.portal} {output.portal}
+        else
+            echo "Input {input.portal} is empty or does not exist. Touching {output.portal}."
+            touch {output.portal}
+        fi
         """

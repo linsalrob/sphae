@@ -1,8 +1,8 @@
-name: phold
+name: CheckV
 channels:
     - conda-forge
     - bioconda
     - defaults
 dependencies:
-    - phold >=0.2.0
-    - genbank_to
+    - checkv >= 1.0.1
+    - diamond==2.1.8

@@ -1,8 +1,7 @@
-name: phold
+name: medaka
 channels:
     - conda-forge
     - bioconda
     - defaults
 dependencies:
-    - phold >=0.2.0
-    - genbank_to
+    - medaka

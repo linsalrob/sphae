@@ -1,8 +1,8 @@
-name: phold
+name: trees
 channels:
     - conda-forge
     - bioconda
     - defaults
 dependencies:
-    - phold >=0.2.0
-    - genbank_to
+    - mafft
+    - fasttree

@@ -61,7 +61,7 @@ def main():
             "attrmap>=0.0.7",
             "biopython>=1.8.1",
             "pandas",
-            "snakemake-executor-plugin-slurm>=0.5.1"
+            "snakemake-executor-plugin-slurm>=0.5.1",
         ],
         entry_points={
             'console_scripts': [

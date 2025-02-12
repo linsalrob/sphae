@@ -159,18 +159,18 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 ```bash
 #For illumina reads, place the reads both forward and reverse reads to one directory
 #Make sure the fastq reads are saved as {sample_name}_R1.fastq and {sample_name}_R2.fastq or with extensions {sample_name}_R1.fastq.gz
-sphae run --input tests/data/illumina-subset --output example -k --use-singularity --sdm apptainer --use-conda
+sphae run --input tests/data/illumina-subset --output example -k --use-conda --conda-frontend mamba
 
 #For nanopore reads, place the reads, one file per sample in a directory
-sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --use-singularity --sdm apptainer --use-conda
+sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --use-conda --conda-frontend mamba
 
 #For newer ONT sequencing data where polishing is not required, run the command
-sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --no_medaka --use-singularity --sdm apptainer --use-conda
+sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --no_medaka --use-conda --conda-frontend mamba
 
 #To run either of the commands on the cluster, add --executor slurm to the command. There is a little bit of setup to do here.
 #Setup a ~/.config/snakemake/slurm/config.yaml file - https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html#advanced-resource-specifications
 #I may have set this workflow to run only slurm right now, will make it more generic soon.
-sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16 --use-singularity --sdm apptainer --use-conda
+sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16 --use-conda --conda-frontend mamba
 
 ```
 
@@ -181,7 +181,7 @@ This step reruns
    
 ```bash
 #the genomes directory has the already assembled complete genomes
-sphae annotate --genome <genomes directory> --output example -k --use-singularity --sdm apptainer --use-conda
+sphae annotate --genome <genomes directory> --output example -k --use-conda --conda-frontend mamba
 ```
 
 **Output**

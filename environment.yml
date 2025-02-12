@@ -13,5 +13,3 @@ dependencies:
   - attrmap>=0.0.7
   - biopython>=1.8.1
   - mamba
-  - go>=1.23.5
-  - apptainer>=1.3.6

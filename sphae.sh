@@ -12,9 +12,9 @@
 #SBATCH --qos=hc-concurrent-jobs
 
 #sphae install
-sphae run --input tests/data/illumina-subset --threads 64 -k --use-singularity --sdm apptainer --use-conda
-sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --use-singularity --sdm apptainer --use-conda
-sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  --use-singularity --sdm apptainer --use-conda
-sphae annotate --genome tests/data/genome --threads 64 -k --use-singularity --sdm apptainer --use-conda
+#sphae run --input tests/data/illumina-subset --threads 64 -k --use-conda --conda-frontend mamba 
+#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --conda-frontend mamba 
+#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka --use-conda 
+sphae annotate --genome tests/data/genome --threads 64 -k --use-conda --conda-frontend mamba
 
 #sphae run --input tests/data/illumina-subset/ --threads 64 -k --db_dir tests/db --conda-create-envs-only
