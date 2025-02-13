@@ -73,8 +73,8 @@ conda install -n base -c conda-forge mamba #if you don't already have mamba inst
 **Container Install**
 
 We have two containers available, 
-1. [Sphae v1.4.5 with databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   This is very large container, about 17.5 GB, so it may take a while to download and install.
+1. [Sphae v1.4.6 with databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   This is very large container, about 20.31 GB, so it may take a while to download and install.
 
    Here are the commands to download sphae container with databases
     ```
