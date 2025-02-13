@@ -59,7 +59,8 @@ RUN git clone "https://github.com/linsalrob/sphae.git"
 # run with --conda-create-envs-only to create all required conda envs (without running itself for speedup)
 RUN sphae run --threads 8 --input sphae/tests/data/illumina-subset --output example -k --conda-frontend mamba --conda-create-envs-only
 RUN sphae run --threads 8 --input sphae/tests/data/nanopore-subset --sequencing longread --output examplelr -k --conda-frontend mamba --conda-create-envs-only
-
+RUN sphae annotate --threads 8 --genome sphae/tests/data/genome --output exampleg --conda-frontend mamba --conda-create-envs-only
 # cleanup
 RUN rm -rf example
 RUN rm -rf examplelr
+RUN rm -rf exampleg
