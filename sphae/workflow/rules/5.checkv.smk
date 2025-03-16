@@ -11,7 +11,7 @@ rule checkv_megahit:
         os.path.join(dir_env, "checkv.yaml")
     params:
         out = os.path.join(dir_megahit, "{sample}-pr", "checkv"),
-        db = os.path.join(dir_db, "checkv-db-v1.5")
+        db = config['args']['checkv_db']
     threads:
         config['resources']['smalljob']['cpu']
     resources:
@@ -44,7 +44,7 @@ rule checkv_flye_nano:
         os.path.join(dir_env, "checkv.yaml")
     params:
         out = os.path.join(dir_flye, "{sample}-sr", "checkv"),
-        db = os.path.join(dir_db, "checkv-db-v1.5")
+        db = config['args']['checkv_db']
     threads:
         config['resources']['smalljob']['cpu']
     resources:

@@ -1,4 +1,12 @@
 # Changes being added
+## v1.4.7 
+- checkv database error fixed
+- updating phold.yaml file 
+- updated to set the databases to variables that need to be set by the user
+  - this to so the users download only those databases they dont have
+  - `sphae install` still works to install all the required databases, but the variables still have to be set to run `sphae run`
+    - example of how to set these variables are set in `sphae.sh`  
+
 ## v1.4.6
 - updating sphae code to make it a smaller container
   - fixing rules to allow --conda-create-envs-only

@@ -8,7 +8,7 @@ rule phynteny_run_paired:
         inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
         idir=os.path.join(dir_annotate, "phold-pr"),
         odir=os.path.join(dir_annotate, "phynteny-pr"),
-        model=os.path.join(dir_db, "phynteny_models_zenodo")
+        model = config['args']['phynteny_db'],
     output:
         pkl=os.path.join(dir_annotate, "phynteny-pr", "{sample}_1_phynteny", "phynteny.gbk")
     conda:
@@ -70,7 +70,7 @@ rule phynteny_run_nanopore:
         odir=os.path.join(dir_annotate, "phynteny-sr"),
         idir=os.path.join(dir_annotate, "phold-sr"),
         inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
-        model=os.path.join(dir_db, "phynteny_models_zenodo")
+        model = config['args']['phynteny_db'],
     output:
         pkl=os.path.join(dir_annotate, "phynteny-sr", "{sample}_1_phynteny", "phynteny.gbk")
     conda:

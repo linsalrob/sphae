@@ -29,7 +29,7 @@ targets.db = []
 
 targets.db.append(os.path.join(dir_db, 'Pfam35.0', 'Pfam-A.hmm.gz'))
 targets.db.append(os.path.join(dir_db, 'pharokka_db', 'phrogs_db.index'))
-#targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
+targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir_db, 'phynteny_models_zenodo', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
 
@@ -87,4 +87,16 @@ rule phold_install:
     shell:
         """
         phold install -d {params.phold_db}
+        """
+
+rule checkv_download:
+    params:
+        os.path.join(dir_db)
+    output:
+        os.path.join(dir_db, "checkv-db-v1.5", "README.txt")
+    conda:
+        os.path.join(dir_env, "checkv.yaml")
+    shell:
+        """
+            checkv download_database {params}
         """

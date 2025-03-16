@@ -4,5 +4,9 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - phold >=0.2.0
+    - python==3.9.21
+    - pip
+    - pip:
+        - phold==0.2.0
+    - foldseek==9.427df8a
     - genbank_to

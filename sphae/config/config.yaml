@@ -26,6 +26,8 @@ db:
 
 args:
   output: "sphae.out"
-  db_dir: ${DIR_DB}
-
-singularity: true
+  vv_db: $VVDB
+  checkv_db: $CHECKVDB
+  pharokka_db: $PHAROKKADB
+  phynteny_db: $PHYNTENYDB
+  phold_db: $PHOLDDB

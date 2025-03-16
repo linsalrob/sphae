@@ -8,7 +8,7 @@ rule pharokka_megahit:
     params:
         inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
         output=os.path.join(dir_annotate, "pharokka-pr"),
-        db=os.path.join(dir_db, "pharokka_db"),
+        db = config['args']['pharokka_db'],
         genes= config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk"),
@@ -66,7 +66,7 @@ rule pharokka_flye:
     params:
         inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
         output=os.path.join(dir_annotate, "pharokka-sr"),
-        db=os.path.join(dir_db, "pharokka_db"),
+        db = config['args']['pharokka_db'],
         genes= config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),

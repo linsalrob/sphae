@@ -9,7 +9,7 @@ rule viralverify_megahit:
     conda:
         os.path.join(dir_env, "viralverify.yaml")
     params:
-        db= os.path.join(dir_db, "Pfam35.0", "Pfam-A.hmm.gz"),
+        db= config['args']['vv_db'],
         out = os.path.join(dir_megahit, "{sample}-pr")
     threads:
         config['resources']['smalljob']['cpu']
@@ -42,7 +42,7 @@ rule viralverify_flye_nano:
         os.path.join(dir_env, "viralverify.yaml")
     params:
         out = os.path.join(dir_flye, "{sample}-sr"),
-        db= os.path.join(dir_db, "Pfam35.0", "Pfam-A.hmm.gz")
+        db= config['args']['vv_db'],
     threads:
         config['resources']['smalljob']['cpu']
     resources:

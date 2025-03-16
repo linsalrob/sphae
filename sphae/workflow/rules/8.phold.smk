@@ -10,7 +10,7 @@ rule phold_run_paired:
         idir=os.path.join(dir_annotate, "pharokka-pr"),
         predict=os.path.join(dir_annotate, "predict-pr"),
         o=os.path.join(dir_annotate, "phold-pr"),
-        db=os.path.join(dir_db, "phold")
+        db = config['args']['phold_db'],
     output:
         gbk=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "{sample}_1.gbk"),
         acr=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),
@@ -51,7 +51,7 @@ rule phold_run_longreads:
         idir=os.path.join(dir_annotate, "pharokka-sr"),
         predict=os.path.join(dir_annotate, "predict-sr"),
         o=os.path.join(dir_annotate, "phold-sr"),
-        db=os.path.join(dir_db, "phold")
+        db = config['args']['phold_db'],
     output:
         gbk=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "{sample}_1.gbk"),
         acr=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),

@@ -1,7 +1,5 @@
 name: filtlong
 channels:
-    - defaults
-    - conda-forge
     - bioconda
 dependencies:
     - filtlong>=0.2.1
