@@ -36,9 +36,9 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 - Contig quality checks; read coverage, viral or not, completeness, and assembly graph components. 
 - Phage genome annotation
 
-**If you are new to bioinformatics or running command line tools, here is a great tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
-
 **Cite Sphae: https://doi.org/10.1093/bioadv/vbaf004**
+
+**If you are new to bioinformatics or running command line tools, here is a great tutorial to follow: https://github.com/AnitaTarasenko/sphae/wiki/Sphae-tutorial**
 
 ### Install 
 
@@ -53,21 +53,14 @@ pip install sphae
 ```
 
 **Conda install** 
-```bash
-#creating a new environment
-conda create -y -n sphae 
-conda activate sphae
-#install sphae
-mamba install sphae
-```
-**Source Install**
 
 Setting up a new conda environment 
 
 ```bash
-conda create -n sphae python=3.12
+conda create -n sphae python
 conda activate sphae
-conda install -n base -c conda-forge mamba #if you don't already have mamba installed
+#if you don't already have mamba installed
+conda install -n base -c conda-forge mamba
 ```
 
 **Container Install**
@@ -121,8 +114,6 @@ pip install -e .
 #confirm the workflow is installed by running the below command 
 sphae --help
 ```
-You will still need to install the databases with `sphae install` as outlined below.
-
 
 ## Installing databases
 Run the below command,
@@ -145,6 +136,16 @@ sphae install --db_dir <directory>
   - Phold databases
 
 This step requires ~17G of storage
+
+If these databases are already installed, skip thsi step and instead set the envrionment variables pointing to the where these databases are installed
+
+```bash
+export VVDB=sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
+export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
+export PHAROKKADB=sphae/workflow/databases/pharokka_db
+export PHYNTENYDB=sphae/workflow/databases/phynteny_models_zenodo
+export PHOLDDB=sphae/workflow/databases/phold
+```
 
 ## Running the workflow
 
