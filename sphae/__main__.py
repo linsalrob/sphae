@@ -121,13 +121,12 @@ sphae annotate --genome <genomes> --output <output> #define output directory
 @click.option("--log", default="sphae.log", callback=default_to_output, hidden=True,)
 @click.option("--system-config", default=snake_base(os.path.join("config", "config.yaml")),hidden=True,)
 @click.argument("snake_args", nargs=-1)
-def install(db_dir, output, temp_dir, configfile, **kwargs):
+def install(output, temp_dir, configfile, **kwargs):
     """The install function for databases"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     merge_config = {
         'args': {
-            "db_dir": db_dir, 
             "output": output, 
             "temp_dir": temp_dir,
             "configfile": configfile
@@ -169,7 +168,7 @@ def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
 @common_options
 @click.option('--sequencing', 'sequencing', help="sequencing method", default='paired', show_default=True, type=click.Choice(['paired', 'longread']))
 @click.option('--no_medaka', 'no_medaka', help="turns off Medaka polishing for --sequencing longread", is_flag=True, default=False)
-def run(_input, output, db_dir, sequencing, no_medaka, temp_dir, configfile, **kwargs):
+def run(_input, output, sequencing, no_medaka, temp_dir, configfile, **kwargs):
     """Run sphae"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -177,7 +176,6 @@ def run(_input, output, db_dir, sequencing, no_medaka, temp_dir, configfile, **k
         "args": {
             "input": _input, 
             "output": output, 
-            "db_dir": db_dir,  
             "sequencing": sequencing,
             "no_medaka": no_medaka,
             "configfile": configfile,

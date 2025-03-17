@@ -14,13 +14,7 @@ dir = {}
 dir_env = os.path.join(workflow.basedir, "envs")
 
 # database dir
-try:
-    if config['args']['db_dir'] is None:
-        dir_db = os.path.join(workflow.basedir, 'databases')
-    else:
-        dir_db = config['args']['db_dir']
-except KeyError:
-    dir_db = os.path.join(workflow.basedir, 'databases')
+dir_db = os.path.join(workflow.basedir, 'databases')
 print(f"Databases are being saved in, {dir_db} \n")
 
 """Targets"""
