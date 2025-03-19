@@ -23,12 +23,6 @@ try:
 except KeyError:
     dir_out = os.path.join('sphae.out')
 
-# database dir
-if config['args']['db_dir'] is None:
-    dir_db = os.path.join(workflow.basedir, 'databases')
-else:
-    dir_db = config['args']['db_dir']
-
 dir_annot = os.path.join(dir_out,'PROCESSING', "genome-annotate")
 dir_tree = os.path.join(dir_out,'PROCESSING', "trees")
 dir_final = os.path.join(dir_out,'final-annotate')

@@ -8,17 +8,17 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=200G
-##SBATCH --partition=high-capacity
-##SBATCH --qos=hc-concurrent-jobs
+#SBATCH --partition=high-capacity
+#SBATCH --qos=hc-concurrent-jobs
 
-sphae install
-export VVDB=sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
-export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
-export PHAROKKADB=sphae/workflow/databases/pharokka_db
-export PHYNTENYDB=sphae/workflow/databases/phynteny_models_zenodo
-export PHOLDDB=sphae/workflow/databases/phold
+#sphae install
+export VVDB=/home/nala0006/scratch/sphae/sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
+export CHECKVDB=/home/nala0006/scratch/sphae/sphae/workflow/databases/checkv-db-v1.5
+export PHAROKKADB=/home/nala0006/scratch/sphae/sphae/workflow/databases/pharokka_db
+export PHYNTENYDB=/home/nala0006/scratch/sphae/sphae/workflow/databases/phynteny_models_zenodo
+export PHOLDDB=/home/nala0006/scratch/sphae/sphae/workflow/databases/phold
 
-#sphae run --input tests/data/illumina-subset --threads 32 -k --use-conda --conda-frontend mamba 
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --use-conda --conda-frontend mamba 
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka --use-conda --conda-frontend mamba 
-#sphae annotate --genome tests/data/genome --threads 64 -k --use-conda --conda-frontend mamba
+#sphae run --input tests/data/illumina-subset --threads 32 -k
+#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
+#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  
+sphae annotate --genome tests/data/genome --threads 64 -k

@@ -56,7 +56,7 @@ def common_options(func):
         click.option('--use-conda/--no-use-conda', default=True, help='Use conda for Snakemake rules',
                      show_default=True),
         click.option('--conda-prefix', default=snake_base(os.path.join('workflow', 'conda')),
-                     help='Custom conda env directory', type=click.Path(), show_default=False),
+                     help='Custom conda env directory', type=click.Path(), show_default=True),
         click.option('--snake-default', multiple=True,
                      default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'],
                      help="Customise Snakemake runtime args", show_default=True),
@@ -98,7 +98,6 @@ help_msg_install = """
 INSTALL EXAMPLES 
 \b
 sphae install\t\t\t\tBy default, the databases are downloaded to `sphae/workflow/databases`
-sphae install --db-dir [directory]\t\tDefine the database path
 """
 
 help_msg_annotate ="""
@@ -116,7 +115,6 @@ sphae annotate --genome <genomes> --output <output> #define output directory
 @click.option('--profile', help='Snakemake profile', default=None, show_default=False)
 @click.option('--temp-dir', 'temp_dir', help='Temp directory', required=False)
 @click.option('--use-conda/--no-use-conda', default=True, help='Use conda for Snakemake rules',show_default=True)
-@click.option('--conda-prefix', default=snake_base(os.path.join('workflow', 'conda')),help='Custom conda env directory', type=click.Path(), show_default=False)
 @click.option('--snake-default', multiple=True,default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'], help="Customise Snakemake runtime args", show_default=True)
 @click.option("--log", default="sphae.log", callback=default_to_output, hidden=True,)
 @click.option("--system-config", default=snake_base(os.path.join("config", "config.yaml")),hidden=True,)

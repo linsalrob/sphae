@@ -35,13 +35,6 @@ dir_final = os.path.join(dir_out, 'RESULTS')
 dir_env = os.path.join(workflow.basedir, "envs")
 dir_script = os.path.join(workflow.basedir, "scripts")
 
-# database dir for sphae install
-if config['args']['db_dir'] is None:
-    dir_db = os.path.join(workflow.basedir, 'databases')
-else:
-    dir_db = config['args']['db_dir']
-print(f"Database directory {dir_db}")
-
 # Check if variables are set
 if "args" in config:
     db_keys = ["vv_db", "checkv_db", "pharokka_db", "phynteny_db", "phold_db"]

@@ -1,4 +1,9 @@
 # Changes being added
+## v1.4.8
+- db_dir variable error fixed 
+- moving to using mamba instead of conda as default 
+- updating setup.py to pyproject.toml
+
 ## v1.4.7 
 - checkv database error fixed
 - updating phold.yaml and medaka.yaml file 

@@ -4,7 +4,7 @@ rule pharokka_annotate:
         os.path.join(input_dir, PATTERN_LONG)
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
-        db=os.path.join(dir_db, "pharokka_db"),
+        db = config['args']['pharokka_db'],
         sp="{sample}",
         genes= config['params']['gene-predict'],
     output:
@@ -60,7 +60,7 @@ rule phold_run:
         predict=os.path.join(dir_annot, "{sample}-predict"),
         o=os.path.join(dir_annot, "{sample}-phold"),
         prefix="{sample}",
-        db=os.path.join(dir_db, "phold")
+        db = config['args']['phold_db']
     output:
         gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk"),
         acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
@@ -91,7 +91,7 @@ rule phynteny_run:
         gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk")
     params:
         odir=os.path.join(dir_annot, "{sample}-phynteny"),
-        model=os.path.join(dir_db, "phynteny_models_zenodo")
+        model = config['args']['phynteny_db'],
     output:
         pkl=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk")
     conda:
@@ -135,9 +135,9 @@ rule phynteny_plotter:
         if [[ -s {input.gbk} ]] ; then
             genbank_to -g {input.gbk} --gff3 {params.gff3}
             phold plot -i {input.gbk} -f -p {params.prefix} -o {params.output}
-            mv {params.output}/*.png {output.plot}
+            cp {params.output}/*.svg {output.plot}
         else
-            mv {params.output}/*.png {output.plot}
+            cp {params.output}/*.svg {output.plot}
         fi
         """
 
