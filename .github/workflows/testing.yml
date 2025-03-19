@@ -32,6 +32,7 @@ jobs:
       # Setup env
       - uses: conda-incubator/setup-miniconda@v3
         with:
+          miniforge-variant: Mambaforge
           activate-environment: sphae
           environment-file: environment.yml
           python-version: ${{ matrix.python-version }}
