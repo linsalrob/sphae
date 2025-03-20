@@ -46,7 +46,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 
 ```bash
 #creating a new envrionment
-conda create -y -n sphae python=3.12
+conda create -y -n sphae python=3.11
 conda activate sphae
 #install sphae 
 pip install sphae
