@@ -65,11 +65,12 @@ conda install -n base -c conda-forge mamba
 
 **Container Install**
 
-We have two containers available, 
-1. [Sphae v1.4.6 with databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   This is very large container, about 20.31 GB, so it may take a while to download and install.
+UPDATE: Sphae container doesnt include the database, so `sphae install` command be run to download the databases first, and then run the sphae container. 
 
-   Here are the commands to download sphae container with databases
+[Sphae v1.4.8](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   This is a large container, about 5.72 GB, so it may take a while to download and install.
+
+   Here are the commands to download sphae container 
     ```
     TMPDIR=<where your tmpdir lives>
     IMAGEDIR-<where you want the image to live>
@@ -77,27 +78,10 @@ We have two containers available,
     singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
-    singularity exec sphae_latest.sif sphae install --help
 
-    singularity exec -B <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
+    # <path/to/databases> set to sphae/workflow/databases if sphae install is run 
+    singularity exec -B <path/to/databases>:/database,<path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
     ```
-    
-2. [Sphae v1.4.5 **without** databases](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   This version of sphae container does not include the databases, so they would have to be downloaded separately. The advantage of this is the container is smaller, so quick to donwnload and the databases can be downloaded separately. 
-
-   You will still need to install the databases with `sphae install` as outlined below.
-
-   ```
-   TMPDIR=<where your tmpdir lives>
-    IMAGEDIR-<where you want the image to live>
-    
-    singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
-    #test if sphae is installed 
-    singularity exec sphae_latest.sif sphae --help
-    singularity exec sphae_latest.sif sphae run --help
-    #mount the databases and input files to the image and run with a dataset
-    singularity exec -B </path/to/databases>:/databases, <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --db_dir /databases --output /output
-   ```
    
 **Source install**
 
