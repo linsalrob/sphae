@@ -75,7 +75,7 @@ UPDATE: Sphae container doesnt include the database, so `sphae install` command 
     TMPDIR=<where your tmpdir lives>
     IMAGEDIR-<where you want the image to live>
     
-    singularity pull --tmpdir=$TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
+    singularity pull --tmpdir $TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
 
