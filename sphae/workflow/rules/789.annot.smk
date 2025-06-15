@@ -27,7 +27,7 @@ rule pharokka_annotate:
     shell:
         """
         if [[ -s {input} ]] ; then
-            pharokka.py \
+            PYTHONWARNINGS="ignore" pharokka.py \
                 -i {input} \
                 -o {params.o} \
                 -d {params.db} \
@@ -106,7 +106,7 @@ rule phynteny_run:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            phynteny {input.gbk} -o {params.odir} \
+            phynteny_transformer  {input.gbk} -o {params.odir} \
                 -m {params.model} -f\
                 2> {log}
             touch {output.pkl}
@@ -154,7 +154,7 @@ rule summarize_annotations:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
         """
         if [[ -s {input.pharokka} ]] ; then

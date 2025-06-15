@@ -32,7 +32,7 @@ rule pharokka_megahit:
         if [[ -s {input} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
-                pharokka.py \
+                PYTHONWARNINGS="ignore" pharokka.py \
                     -i "$f" \
                     -o {params.output}/"$data"_pharokka \
                     -d {params.db} \
@@ -90,7 +90,7 @@ rule pharokka_flye:
         if [[ -s {input} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
-                pharokka.py \
+                PYTHONWARNINGS="ignore" pharokka.py \
                     -i "$f" \
                     -o {params.output}/"$data"_pharokka \
                     -d {params.db} \

@@ -24,7 +24,7 @@ targets.db = []
 targets.db.append(os.path.join(dir_db, 'Pfam35.0', 'Pfam-A.hmm.gz'))
 targets.db.append(os.path.join(dir_db, 'pharokka_db', 'phrogs_db.index'))
 targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
-targets.db.append(os.path.join(dir_db, 'phynteny_models_zenodo', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5'))
+targets.db.append(os.path.join(dir_db, 'models', 'category_mapping.pkl'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
 
 """RUN SNAKEMAKE"""
@@ -58,17 +58,14 @@ rule  pharokka_download:
 
 rule phynteny_models:
     params:
-        url = os.path.join(config['db']['models']),
-        download = os.path.join(dir_db, "phynteny_models_v0.1.11.tar.gz"),
         models = os.path.join(dir_db)
     output:
-        out = os.path.join(dir_db, 'phynteny_models_zenodo', 'grid_search_model.m_400.b_256.lr_0.0001.dr_0.1.l_2.a_tanh.o_rmsprop.rep_0.best_val_loss.h5')
+        out = os.path.join(dir_db, 'models', 'category_mapping.pkl')
     conda:
         os.path.join(dir_env, "phynteny.yaml")
     shell:
         """
-            wget -O {params.download} {params.url}
-            tar -xvzf {params.download} -C {params.models}
+        install_models -o {params.models} -f
         """
 
 rule phold_install:
@@ -93,4 +90,17 @@ rule checkv_download:
     shell:
         """
             checkv download_database {params}
+        """
+
+rule download_medaka_models:
+    params:
+        medaka_models=os.path.join(dir_db, "medaka_models")
+    output:
+        out=os.path.join(dir_db, "medaka_models", "medaka.flag")
+    conda:
+        os.path.join(dir_env, "medaka.yaml")
+    shell:
+        """
+            medaka tools {params.medaka_models}
+            touch {output.out}
         """

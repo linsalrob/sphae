@@ -12,6 +12,7 @@ sphae/workflow/conda/
 sphae/__pycache__
 sphae/.snakemake
 sphae/workflow/databases/
+sphae/workflow/conda/
 sphae/sphae.egg-info
 sphae.egg-info
 logs_slurm/

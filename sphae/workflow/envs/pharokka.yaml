@@ -1,12 +1,17 @@
 name: pharokka
 channels:
-    - conda-forge
-    - bioconda
-    - defaults
+  - bioconda
+  - conda-forge
+  - defaults
 dependencies:
-    - gsl
-    - pharokka>=1.7.1
-    - genbank_to
-    - pip 
-    - pip: 
-        - bcbio-gff
+  - python=3.10
+  - mmseqs2=13.45111
+  - trnascan-se==2.0.12
+  - minced==0.4.2
+  - aragorn==1.2.41
+  - mash==2.3
+  - pip
+  - pip:
+      - pharokka==1.7.5
+      - phanotate==1.6.7
+      - dnaapler==1.2.0

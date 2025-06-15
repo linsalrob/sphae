@@ -31,3 +31,4 @@ args:
   pharokka_db: $PHAROKKADB
   phynteny_db: $PHYNTENYDB
   phold_db: $PHOLDDB
+  medaka: $MEDAKAMODEL

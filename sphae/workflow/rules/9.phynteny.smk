@@ -25,7 +25,7 @@ rule phynteny_run_paired:
         if [[ -s {input.gbk} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
-                phynteny {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
+                phynteny_transformer {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
                     -m {params.model} -f\
                     2> {log}
             done
@@ -87,7 +87,7 @@ rule phynteny_run_nanopore:
         if [[ -s {input.gbk} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
-                phynteny {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
+                phynteny_transformer {params.idir}/"$data"_phold/"$data".gbk -o {params.odir}/"$data"_phynteny \
                     -m {params.model} -f\
                     2> {log}
             done

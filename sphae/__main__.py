@@ -57,6 +57,8 @@ def common_options(func):
                      show_default=True),
         click.option('--conda-prefix', default=snake_base(os.path.join('workflow', 'conda')),
                      help='Custom conda env directory', type=click.Path(), show_default=True),
+        click.option('--conda-frontend', default='mamba', show_default=True, 
+                     type=str, help='Conda frontend to use (e.g. mamba, conda)'),
         click.option('--snake-default', multiple=True,
                      default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'],
                      help="Customise Snakemake runtime args", show_default=True),
@@ -115,6 +117,7 @@ sphae annotate --genome <genomes> --output <output> #define output directory
 @click.option('--profile', help='Snakemake profile', default=None, show_default=False)
 @click.option('--temp-dir', 'temp_dir', help='Temp directory', required=False)
 @click.option('--use-conda/--no-use-conda', default=True, help='Use conda for Snakemake rules',show_default=True)
+@click.option('--conda-frontend', default='mamba', show_default=True, type=str, help='Conda frontend to use (e.g. mamba, conda)')
 @click.option('--snake-default', multiple=True,default=['--rerun-incomplete', '--printshellcmds', '--nolock', '--show-failed-logs'], help="Customise Snakemake runtime args", show_default=True)
 @click.option("--log", default="sphae.log", callback=default_to_output, hidden=True,)
 @click.option("--system-config", default=snake_base(os.path.join("config", "config.yaml")),hidden=True,)
@@ -145,6 +148,7 @@ def install(output, temp_dir, configfile, **kwargs):
 def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
     """Annotate option"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
+    
     merge_config = {
         'args': {
             "db_dir": db_dir, 

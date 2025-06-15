@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 ubuntu:20.04
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-ARG LIBFABRIC_VERSION=1.18.1
+ARG LIBFABRIC_VERSION=1.21.0
 
 # Install required packages and dependencies
 RUN   apt -y update \

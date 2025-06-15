@@ -19,7 +19,7 @@ rule summarize_annotations_paired:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
         """
         if [[ -s {input.pharokka} ]] ; then
@@ -120,7 +120,7 @@ rule summarize_annotations_longreads:
         mem =config['resources']['smalljob']['mem'],
         time = config['resources']['smalljob']['time']
     conda:
-        os.path.join(dir_env, "pharokka.yaml")
+        os.path.join(dir_env, "phold.yaml")
     shell:
                 """
         if [[ -s {input.pharokka} ]] ; then
