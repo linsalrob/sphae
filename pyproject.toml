@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphae"
-version = "1.4.8"  # Update as appropriate
+version = "1.5.0"  # Update as appropriate
 description = "Phage workflow"
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [
