@@ -1,4 +1,9 @@
 # Changes being added
+## v1.5.0 
+- phynteny update
+- medaka models download with `sphae install`
+- pharokka.yaml update
+
 ## v1.4.8
 - db_dir variable error fixed 
 - moving to using mamba instead of conda as default 
