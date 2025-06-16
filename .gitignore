@@ -1,12 +1,11 @@
 tests/
-problem_test/
 sphae.out
 genbank_to.log
+skipped_genomes.txt
+
 sphae-*.err.txt
 sphae-*.out.txt
-sphae-Bu*
-sphae-Bf* 
-
+cache/
 sphae/workflow/conda/
 .snakemake/
 sphae/__pycache__

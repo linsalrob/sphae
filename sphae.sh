@@ -22,14 +22,6 @@ export MEDAKAMODEL=/home/nala0006/scratch/sphae/sphae/workflow/databases/models
 #sphae run --input tests/data/illumina-subset --threads 32 -k
 #sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
 #sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  
-#sphae annotate --genome tests/data/genome --threads 64 -k
-
-#export VVDB=sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
-#export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
-#export PHAROKKADB=sphae/workflow/databases/pharokka_db
-#export PHYNTENYDB=sphae/workflow/databases/phynteny_models_zenodo
-#export PHOLDDB=sphae/workflow/databases/phold
-
+sphae annotate --genome tests/data/genome --threads 64 -k
 #singularity exec -B /home/nala0006/scratch/sphae/sphae/workflow/databases:/databases,/home/nala0006/scratch/sphae/tests/data/illumina-subset:/input,/home/nala0006/scratch/sphae/output:/output /home/nala0006/scratch/docker/sphae_v1.4.8.sif  sphae run --input /input --output /output
-#sphae annotate --genome /home/nala0006/scratch/host-interactions/crassphages/crassfamily/fasta-rerun --threads 32 -k --output /home/nala0006/scratch/host-interactions/crassphages/crassfamily/crassfamily_sphae_rereun_v1.4.8 --configfile /home/nala0006/scratch/host-interactions/crassphages/crassfamily/config.yaml
 
