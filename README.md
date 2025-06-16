@@ -118,6 +118,7 @@ sphae install --db_dir <directory>
   - Pharokka databases 
   - Phynteny models
   - Phold databases
+  - Medaka models
 
 This step requires ~17G of storage
 
@@ -129,6 +130,7 @@ export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
 export PHAROKKADB=sphae/workflow/databases/pharokka_db
 export PHYNTENYDB=sphae/workflow/databases/phynteny_models_zenodo
 export PHOLDDB=sphae/workflow/databases/phold
+export MEDAKAMODEL=/home/nala0006/scratch/sphae/sphae/workflow/databases/models
 ```
 
 ## Running the workflow
