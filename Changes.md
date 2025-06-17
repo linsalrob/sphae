@@ -1,8 +1,13 @@
 # Changes being added
-## v1.5.0 
-- phynteny update
-- medaka models download with `sphae install`
-- pharokka.yaml update
+
+## v1.5.1
+- medaka to download models with `sphae install`, now its actually doing this
+
+## v1.5.0
+- updated phynteny to phynteny_transformer
+- updated medaka to download models with `sphae install`
+- updated pharokka yaml file
+
 
 ## v1.4.8
 - db_dir variable error fixed 

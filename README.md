@@ -59,8 +59,6 @@ Setting up a new conda environment
 ```bash
 conda create -n sphae python
 conda activate sphae
-#if you don't already have mamba installed
-conda install -n base -c conda-forge mamba
 ```
 
 **Container Install**
@@ -120,17 +118,15 @@ sphae install --db_dir <directory>
   - Phold databases
   - Medaka models
 
-This step requires ~17G of storage
-
-If these databases are already installed, skip thsi step and instead set the envrionment variables pointing to the where these databases are installed
+This step requires ~23G of storage
+If these databases are already installed, skip this step and instead set the envrionment variables pointing to the where these databases are installed
 
 ```bash
 export VVDB=sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
 export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
 export PHAROKKADB=sphae/workflow/databases/pharokka_db
-export PHYNTENYDB=sphae/workflow/databases/phynteny_models_zenodo
+export PHYNTENYDB=sphae/workflow/databases/models
 export PHOLDDB=sphae/workflow/databases/phold
-export MEDAKAMODEL=/home/nala0006/scratch/sphae/sphae/workflow/databases/models
 ```
 
 ## Running the workflow
@@ -146,19 +142,18 @@ Only one command needs to be submitted to run all the above steps: QC, assembly 
 ```bash
 #For illumina reads, place the reads both forward and reverse reads to one directory
 #Make sure the fastq reads are saved as {sample_name}_R1.fastq and {sample_name}_R2.fastq or with extensions {sample_name}_R1.fastq.gz
-sphae run --input tests/data/illumina-subset --output example -k --use-conda --conda-frontend mamba
+sphae run --input tests/data/illumina-subset --output example -k
 
 #For nanopore reads, place the reads, one file per sample in a directory
-sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --use-conda --conda-frontend mamba
+sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k
 
 #For newer ONT sequencing data where polishing is not required, run the command
-sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --no_medaka --use-conda --conda-frontend mamba
+sphae run --input tests/data/nanopore-subset --sequencing longread --output example -k --no_medaka
 
 #To run either of the commands on the cluster, add --executor slurm to the command. There is a little bit of setup to do here.
 #Setup a ~/.config/snakemake/slurm/config.yaml file - https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html#advanced-resource-specifications
 #I may have set this workflow to run only slurm right now, will make it more generic soon.
-sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16 --use-conda --conda-frontend mamba
-
+sphae run --input tests/data/nanopore-subset --preprocess longread --output example --profile slurm -k --threads 16
 ```
 
 **Command to run only annotation steps and phylogenetic trees**
@@ -168,7 +163,8 @@ This step reruns
    
 ```bash
 #the genomes directory has the already assembled complete genomes
-sphae annotate --genome <genomes directory> --output example -k --use-conda --conda-frontend mamba
+#run the export commands to set the database paths 
+sphae annotate --genome <genomes directory> --output example -k
 ```
 
 **Output**

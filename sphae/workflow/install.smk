@@ -26,6 +26,7 @@ targets.db.append(os.path.join(dir_db, 'pharokka_db', 'phrogs_db.index'))
 targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir_db, 'models', 'category_mapping.pkl'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
+targets.db.append(os.path.join(dir_db, "medaka_models", "medaka.flag"))
 
 """RUN SNAKEMAKE"""
 rule all:
@@ -101,6 +102,6 @@ rule download_medaka_models:
         os.path.join(dir_env, "medaka.yaml")
     shell:
         """
-            medaka tools {params.medaka_models}
+            medaka tools download_models
             touch {output.out}
         """
