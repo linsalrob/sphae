@@ -62,20 +62,40 @@ conda activate sphae
 ```
 
 **Container Install**
+There are two versions of the container
 
-UPDATE: Sphae container doesnt include the database, so `sphae install` command be run to download the databases first, and then run the sphae container. 
+1. [Sphae v1.5.2](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   Includes databases, so the container is about 20GB
+   
 
-[Sphae v1.4.8](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   This is a large container, about 5.72 GB, so it may take a while to download and install.
+2. v1.5.2-noDB
+   Sphae container doesnt include the database, so `sphae install` command be run to download the databases first, and then run the sphae container.
 
-   Here are the commands to download sphae container 
-    ```
+   Steps to donwload and run this container
+
+   ```
     TMPDIR=<where your tmpdir lives>
     IMAGEDIR-<where you want the image to live>
     
     singularity pull --tmpdir $TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:latest
     singularity exec sphae_latest.sif sphae --help
     singularity exec sphae_latest.sif sphae run --help
+
+
+    singularity exec -B <path/to/databases>:/database,<path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
+   ```
+   
+2. [Sphae v1.5.2-noDB](https://hub.docker.com/repository/docker/npbhavya/sphae)
+   This version, doesnt come with databases
+   
+   Here are the commands to download sphae container 
+    ```
+    TMPDIR=<where your tmpdir lives>
+    IMAGEDIR-<where you want the image to live>
+    
+    singularity pull --tmpdir $TMPDIR --dir $IMAGEDIR docker://npbhavya/sphae:v1.5.2-noDB
+    singularity exec sphae_v1.5.2-noDB.sif sphae --help
+    singularity exec sphae_v1.5.2-noDB.sif sphae run --help
 
     # <path/to/databases> set to sphae/workflow/databases if sphae install is run 
     singularity exec -B <path/to/databases>:/database,<path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
@@ -122,6 +142,9 @@ This step requires ~23G of storage
 If these databases are already installed, skip this step and instead set the envrionment variables pointing to the where these databases are installed
 
 ```bash
+#Note to change the file path to the databases.
+#For instance if sphae was installed using conda, the databases by default will be saved to /home/username/miniforge3/envs/sphae/lib/python3.11/site-packages/sphae/workflow/databases
+
 export VVDB=sphae/workflow/databases/Pfam35.0/Pfam-A.hmm.gz
 export CHECKVDB=sphae/workflow/databases/checkv-db-v1.5
 export PHAROKKADB=sphae/workflow/databases/pharokka_db
