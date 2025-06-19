@@ -82,7 +82,7 @@ There are two versions of the container
     singularity exec sphae_latest.sif sphae run --help
 
 
-    singularity exec -B <path/to/databases>:/database,<path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
+    singularity exec -B <path/to/inputfiles>:/input,<path/to/output>:/output sphae_latest.sif sphae run --input /input --output /output
    ```
    
 2. [Sphae v1.5.2-noDB](https://hub.docker.com/repository/docker/npbhavya/sphae)
