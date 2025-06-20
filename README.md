@@ -65,12 +65,8 @@ conda activate sphae
 There are two versions of the container
 
 1. [Sphae v1.5.2](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   Includes databases, so the container is about 20GB
+   Includes databases, so the container is about 32GB
    
-
-2. v1.5.2-noDB
-   Sphae container doesnt include the database, so `sphae install` command be run to download the databases first, and then run the sphae container.
-
    Steps to donwload and run this container
 
    ```
