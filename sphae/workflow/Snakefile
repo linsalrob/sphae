@@ -21,7 +21,8 @@ include: os.path.join("rules", "6.phage_genome.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "8.phold.smk")
 include: os.path.join("rules", "9.phynteny.smk")
-include: os.path.join("rules", "10.final-reporting.smk")
+include: os.path.join("rules", "10.trees.smk")
+include: os.path.join("rules", "11.final-reporting.smk")
 
 
 """Mark target rules"""
@@ -36,7 +37,8 @@ rule all:
     input:
         targets['qc'],
         targets['assemble'],
-        targets['annotate']
+        targets['annotate'],
+        targets['phylogeny']
 
 @targetRule
 rule qc:
@@ -54,3 +56,7 @@ rule annotate:
     input:
         targets['annotate']
 
+@targetRule
+rule phylogeny:
+    input:
+        targets['phylogeny']

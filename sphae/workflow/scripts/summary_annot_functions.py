@@ -1,24 +1,37 @@
 import pandas as pd
 
 def create_summary(pharokka_func, phold_func, pkl_func, tmp, summary_gbk):
-    # Load the data
+    import pandas as pd
+
+def create_summary(pharokka_func, phold_func, pkl_func, tmp, summary_gbk):
     pharokka_df = pd.read_csv(pharokka_func, sep='\t', header=None)
-    phold_df = pd.read_csv(phold_func, sep='\t', header=None)
-    pkl_df = pd.read_csv(pkl_func, sep='\t', header=None)
+    phold_df    = pd.read_csv(phold_func,    sep='\t', header=None)
+    pkl_df      = pd.read_csv(pkl_func,      sep='\t', header=None)
 
-    # Merge pharokka and phold on the second column (index 1)
-    tmp_df = pd.merge(pharokka_df, phold_df, left_on=1, right_on=1, suffixes=('_pharokka', '_phold'))
+    # Find the maximum number of rows
+    max_len = max(len(pharokka_df), len(phold_df), len(pkl_df))
 
-    # Save intermediate results
+    # Reindex all to the same length (pads with NaN)
+    pharokka_df = pharokka_df.reindex(range(max_len))
+    phold_df    = phold_df.reindex(range(max_len))
+    pkl_df      = pkl_df.reindex(range(max_len))
+
+    # Optional: save intermediate combined table
+    tmp_df = pd.concat([pharokka_df, phold_df[2], pkl_df[2]], axis=1)
     tmp_df.to_csv(tmp, sep='\t', header=False, index=False)
 
-    # Merge the intermediate results with pkl on the second column (index 1)
-    final_df = pd.merge(tmp_df, pkl_df, left_on=1, right_on=1)
+    # Build final summary (NaN will appear automatically where missing)
+    summary_df = pd.DataFrame({
+        "contig name": pharokka_df[0],
+        "protein ID":  pharokka_df[1],
+        "pharokka":    pharokka_df[2],
+        "phold":       phold_df[2],
+        "phynteny":    pkl_df[2],
+    })
 
-    # Select relevant columns
-    summary_df = final_df.iloc[:, [0, 1, 2, 4, 6]]
     summary_df.columns = ["contig name", "protein ID", "pharokka", "phold", "phynteny"]
-
+    # If you prefer literal "NA" instead of blank fields:
+    summary_df = summary_df.fillna("NA")
     # Save the final summary
     summary_df.to_csv(summary_gbk, sep='\t', header=True, index=False)
 

@@ -14,7 +14,10 @@ dir = {}
 dir_env = os.path.join(workflow.basedir, "envs")
 
 # database dir
-dir_db = os.path.join(workflow.basedir, 'databases')
+if config['args']['db_dir'] is None:
+    dir_db = os.path.join(workflow.basedir, 'databases')
+else:
+    dir_db = config['args']['db_dir']
 print(f"Databases are being saved in, {dir_db} \n")
 
 """Targets"""
@@ -66,7 +69,7 @@ rule phynteny_models:
         os.path.join(dir_env, "phynteny.yaml")
     shell:
         """
-        install_models -o {params.models} -f
+            install_models -o {params.models} -f
         """
 
 rule phold_install:
@@ -78,7 +81,7 @@ rule phold_install:
         os.path.join(dir_env, "phold.yaml")
     shell:
         """
-        phold install -d {params.phold_db}
+            phold install -d {params.phold_db}
         """
 
 rule checkv_download:

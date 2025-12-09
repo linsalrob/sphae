@@ -110,6 +110,7 @@ sphae annotate --genome <genomes> --output <output> #define output directory
 
 @click.command(epilog=help_msg_install, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @click.option('--output', 'output', help='Output directory', type=click.Path(), default='sphae.out', show_default=True)
+@click.option('--db_dir', 'db_dir', help='Custom database directory', type=click.Path(), required=False)
 @click.option("--configfile", default="config.yaml", show_default=False, callback=default_to_output,help="Custom config file [default: (outputDir)/config.yaml]",)
 @click.option('--threads', help='Number of threads to use', default=1, show_default=True)
 @click.option('--profile', help='Snakemake profile', default=None, show_default=False)
@@ -120,13 +121,14 @@ sphae annotate --genome <genomes> --output <output> #define output directory
 @click.option("--log", default="sphae.log", callback=default_to_output, hidden=True,)
 @click.option("--system-config", default=snake_base(os.path.join("config", "config.yaml")),hidden=True,)
 @click.argument("snake_args", nargs=-1)
-def install(output, temp_dir, configfile, **kwargs):
+def install(output, temp_dir, db_dir, configfile, **kwargs):
     """The install function for databases"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
     merge_config = {
         'args': {
             "output": output, 
+            "db_dir": db_dir,
             "temp_dir": temp_dir,
             "configfile": configfile
         }

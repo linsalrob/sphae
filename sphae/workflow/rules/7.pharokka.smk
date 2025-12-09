@@ -4,20 +4,20 @@ Running pharokka for annotation
 rule pharokka_megahit:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir_annotate, "{sample}-pr-genomes", "{sample}_1.fasta"),
+        os.path.join(dir_annot, "{sample}-pr-genomes", "{sample}_1.fasta"),
     params:
-        inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
-        output=os.path.join(dir_annotate, "pharokka-pr"),
+        inputdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
+        output=os.path.join(dir_annot, "pharokka-pr"),
         db = config['args']['pharokka_db'],
         genes= config['params']['gene-predict'],
     output:
-        gbk=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk"),
-        card=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
-        taxa=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
+        gbk=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk"),
+        card=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
+        taxa=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
@@ -62,20 +62,20 @@ rule pharokka_megahit:
 rule pharokka_flye:
     """Annotate genomes with Pharokka"""
     input:
-        os.path.join(dir_annotate, "{sample}-sr-genomes", "{sample}_1.fasta")
+        os.path.join(dir_annot, "{sample}-sr-genomes", "{sample}_1.fasta")
     params:
-        inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
-        output=os.path.join(dir_annotate, "pharokka-sr"),
+        inputdir=os.path.join(dir_annot, "{sample}-sr-genomes"),
+        output=os.path.join(dir_annot, "pharokka-sr"),
         db = config['args']['pharokka_db'],
         genes= config['params']['gene-predict'],
     output:
-        gbk=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),
-        card=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
-        taxa=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
+        gbk=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),
+        card=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_minced_spacers.txt"),
+        taxa=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1_cds_functions.tsv")
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:

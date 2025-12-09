@@ -25,6 +25,7 @@ db:
   models: "https://zenodo.org/record/8198288/files/phynteny_models_v0.1.11.tar.gz"
 
 args:
+  db_dir: ""
   output: "sphae.out"
   vv_db: $VVDB
   checkv_db: $CHECKVDB

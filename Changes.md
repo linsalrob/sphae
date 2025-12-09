@@ -1,4 +1,9 @@
 # Changes being added
+## v1.5.3
+- added back --db_dir for sphae install
+- fixed issue with fasttree, it should run now with command 
+  `sphae run`
+
 
 ## v1.5.1
 - medaka to download models with `sphae install`, now its actually doing this

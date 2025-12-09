@@ -1,41 +1,22 @@
-import os, glob
-
-SAMPLES = [os.path.splitext(os.path.basename(f))[0].rsplit('_R1', 1)[0] 
-           for f in glob.glob(os.path.join(input_dir, '*.fasta*'))] if input_dir else []
-
-#terminase large subunit
-rule get_marker_proteins_terL:
-    input:
-        gbk=expand(os.path.join(dir_annot,"{sample}-phynteny", "phynteny.gbk"),sample=SAMPLES),
+rule get_terL:
     params:
-        interest="terminase large subunit",
-        script=os.path.join(dir_script, 'get_marker_genes.py'),
+        folder   = os.path.join(dir_annot, "phynteny-pr"),  # the directory
+        interest = "terminase large subunit",
     output:
-        marker_proteins = os.path.join(dir_tree, "marker_proteins", "all_terL.faa")
-    shell:
-        """
-        touch {output.marker_proteins}
-        python3 {params.script} --genbank {input.gbk} \
-            --protein "{params.interest}" \
-            --output {output.marker_proteins}
-        """
+        os.path.join(dir_tree, "marker_proteins", "all_terL.faa"),
+    localrule: True
+    script:
+        os.path.join(dir_script, "get_marker_ids.py")
 
-#portal protein
-rule get_marker_proteins_portal:
-    input:
-        gbk=expand(os.path.join(dir_annot,"{sample}-phynteny", "phynteny.gbk"),sample=SAMPLES),
+rule get_portal:
     params:
-        interest="portal protein",
-        script=os.path.join(dir_script, 'get_marker_genes.py'),
+        folder   = os.path.join(dir_annot, "phynteny-pr"),
+        interest = "portal protein",
     output:
-        marker_proteins = os.path.join(dir_tree, "marker_proteins", "all_portal.faa")
-    shell:
-        """
-        touch {output.marker_proteins}
-        python3 {params.script} --genbank {input.gbk} \
-            --protein "{params.interest}" \
-            --output {output.marker_proteins}
-        """
+        os.path.join(dir_tree, "marker_proteins", "all_portal.faa"),
+    localrule: True
+    script:
+        os.path.join(dir_script, "get_marker_ids.py")
 
 rule msa_terL:
     input:
@@ -129,14 +110,14 @@ rule tree_output:
 	    mkdir -p {params.dors}
         
         if [[ -f {input.terl} && -s {input.terl} ]]; then
-            mv {input.terl} {output.terl}
+            cp {input.terl} {output.terl}
         else
             echo "Input {input.terl} is empty or does not exist. Touching {output.terl}."
             touch {output.terl}
         fi
 
         if [[ -f {input.portal} && -s {input.portal} ]]; then
-            mv {input.portal} {output.portal}
+            cp {input.portal} {output.portal}
         else
             echo "Input {input.portal} is empty or does not exist. Touching {output.portal}."
             touch {output.portal}

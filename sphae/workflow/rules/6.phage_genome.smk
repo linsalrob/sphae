@@ -49,9 +49,9 @@ rule split_genome:
         fasta=os.path.join(dir_genome, "{sample}-pr", "{sample}.fasta")  
     params:
         sample="{sample}",
-        outdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
+        outdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
     output: 
-        txt=os.path.join(dir_annotate, "{sample}-pr-genomes", "{sample}_1.fasta"),
+        txt=os.path.join(dir_annot, "{sample}-pr-genomes", "{sample}_1.fasta"),
     localrule: True
     log:
         os.path.join(dir_log, "spliting_genomes_{sample}.log")
@@ -108,9 +108,9 @@ rule split_genome_longreads:
         fasta=os.path.join(dir_genome, "{sample}-sr", "{sample}.fasta")  
     params:
         sample="{sample}",
-        outdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
+        outdir=os.path.join(dir_annot, "{sample}-sr-genomes"),
     output: 
-        txt=os.path.join(dir_annotate, "{sample}-sr-genomes", "{sample}_1.fasta"),
+        txt=os.path.join(dir_annot, "{sample}-sr-genomes", "{sample}_1.fasta"),
     localrule: True
     log:
         os.path.join(dir_log, "spliting_genomes_{sample}.log")

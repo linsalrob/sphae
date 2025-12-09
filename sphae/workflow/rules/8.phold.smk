@@ -4,19 +4,19 @@ https://github.com/gbouras13/phold
 """
 rule phold_run_paired:
     input:
-        gbk=os.path.join(dir_annotate, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk")
+        gbk=os.path.join(dir_annot, "pharokka-pr", "{sample}_1_pharokka", "{sample}_1.gbk")
     params:
-        inputdir=os.path.join(dir_annotate, "{sample}-pr-genomes"),
-        idir=os.path.join(dir_annotate, "pharokka-pr"),
-        predict=os.path.join(dir_annotate, "predict-pr"),
-        o=os.path.join(dir_annotate, "phold-pr"),
+        inputdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
+        idir=os.path.join(dir_annot, "pharokka-pr"),
+        predict=os.path.join(dir_annot, "predict-pr"),
+        o=os.path.join(dir_annot, "phold-pr"),
         db = config['args']['phold_db'],
     output:
-        gbk=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "{sample}_1.gbk"),
-        acr=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),
-        card=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
-        defense=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
-        vfdb=os.path.join(dir_annotate, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
+        gbk=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "{sample}_1.gbk"),
+        acr=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
         config['resources']['smalljob']['cpu']
     conda:
@@ -45,19 +45,19 @@ rule phold_run_paired:
 
 rule phold_run_longreads:
     input:
-        gbk=os.path.join(dir_annotate, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk")
+        gbk=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk")
     params:
-        inputdir=os.path.join(dir_annotate, "{sample}-sr-genomes"),
-        idir=os.path.join(dir_annotate, "pharokka-sr"),
-        predict=os.path.join(dir_annotate, "predict-sr"),
-        o=os.path.join(dir_annotate, "phold-sr"),
+        inputdir=os.path.join(dir_annot, "{sample}-sr-genomes"),
+        idir=os.path.join(dir_annot, "pharokka-sr"),
+        predict=os.path.join(dir_annot, "predict-sr"),
+        o=os.path.join(dir_annot, "phold-sr"),
         db = config['args']['phold_db'],
     output:
-        gbk=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "{sample}_1.gbk"),
-        acr=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),
-        card=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
-        defense=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
-        vfdb=os.path.join(dir_annotate, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
+        gbk=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "{sample}_1.gbk"),
+        acr=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
         config['resources']['smalljob']['cpu']
     conda:

@@ -31,21 +31,30 @@ def create_summary(sample, pharokka_dir, phold_dir, pkl_dir, output_dir):
             continue
 
         # Load the data
-        pharokka_df = pd.read_csv(pharokka_func, sep='\t', header=None)
-        phold_df = pd.read_csv(phold_func, sep='\t', header=None)
-        pkl_df = pd.read_csv(pkl_func, sep='\t', header=None)
+        pharokka_df = pd.read_csv(pharokka_func, sep='\t', header=None, names=['contig', 'protein_id', 'pharokka'])
+        phold_df = pd.read_csv(phold_func, sep='\t', header=None, names=['contig', 'protein_id', 'phold'])
+        pkl_df = pd.read_csv(pkl_func, sep='\t', header=None, names=['contig', 'protein_id', 'phynteny'])
 
-        # Merge pharokka and phold on the second column (index 1)
-        tmp_df = pd.merge(pharokka_df, phold_df, left_on=1, right_on=1, suffixes=('_pharokka', '_phold'))
+        # Merge pharokka and phold on the second column (index 1: protein ID)
+        # pharokka + phold: share contig + protein_id
+        tmp_df = pharokka_df.merge(
+            phold_df[['contig', 'protein_id', 'phold']],
+            on=['contig', 'protein_id'],
+            how='left'
+        )
 
-        # Merge the intermediate results with pkl on the second column (index 1)
-        final_df = pd.merge(tmp_df, pkl_df, left_on=1, right_on=1)
+        # NOW merge with phynteny on contig (col 0) + function (col 2)
+        # tmp_df: col 0_pharokka = contig, col 2_pharokka = function
+        # pkl_df: col 0 = contig, col 2 = function
+        final_df = tmp_df.merge(
+            pkl_df[['contig', 'phynteny']],
+            left_on=['contig', 'pharokka'],
+            right_on=['contig', 'phynteny'],
+            how='left'
+        )
 
-        # Select relevant columns
-        summary_df = final_df.iloc[:, [0, 1, 2, 4, 6]].copy()
+        summary_df = final_df[['contig', 'protein_id', 'pharokka', 'phold', 'phynteny']].copy()
         summary_df.columns = ["contig name", "protein ID", "pharokka", "phold", "phynteny"]
-
-        # Add sample name column using .assign
         summary_df = summary_df.assign(sample_name=sample_name)
 
         # Save the final summary for each sample
