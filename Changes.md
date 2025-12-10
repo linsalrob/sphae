@@ -3,7 +3,7 @@
 - added back --db_dir for sphae install
 - fixed issue with fasttree, it should run now with command 
   `sphae run`
-
+- Consistent results to copy the AMR, Defense genes and VFDB genes from phold to the final files
 
 ## v1.5.1
 - medaka to download models with `sphae install`, now its actually doing this

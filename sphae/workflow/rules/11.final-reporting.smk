@@ -59,6 +59,7 @@ rule annotate_summary_paired:
         pharokka_func=os.path.join(dir_annot, "pharokka-pr"),
         phold_func=os.path.join(dir_annot, "phold-pr"),
         pkl_func=os.path.join(dir_annot, "phynteny-pr"),
+        tmp=os.path.join(dir_annot, "phynteny-pr", "tmp"),
         output=os.path.join(dir_final, "{sample}-pr"),
         ids="{sample}",
     output:
@@ -102,6 +103,41 @@ rule summarize_paired:
     script:
         os.path.join(dir_script, 'summary.py')
 
+rule copy_accessory_pr:
+    input:
+        card=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb_phold=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"),
+    output:
+        pseudo=os.path.join(dir_final, "{sample}-pr", "{sample}_tmp"),
+    params:
+        outdir=os.path.join(dir_final, "{sample}-pr"),
+        indir=os.path.join(dir_annot, "phold-pr"),
+        s="{sample}"
+    shell:
+        """
+        # Loop over ALL genomes for this sample: sample_1_phold, sample_2_phold, ...
+        for f in {params.indir}/{params.s}_*_phold; do
+            # skip if nothing matches
+            [ -e "$f" ] || continue
+
+            # e.g. basename "sample_1_phold" -> "sample_1_phold"
+            # then strip the "_phold" suffix -> "sample_1"
+            base=$(basename "$f" _phold)
+
+            cp "$f/sub_db_tophits/card_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_amr.tsv"
+
+            cp "$f/sub_db_tophits/defensefinder_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_defense.tsv"
+
+            cp "$f/sub_db_tophits/vfdb_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_vfdb.tsv"
+        done
+
+        touch {output.pseudo}
+        """
+    
 rule summarize_annotations_longreads:
     input:
         pharokka=os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"),
@@ -161,6 +197,7 @@ rule annotate_summary_longreads:
         phold_func=os.path.join(dir_annot, "phold-sr"),
         pkl_func=os.path.join(dir_annot, "phynteny-sr"),
         output=os.path.join(dir_final, "{sample}-sr"),
+        tmp=os.path.join(dir_annot, "phynteny-sr", "tmp"),
         ids="{sample}",
     output:
         summary_gbk=os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions")
@@ -202,3 +239,37 @@ rule summarize_longread:
     script:
         os.path.join(dir_script, 'summary.py')
 
+rule copy_accessory_sr:
+    input:
+        card=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb_phold=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"),
+    output:
+        pseudo=os.path.join(dir_final, "{sample}-sr", "{sample}_tmp"),
+    params:
+        outdir=os.path.join(dir_final, "{sample}-sr"),
+        indir=os.path.join(dir_annot, "phold-sr"),
+        s="{sample}"
+    shell:
+        """
+        # Loop over ALL genomes for this sample: sample_1_phold, sample_2_phold, ...
+        rm -rf {params.outdir}/card_cds_predictions.tsv {params.outdir}/defensefinder_cds_predictions.tsv {params.outdir}/vfdb_cds_predictions.tsv
+        for f in {params.indir}/{params.s}_*_phold; do
+            # skip if nothing matches
+            [ -e "$f" ] || continue
+
+            # e.g. basename "sample_1_phold" -> "sample_1_phold"
+            # then strip the "_phold" suffix -> "sample_1"
+            base=$(basename "$f" _phold)
+
+            cp "$f/sub_db_tophits/card_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_amr.tsv"
+
+            cp "$f/sub_db_tophits/defensefinder_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_defense.tsv"
+
+            cp "$f/sub_db_tophits/vfdb_cds_predictions.tsv" \
+               "{params.outdir}/"$base"_phold_vfdb.tsv"
+        done
+        touch {output.pseudo}
+        """

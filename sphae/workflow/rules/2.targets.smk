@@ -47,6 +47,7 @@ if config['args']['sequencing'] == 'paired':
     targets['annotate'].append(expand(os.path.join(dir_annot, "phynteny-pr", "{sample}_1_phynteny", "plots", "{sample}_1.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_1_summary.functions"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_tmp"), sample=samples_names))
 elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),sample=samples_names))
@@ -64,6 +65,7 @@ elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annot, "phynteny-sr", "{sample}_1_phynteny", "plots", "{sample}_1.png"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_tmp"), sample=samples_names))
 
 #phylogenetic trees
 targets['phylogeny'].append(os.path.join(dir_tree, "marker_proteins", "all_terL.faa"))

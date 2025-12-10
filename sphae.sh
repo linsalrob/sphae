@@ -16,8 +16,8 @@ export PHYNTENYDB=/users/bnalaga1/scratch/reference_db/sphae_databases/models
 export PHOLDDB=/users/bnalaga1/scratch/reference_db/sphae_databases/phold
 
 sphae run --input tests/data/illumina-subset --threads 32 -k
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
-#sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  
-#sphae annotate --genome tests/data/genome --threads 32 -k
+sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k
+sphae run --input tests/data/nanopore-subset --sequencing longread --threads 64 -k --no_medaka  
+sphae annotate --genome tests/data/genome --threads 32 -k
 #singularity exec -B /home/nala0006/scratch/sphae/sphae/workflow/databases:/databases,/home/nala0006/scratch/sphae/tests/data/illumina-subset:/input,/home/nala0006/scratch/sphae/output:/output /home/nala0006/scratch/docker/sphae_v1.4.8.sif  sphae run --input /input --output /output
 

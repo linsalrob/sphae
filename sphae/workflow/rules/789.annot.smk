@@ -216,3 +216,26 @@ rule summarize:
     script:
         os.path.join(dir_script, 'summary-annot.py')
 
+
+rule accessory_files:
+    input:
+        summary=os.path.join(dir_final, "{sample}", "{sample}_summary.txt"),
+        acr=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb_phold=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv"),
+    output:
+        amr=os.path.join(dir_final, "{sample}", "{sample}_phold_amr.tsv"),
+        vfdb=os.path.join(dir_final, "{sample}", "{sample}_phold_vfdb.tsv"),
+        acr=os.path.join(dir_final, "{sample}", "{sample}_phold_acr.tsv"),
+        defense=os.path.join(dir_final, "{sample}", "{sample}_phold_defense.tsv"),
+    params:
+        sample="{sample}"
+    localrule: True
+    shell:
+        """
+        cp {input.acr} {output.acr}
+        cp {input.card} {output.amr}
+        cp {input.defense} {output.defense}
+        cp {input.vfdb_phold} {output.vfdb}
+        """

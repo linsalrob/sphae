@@ -193,6 +193,9 @@ Output is saved to `example/RESULTS` directory. In this directory, there will be
   - Genome in fasta format (either the reoriented to terminase output from Pharokka, or assembled viral contigs)
   - Circular visualization in `png` format (Pharokka output)
   - Genome summary file
+  - trees folder; Not this folder might be meaningful only if you have tailed phages
+   - all_portal.nwk: Tree using all proteins annotated as "portal protein:
+   - all_terL.nwk: Tree using all proteins annotated as "terminase large subunit"
 
 Genome summary file includes the following information to help, 
   - Sample name
