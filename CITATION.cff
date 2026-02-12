@@ -28,8 +28,8 @@ authors:
 - family-names: "Inglis"
   given-names: "Laura"
   orcid: "0000-0001-7919-8563"
-title: "spae: Phage annotations and predictions"
+title: "sphae: Phage annotations and predictions"
 version: 2.0.4
 doi: 10.5281/zenodo.8365089
 date-released: 2023-09-21
-url: "https://github.com/linsalrob/spae"
+url: "https://github.com/linsalrob/sphae"
