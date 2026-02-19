@@ -1,4 +1,7 @@
 # Changes being added
+## v1.5.4-ongoing 
+- phynteny_transformer error with python v3.11.4, missing package request. Updating the yaml file
+
 ## v1.5.3
 - added back --db_dir for sphae install
 - fixed issue with fasttree, it should run now with command 

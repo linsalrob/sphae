@@ -57,7 +57,7 @@ pip install sphae
 Setting up a new conda environment 
 
 ```bash
-conda create -n sphae python
+conda create -n sphae python=3.12
 conda activate sphae
 ```
 

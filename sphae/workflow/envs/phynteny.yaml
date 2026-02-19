@@ -4,6 +4,4 @@ channels:
     - bioconda
     - defaults
 dependencies:
-    - pip 
-    - pip:
-        - phynteny_transformer>=0.1.2
+    - phynteny_transformer>=0.1.2
