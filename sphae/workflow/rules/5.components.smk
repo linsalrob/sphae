@@ -17,10 +17,10 @@ rule components_megahit:
     log:
         os.path.join(dir_log, "components_megahit.{sample}.log")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb=config['resources']['smalljob']['mem'],
-        time=config['resources']['smalljob']['time']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        time=config['resources']['smalljob']['runtime']
     script:
         os.path.join(dir_script, 'components.py')
 
@@ -40,9 +40,9 @@ rule components_flye_nano:
     conda:
         os.path.join(dir_env, "graph.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb=config['resources']['smalljob']['mem'],
-        time=config['resources']['smalljob']['time']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        time=config['resources']['smalljob']['runtime']
     script:
         os.path.join(dir_script, 'components.py')

@@ -21,10 +21,10 @@ rule pharokka_megahit:
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
     shell:
@@ -79,10 +79,10 @@ rule pharokka_flye:
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
     shell:

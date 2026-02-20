@@ -1,12 +1,14 @@
 resources:
+  slurm_account: 
+  slurm_partition: cpu
   smalljob:
-    cpu: 8
-    mem: 16000
-    time: 480
+    threads: 8
+    mem_mb: 16000
+    runtime: 480
   bigjob:
-    cpu: 32
-    mem: 64000
-    time: 480
+    threads: 32
+    mem_mb: 64000
+    runtime: 480
 
 params:
   no_medaka: False

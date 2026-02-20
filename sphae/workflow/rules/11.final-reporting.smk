@@ -16,8 +16,8 @@ rule summarize_annotations_paired:
         phold_func=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "{sample}_1_phold.functions"),
         pkl_func=os.path.join(dir_annot, "phynteny-pr", "{sample}_1_phynteny", "phynteny.functions"),
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:
@@ -153,8 +153,8 @@ rule summarize_annotations_longreads:
         phold_func=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "{sample}_1_phold.functions"),
         pkl_func=os.path.join(dir_annot, "phynteny-sr", "{sample}_1_phynteny", "phynteny.functions"),
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:

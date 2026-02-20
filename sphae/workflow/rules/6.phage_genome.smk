@@ -26,10 +26,10 @@ rule genomes_extract_megahit:
     conda:
         os.path.join(dir_env, "samtools.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "samtools.{sample}.log")
     shell:
@@ -85,10 +85,10 @@ rule genomes_extract_flye:
     conda:
         os.path.join(dir_env, "samtools.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "samtools.{sample}.log")
     shell:

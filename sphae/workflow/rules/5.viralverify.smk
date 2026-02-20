@@ -12,10 +12,10 @@ rule viralverify_megahit:
         db= config['args']['vv_db'],
         out = os.path.join(dir_megahit, "{sample}-pr")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb=config['resources']['smalljob']['mem'],
-        time=config['resources']['smalljob']['time']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        time=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "viralverify_megahit.{sample}.log")
     shell:
@@ -44,10 +44,10 @@ rule viralverify_flye_nano:
         out = os.path.join(dir_flye, "{sample}-sr"),
         db= config['args']['vv_db'],
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb=config['resources']['smalljob']['mem'],
-        time=config['resources']['smalljob']['time']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        time=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "viralverify_flye_nano.{sample}.log")
     shell:

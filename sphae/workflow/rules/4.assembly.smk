@@ -22,10 +22,10 @@ rule flye:
     conda:
         os.path.join(dir_env, "flye.yaml")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     resources:
-        mem_mb=config['resources']['bigjob']['mem'],
-        time=config['resources']['bigjob']['time']
+        mem_mb=config['resources']['bigjob']['mem_mb'],
+        time=config['resources']['bigjob']['runtime']
     shell:
         """
         if flye \
@@ -61,10 +61,10 @@ rule medaka:
         model = config['params']['medaka'],
         dir= directory(os.path.join(dir_flye,"{sample}-sr"))
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     resources:
-        mem_mb=config['resources']['bigjob']['mem'],
-        time=config['resources']['bigjob']['time']
+        mem_mb=config['resources']['bigjob']['mem_mb'],
+        time=config['resources']['bigjob']['runtime']
     log:
         os.path.join(dir_log, "medaka.{sample}.log")
     shell:
@@ -97,10 +97,10 @@ rule megahit:
     log:
         os.path.join(dir_log, "megahit.{sample}.log")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     resources:
-        mem_mb=config['resources']['bigjob']['mem'],
-        time=config['resources']['bigjob']['time']
+        mem_mb=config['resources']['bigjob']['mem_mb'],
+        time=config['resources']['bigjob']['runtime']
     conda:
         os.path.join(dir_env, "megahit.yaml")
     shell:

@@ -22,10 +22,10 @@ rule flye:
     conda:
         os.path.join(dir_env, "flye.yaml")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     resources:
-        mem_mb=config['resources']['bigjob']['mem'],
-        time=config['resources']['bigjob']['time']
+        mem_mb=config['resources']['bigjob']['mem_mb'],
+        time=config['resources']['bigjob']['runtime']
     shell:
         """
         if flye \
@@ -57,10 +57,10 @@ rule no_medaka:
     conda:
         os.path.join(dir_env, "flye.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb=config['resources']['smalljob']['mem'],
-        time=config['resources']['smalljob']['time']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        time=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "no_medaka.{sample}.log")
     shell:
@@ -87,10 +87,10 @@ rule megahit:
     log:
         os.path.join(dir_log, "megahit.{sample}.log")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     resources:
-        mem_mb=config['resources']['bigjob']['mem'],
-        time=config['resources']['bigjob']['time']
+        mem_mb=config['resources']['bigjob']['mem_mb'],
+        time=config['resources']['bigjob']['runtime']
     conda:
         os.path.join(dir_env, "megahit.yaml")
     shell:

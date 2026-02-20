@@ -62,7 +62,7 @@ rule iqtree_terL:
     conda:
         os.path.join(dir_env, "trees.yaml")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     shell:
         """
         if [[ -f {input} && -s {input} ]]; then
@@ -84,7 +84,7 @@ rule iqtree_portal:
     conda:
         os.path.join(dir_env, "trees.yaml")
     threads:
-        config['resources']['bigjob']['cpu']
+        config['resources']['bigjob']['threads']
     shell:
         """
         if [[ -f {input} && -s {input} ]]; then

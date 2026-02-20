@@ -14,10 +14,10 @@ rule phynteny_run_paired:
     conda:
         os.path.join(dir_env, "phynteny.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phynteny.{sample}.log")
     shell:
@@ -45,8 +45,8 @@ rule phynteny_plotter_paired:
     output:
         plot=os.path.join(dir_annot, "phynteny-pr", "{sample}_1_phynteny", "plots", "{sample}_1.png")
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:
@@ -76,10 +76,10 @@ rule phynteny_run_nanopore:
     conda:
         os.path.join(dir_env, "phynteny.yaml")
     threads:
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phynteny.{sample}.log")
     shell:
@@ -108,8 +108,8 @@ rule phynteny_plotter_longreads:
     output:
         plot=os.path.join(dir_annot, "phynteny-sr", "{sample}_1_phynteny", "plots", "{sample}_1.png")
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:

@@ -18,12 +18,12 @@ rule phold_run_paired:
         defense=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
         vfdb=os.path.join(dir_annot, "phold-pr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     conda:
         os.path.join(dir_env, "phold.yaml")
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phold.{sample}.log")
     shell:
@@ -59,12 +59,12 @@ rule phold_run_longreads:
         defense=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"),
         vfdb=os.path.join(dir_annot, "phold-sr", "{sample}_1_phold", "sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     conda:
         os.path.join(dir_env, "phold.yaml")
     resources:
-        mem_mb = config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phold.{sample}.log")
     shell:

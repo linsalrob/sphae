@@ -14,12 +14,12 @@ rule fastp:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "fastp.{sample}.log")
     threads: 
-        config['resources']['smalljob']['cpu']
+        config['resources']['smalljob']['threads']
     shell:
         """
         fastp -i {input.r1} -I {input.r2} -o {output.r1} -O {output.r2} -j {output.stats} -h {output.html} --thread {threads} 2>{log}
@@ -39,10 +39,10 @@ rule rasusa:
     conda:
         os.path.join(dir_env, "rasusa.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     threads:
-        config['resources']['smalljob']['cpu'],
+        config['resources']['smalljob']['threads'],
     log:
         os.path.join(dir_log, "rasusa_paired.{sample}.log")
     shell:
@@ -66,10 +66,10 @@ rule run_seqkit_short:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     threads: 
-        config['resources']['smalljob']['cpu'],
+        config['resources']['smalljob']['threads'],
     log:
         os.path.join(dir_log, "seqkit", "{sample}_bases_short.log"),
     shell:
@@ -103,9 +103,9 @@ rule filtlong_long:
         length=config['params']['min_length'],
         target_bases=config['params']['bases']
     resources:
-        cpu =config['resources']['smalljob']['cpu'],
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        cpu =config['resources']['smalljob']['threads'],
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "filtlong", "{sample}.log"),
     shell:
@@ -122,9 +122,9 @@ rule run_seqkit_long:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        cpu =config['resources']['smalljob']['cpu'],
-        mem =config['resources']['smalljob']['mem'],
-        time = config['resources']['smalljob']['time']
+        cpu =config['resources']['smalljob']['threads'],
+        mem =config['resources']['smalljob']['mem_mb'],
+        time = config['resources']['smalljob']['runtime']
     threads:
         config['resources']['smalljob']['cpu'],
     log:
