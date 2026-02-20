@@ -18,8 +18,6 @@ rule phageterm_short:
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
         runtime = config['resources']['smalljob']['runtime']
-    log:
-        os.path.join(dir_log, "phageterm_sr.{sample}.log")
     shell:
         """
         mkdir -p {params.outdir}
@@ -32,7 +30,7 @@ rule phageterm_short:
                 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
                 --report_title "$base" \
-                -c {threads} > {log} 2>&1
+                -c {threads} 
         done
         touch {output}
         """
