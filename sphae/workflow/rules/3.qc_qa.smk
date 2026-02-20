@@ -126,7 +126,7 @@ rule run_seqkit_long:
         mem_mb =config['resources']['smalljob']['mem_mb'],
         runtime = config['resources']['smalljob']['runtime']
     threads:
-        config['resources']['smalljob']['cpu'],
+        config['resources']['smalljob']['threads'],
     log:
         os.path.join(dir_log, "{sample}_long_seqkit.log"),
     shell:
