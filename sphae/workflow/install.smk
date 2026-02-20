@@ -30,7 +30,7 @@ targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir_db, 'models', 'category_mapping.pkl'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
 targets.db.append(os.path.join(dir_db, "medaka_models", "medaka.flag"))
-targets.db.append(os.path.join(dir_db, "phagetermvirome-4.3", "README.md"))
+targets.db.append(os.path.join(dir_db, "phagetermvirome-4.3", "PKG-INFO"))
 
 """RUN SNAKEMAKE"""
 rule all:
@@ -116,7 +116,7 @@ rule phageterm_install:
         tar=os.path.join(dir_db, "phagetermvirome-4.3.tar.gz"),
         dir_db=os.path.join(dir_db)
     output:
-        os.path.join(dir_db, "phagetermvirome-4.3", "README.md")
+        os.path.join(dir_db, "phagetermvirome-4.3", "PKG-INFO")
     conda:
         os.path.join(dir_env, "phageterm.yaml")
     shell:
