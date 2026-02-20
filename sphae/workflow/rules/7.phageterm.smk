@@ -7,12 +7,11 @@ rule phageterm_short:
         r2 = os.path.join(dir_fastp, "{sample}_subsampled_R2.fastq.gz"),
         contigs=os.path.join(dir_annot, "{sample}-pr-genomes", "{sample}_1.fasta"),
     output:
-        os.path.join(dir_phageterm, "{sample}_sr_phageterm", "{sample}_report.pdf")
+        os.path.join(dir_phageterm, "{sample}_pr_phageterm", "{sample}_report.pdf")
     params:
         inputdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
-        outdir=os.path.join(dir_phageterm, "{sample}_sr_phageterm"),
-        dbdir= config['args']['db_dir'],
-        db=os.path.join(dbdir, "phageterm_db", "phagetermvirome"),
+        outdir=os.path.join(dir_phageterm, "{sample}_pr_phageterm"),
+        db=os.path.join(config['args']['db_dir'], "phageterm_db", "phagetermvirome"),
     conda:
         os.path.join(dir_env, "phageterm.yaml")
     threads:
@@ -27,7 +26,7 @@ rule phageterm_short:
     shell:
         """
         export PYTHONPATH={params.db}/:$PYTHONPATH
-        if [[ -s {input} ]] ; then
+        if [[ -s {input.contigs} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
                 phageterm -r "$f" -f {input.r1} -p {input.r2} \
