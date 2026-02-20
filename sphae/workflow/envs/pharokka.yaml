@@ -4,14 +4,4 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.10
-  - mmseqs2=13.45111
-  - trnascan-se==2.0.12
-  - minced==0.4.2
-  - aragorn==1.2.41
-  - mash==2.3
-  - pip
-  - pip:
-      - pharokka==1.7.5
-      - phanotate==1.6.7
-      - dnaapler==1.2.0
+  - pharokka>=1.9.1
