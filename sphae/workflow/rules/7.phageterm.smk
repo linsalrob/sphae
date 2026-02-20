@@ -23,6 +23,7 @@ rule phageterm_short:
     shell:
         """
         mkdir -p {params.outdir}
+        cd {params.outdir}
 
         export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
@@ -30,7 +31,7 @@ rule phageterm_short:
             base="$(basename "$f" .fasta)"
                 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
-                --report_title {params.outdir}/"$base" \
+                --report_title "$base" \
                 -c {threads} > {log} 2>&1
         done
         touch {output}
