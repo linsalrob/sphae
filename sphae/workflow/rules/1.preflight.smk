@@ -30,6 +30,7 @@ dir_flye = os.path.join(dir_assembly, 'flye')
 dir_genome = os.path.join(dir_out, 'PROCESSING','genome')
 dir_annot = os.path.join(dir_out, 'PROCESSING','annotate')
 dir_tree = os.path.join(dir_out, 'PROCESSING','phylogeny')
+dir_phageterm = os.path.join(dir_out, 'PROCESSING','phageterm')
 dir_log = os.path.join(dir_out, 'logs')
 dir_final = os.path.join(dir_out, 'RESULTS')
 

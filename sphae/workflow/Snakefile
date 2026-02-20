@@ -18,12 +18,12 @@ include: os.path.join("rules", "5.viralverify.smk")
 include: os.path.join("rules", "5.checkv.smk")
 include: os.path.join("rules", "6.stat_join.smk")
 include: os.path.join("rules", "6.phage_genome.smk")
+include: os.path.join("rules", "7.phageterm.smk")
 include: os.path.join("rules", "7.pharokka.smk")
 include: os.path.join("rules", "8.phold.smk")
 include: os.path.join("rules", "9.phynteny.smk")
 include: os.path.join("rules", "10.trees.smk")
 include: os.path.join("rules", "11.final-reporting.smk")
-
 
 """Mark target rules"""
 target_rules = []
