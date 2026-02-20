@@ -24,7 +24,7 @@ rule phageterm_short:
         """
         mkdir {params.outdir}
 
-        export PYTHONPATH={params.db}:${PYTHONPATH:-}
+        export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
         for f in {params.contigs_dir}/*.fasta; do 
             base="$(basename "$f" .fasta)"
