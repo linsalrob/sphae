@@ -25,7 +25,7 @@ targets = type('', (), {})()
 targets.db = []
 
 targets.db.append(os.path.join(dir_db, 'Pfam35.0', 'Pfam-A.hmm.gz'))
-targets.db.append(os.path.join(dir_db, 'pharokka_db', 'phrogs_db'))
+targets.db.append(os.path.join(dir_db, 'pharokka_db', 'done.txt'))
 targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir_db, 'models', 'category_mapping.pkl'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
@@ -53,12 +53,13 @@ rule  pharokka_download:
     params: 
         pharokka=os.path.join(dir_db, 'pharokka_db')
     output:
-        out=os.path.join(dir_db, 'pharokka_db', 'phrogs_db')
+        out=os.path.join(dir_db, 'pharokka_db', 'done.txt')
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     shell:
         """
             install_databases.py -o {params.pharokka}
+            touch {output.out}
         """
 
 rule phynteny_models:
