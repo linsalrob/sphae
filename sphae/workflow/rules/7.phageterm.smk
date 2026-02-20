@@ -10,7 +10,7 @@ rule phageterm_short:
         os.path.join(dir_phageterm, "{sample}_pr_phageterm", "{sample}_report.pdf")
     params:
         outdir=os.path.join(dir_phageterm, "{sample}_pr_phageterm"),
-        db=os.path.join(config['args']['db_dir'], "phageterm_db", "phagetermvirome"),
+        db=os.path.join(config['args']['db_dir'], "phagetermvirome-4.3", "phagetermvirome"),
     conda:
         os.path.join(dir_env, "phageterm.yaml")
     threads:
