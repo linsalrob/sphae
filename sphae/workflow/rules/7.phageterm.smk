@@ -11,7 +11,8 @@ rule phageterm_short:
     params:
         inputdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
         outdir=os.path.join(dir_phageterm, "{sample}_sr_phageterm"),
-        db=os.path.join(dir_db, "phageterm_db", "phagetermvirome"),
+        dbdir= config['args']['db_dir'],
+        db=os.path.join(dbdir, "phageterm_db", "phagetermvirome"),
     conda:
         os.path.join(dir_env, "phageterm.yaml")
     threads:
