@@ -67,6 +67,7 @@ elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_1_summary.functions"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-sr", "{sample}_tmp"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_phageterm, "{sample}_sr_phageterm", "done.txt"), sample=samples_names))
 
 #phylogenetic trees
 targets['phylogeny'].append(os.path.join(dir_tree, "marker_proteins", "all_terL.faa"))

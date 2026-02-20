@@ -2,6 +2,7 @@
 ## v1.5.4-ongoing 
 - phynteny_transformer error with python v3.11.4, missing package request. Updating the yaml file. Fixed the yaml file for this 
 - updating the slurm params in the workflow config and in the rules version 
+- phageterm add 
 
 ## v1.5.3
 - added back --db_dir for sphae install
