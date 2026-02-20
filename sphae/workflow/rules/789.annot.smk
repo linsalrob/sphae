@@ -21,7 +21,7 @@ rule pharokka_annotate:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
     shell:
@@ -73,7 +73,7 @@ rule phold_run:
         os.path.join(dir_env, "phold.yaml")
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phold.{sample}.log")
     shell:
@@ -100,7 +100,7 @@ rule phynteny_run:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phynteny.{sample}.log")
     shell:
@@ -126,8 +126,8 @@ rule phynteny_plotter:
     output:
         plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png")
     resources:
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:
@@ -151,8 +151,8 @@ rule summarize_annotations:
         phold_func=os.path.join(dir_annot, "{sample}-phold","{sample}_phold.functions"),
         pkl_func=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.functions"),
     resources:
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     conda:
         os.path.join(dir_env, "phold.yaml")
     shell:

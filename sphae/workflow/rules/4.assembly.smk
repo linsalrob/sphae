@@ -25,7 +25,7 @@ rule flye:
         config['resources']['bigjob']['threads']
     resources:
         mem_mb=config['resources']['bigjob']['mem_mb'],
-        time=config['resources']['bigjob']['runtime']
+        runtime=config['resources']['bigjob']['runtime']
     shell:
         """
         if flye \
@@ -64,7 +64,7 @@ rule medaka:
         config['resources']['bigjob']['threads']
     resources:
         mem_mb=config['resources']['bigjob']['mem_mb'],
-        time=config['resources']['bigjob']['runtime']
+        runtime=config['resources']['bigjob']['runtime']
     log:
         os.path.join(dir_log, "medaka.{sample}.log")
     shell:
@@ -100,7 +100,7 @@ rule megahit:
         config['resources']['bigjob']['threads']
     resources:
         mem_mb=config['resources']['bigjob']['mem_mb'],
-        time=config['resources']['bigjob']['runtime']
+        runtime=config['resources']['bigjob']['runtime']
     conda:
         os.path.join(dir_env, "megahit.yaml")
     shell:

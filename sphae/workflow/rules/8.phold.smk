@@ -23,7 +23,7 @@ rule phold_run_paired:
         os.path.join(dir_env, "phold.yaml")
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phold.{sample}.log")
     shell:
@@ -64,7 +64,7 @@ rule phold_run_longreads:
         os.path.join(dir_env, "phold.yaml")
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phold.{sample}.log")
     shell:

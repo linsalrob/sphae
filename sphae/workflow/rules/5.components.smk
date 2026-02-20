@@ -20,7 +20,7 @@ rule components_megahit:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
-        time=config['resources']['smalljob']['runtime']
+        runtime=config['resources']['smalljob']['runtime']
     script:
         os.path.join(dir_script, 'components.py')
 
@@ -43,6 +43,6 @@ rule components_flye_nano:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
-        time=config['resources']['smalljob']['runtime']
+        runtime=config['resources']['smalljob']['runtime']
     script:
         os.path.join(dir_script, 'components.py')

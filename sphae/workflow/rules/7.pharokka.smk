@@ -24,7 +24,7 @@ rule pharokka_megahit:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
     shell:
@@ -82,7 +82,7 @@ rule pharokka_flye:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
     shell:

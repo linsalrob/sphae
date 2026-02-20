@@ -1,6 +1,4 @@
 resources:
-  slurm_account: 
-  slurm_partition: cpu
   smalljob:
     threads: 8
     mem_mb: 16000

@@ -14,8 +14,8 @@ rule fastp:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']  
     log:
         os.path.join(dir_log, "fastp.{sample}.log")
     threads: 
@@ -39,8 +39,8 @@ rule rasusa:
     conda:
         os.path.join(dir_env, "rasusa.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     threads:
         config['resources']['smalljob']['threads'],
     log:
@@ -66,8 +66,8 @@ rule run_seqkit_short:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     threads: 
         config['resources']['smalljob']['threads'],
     log:
@@ -103,9 +103,9 @@ rule filtlong_long:
         length=config['params']['min_length'],
         target_bases=config['params']['bases']
     resources:
-        cpu =config['resources']['smalljob']['threads'],
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        threads =config['resources']['smalljob']['threads'],
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "filtlong", "{sample}.log"),
     shell:
@@ -122,9 +122,9 @@ rule run_seqkit_long:
     conda:
         os.path.join(dir_env, "qc.yaml")
     resources:
-        cpu =config['resources']['smalljob']['threads'],
-        mem =config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        threads =config['resources']['smalljob']['threads'],
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
     threads:
         config['resources']['smalljob']['cpu'],
     log:

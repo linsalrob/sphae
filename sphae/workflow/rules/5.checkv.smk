@@ -16,7 +16,7 @@ rule checkv_megahit:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
-        time=config['resources']['smalljob']['runtime']
+        runtime=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "checkv_megahit.{sample}.log")
     shell:
@@ -49,7 +49,7 @@ rule checkv_flye_nano:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
-        time=config['resources']['smalljob']['runtime']
+        runtime=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "checkv_flye_nano.{sample}.log")
     shell:

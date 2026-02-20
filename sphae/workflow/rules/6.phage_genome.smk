@@ -29,7 +29,7 @@ rule genomes_extract_megahit:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "samtools.{sample}.log")
     shell:
@@ -88,7 +88,7 @@ rule genomes_extract_flye:
         config['resources']['smalljob']['threads']
     resources:
         mem_mb = config['resources']['smalljob']['mem_mb'],
-        time = config['resources']['smalljob']['runtime']
+        runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "samtools.{sample}.log")
     shell:
