@@ -22,14 +22,14 @@ rule phageterm_short:
         """
         mkdir -p {params.outdir}
         cd {params.outdir}
-
+        
         export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
         for f in {input.contigs_dir}/*.fasta; do 
             base="$(basename "$f" .fasta)"
                 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
-                --report_title "$base" \
+                --report_title {params.outdir}/"$base" \
                 -c {threads} 
         done
         touch {output}
