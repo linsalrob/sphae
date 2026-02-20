@@ -25,10 +25,11 @@ rule phageterm_short:
         
         export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
-        for f in {input.contigs_dir}/*.fasta; do 
+        for f in {input.contigs_dir}/*; do 
             base="$(basename "$f" .fasta)"
-                
+
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
+                --DR_path params.outdir} \
                 --report_title {params.outdir}/"$base" \
                 -c {threads} 
         done
