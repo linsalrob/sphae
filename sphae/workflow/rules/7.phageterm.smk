@@ -25,7 +25,7 @@ rule phageterm_short:
         os.path.join(dir_phageterm, "{sample}", "phageterm_results.tsv")
     shell:
         """
-        export PYTHONPATH={params.db}/:$PYTHONPATH
+        export PYTHONPATH={params.db}:$PYTHONPATH
         if [[ -s {input.contigs} ]] ; then
             for f in {params.inputdir}/*; do 
                 data="$(basename "$f" .fasta)"
