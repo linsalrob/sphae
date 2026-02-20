@@ -5,5 +5,5 @@ channels:
     - defaults
 dependencies:
     - megahit>=1.2.9
-    - Bandage>=0.8.1
+    - bandage=0.8.1
     - mesa-libgl-cos6-x86_64 
