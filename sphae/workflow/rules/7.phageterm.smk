@@ -5,11 +5,10 @@ rule phageterm_short:
     input:
         r1 = os.path.join(dir_fastp, "{sample}_subsampled_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp, "{sample}_subsampled_R2.fastq.gz"),
-        contigs=os.path.join(dir_annot, "{sample}-pr-genomes", "{sample}_1.fasta"),
+        contigs_dir=os.path.join(dir_annot, "{sample}-pr-genomes"),
     output:
         os.path.join(dir_phageterm, "{sample}_pr_phageterm", "{sample}_report.pdf")
     params:
-        inputdir=os.path.join(dir_annot, "{sample}-pr-genomes"),
         outdir=os.path.join(dir_phageterm, "{sample}_pr_phageterm"),
         db=os.path.join(config['args']['db_dir'], "phageterm_db", "phagetermvirome"),
     conda:
@@ -21,16 +20,17 @@ rule phageterm_short:
         runtime = config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "phageterm_sr.{sample}.log")
-    output:
-        os.path.join(dir_phageterm, "{sample}", "phageterm_results.tsv")
     shell:
         """
-        export PYTHONPATH={params.db}:$PYTHONPATH
-        if [[ -s {input.contigs} ]] ; then
-            for f in {params.inputdir}/*; do 
-                data="$(basename "$f" .fasta)"
-                phageterm -r "$f" -f {input.r1} -p {input.r2} \
-                    --report_title {params.outdir}/"$f" \
-                    -c {threads} > {log} 2>&1
-            done
+        mkdir {params.outdir}
+
+        export PYTHONPATH={params.db}:${PYTHONPATH:-}
+        
+        for f in {params.contigs_dir}/*.fasta; do 
+            base="$(basename "$f" .fasta)"
+                
+            phageterm -r "$f" -f {input.r1} -p {input.r2} \
+                --report_title {params.outdir}/"$base" \
+                -c {threads} > {log} 2>&1
+        done
         """
