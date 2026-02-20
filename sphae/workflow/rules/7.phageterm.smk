@@ -29,7 +29,7 @@ rule phageterm_short:
             base="$(basename "$f" .fasta)"
 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
-                --DR_path params.outdir} \
+                --DR_path {params.outdir} \
                 --report_title {params.outdir}/"$base" \
                 -c {threads} 
         done
