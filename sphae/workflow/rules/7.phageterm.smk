@@ -26,7 +26,7 @@ rule phageterm_short:
 
         export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
-        for f in {params.contigs_dir}/*.fasta; do 
+        for f in {input.contigs_dir}/*.fasta; do 
             base="$(basename "$f" .fasta)"
                 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
