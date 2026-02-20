@@ -48,7 +48,7 @@ if config['args']['sequencing'] == 'paired':
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_summary.txt"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_1_summary.functions"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-pr", "{sample}_tmp"), sample=samples_names))
-    targets['annotate'].append(os.path.join(dir_phageterm, "{sample}_pr_phageterm", "done.txt"))
+    targets['annotate'].append(expand(os.path.join(dir_phageterm, "{sample}_pr_phageterm", "done.txt"), sample=samples_names))
 elif config['args']['sequencing']== 'longread':
     targets['annotate'].append(expand(os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "{sample}_1.gbk"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "pharokka-sr", "{sample}_1_pharokka", "top_hits_card.tsv"),sample=samples_names))
