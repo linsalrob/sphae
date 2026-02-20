@@ -28,7 +28,7 @@ rule phageterm_short:
 
             phageterm -r "$f" -f {input.r1} -p {input.r2} \
                 --report_title {params.outdir}/"$base" \
-                -c {threads} -mm
+                -c {threads}
             
             mv sphaeoutPROCESSINGph_PhageTerm_report.pdf {params.outdir}/"$base"_report.pdf
             mv sphaeoutPROCESSINGph_sequence.fasta {params.outdir}/"$base"_phageterm.fasta
