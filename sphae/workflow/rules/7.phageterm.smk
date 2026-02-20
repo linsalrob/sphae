@@ -22,7 +22,7 @@ rule phageterm_short:
         os.path.join(dir_log, "phageterm_sr.{sample}.log")
     shell:
         """
-        mkdir {params.outdir}
+        mkdir -p {params.outdir}
 
         export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
         
@@ -33,4 +33,5 @@ rule phageterm_short:
                 --report_title {params.outdir}/"$base" \
                 -c {threads} > {log} 2>&1
         done
+        touch {output}
         """
