@@ -123,5 +123,5 @@ rule phageterm_install:
         """
             curl -Lo {params.tar} https://files.pythonhosted.org/packages/ef/89/50321c714580c79d431cd9eb12aa62dc49e6f44afbe4e3efae282c9138ff/phagetermvirome-4.3.tar.gz
             tar -xvzf {params.tar} -C {params.dir_db}
-            cd {params.tar} && poetry install && poetry shell
+            cd {params.db} && poetry install && poetry shell
         """
