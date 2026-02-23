@@ -46,7 +46,7 @@ This snakemake workflow was built using Snaketool [https://doi.org/10.1371/journ
 
 ```bash
 #creating a new envrionment
-conda create -y -n sphae python=3.12
+conda create -y -n sphae python=3.13
 conda activate sphae
 #install sphae 
 pip install sphae
@@ -57,7 +57,7 @@ pip install sphae
 Setting up a new conda environment 
 
 ```bash
-conda create -n sphae python=3.12
+conda create -n sphae python=3.13
 conda activate sphae
 ```
 
@@ -82,7 +82,7 @@ There are two versions of the container
    ```
    
 2. [Sphae v1.5.2-noDB](https://hub.docker.com/repository/docker/npbhavya/sphae)
-   This version, doesnt come with databases
+   This version, doesnt come with databases. So the first step would be download the databases locally and save them to one directory `<path/to/databases>`.
    
    Here are the commands to download sphae container 
     ```
@@ -133,6 +133,7 @@ sphae install --db_dir <directory>
   - Phynteny models
   - Phold databases
   - Medaka models
+  - PhageTermvirome-4.3 install
 
 This step requires ~23G of storage
 If these databases are already installed, skip this step and instead set the envrionment variables pointing to the where these databases are installed
@@ -188,7 +189,7 @@ sphae annotate --genome <genomes directory> --output example -k
 
 **Output**
 
-Output is saved to `example/RESULTS` directory. In this directory, there will be four files 
+Output for `sphae run`, is saved to `example/RESULTS` directory. In this directory, there will be four files 
   - Genome annotations in GenBank format (Phynteny output)
   - Genome in fasta format (either the reoriented to terminase output from Pharokka, or assembled viral contigs)
   - Circular visualization in `png` format (Pharokka output)
@@ -196,7 +197,8 @@ Output is saved to `example/RESULTS` directory. In this directory, there will be
   - trees folder; Not this folder might be meaningful only if you have tailed phages
    - all_portal.nwk: Tree using all proteins annotated as "portal protein:
    - all_terL.nwk: Tree using all proteins annotated as "terminase large subunit"
-
+  - PhageTerm results saved to a directory - <sample name>_phageterm
+ 
 Genome summary file includes the following information to help, 
   - Sample name
   - Length of the genome 
@@ -212,7 +214,27 @@ Genome summary file includes the following information to help,
     - Whether any virulence factors were found (Pharokka search against virulence gene database)
     - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
 
-### FAQ
+Output for `sphae annotate` is saved to `example/final-annotate` directory. In this directory there will be; 
+  - Genome annotations in GenBank format (Phynteny output)
+  - Genome in fasta format (either the reoriented to terminase output from Pharokka, or assembled viral contigs)
+  - Circular visualization in `png` format (Pharokka output)
+  - Genome summary file
+  - trees folder; Not this folder might be meaningful only if you have tailed phages
+   - all_portal.nwk: Tree using all proteins annotated as "portal protein:
+   - all_terL.nwk: Tree using all proteins annotated as "terminase large subunit"
+
+Genome summary file includes the following information to help, 
+  - Sample name
+  - Taxa mash includes the number of matching hashes of the assembled genome to the accession ID/Taxa name. Higher the matching hash- more likely the genome is related to the taxa predicted
+  - Number of CDS, GC percent, coding density 
+  - Gene searches:
+    - Whether integrase is found (search for integrase gene in annotations)
+    - Whether anti-microbial genes were found (Phold and Pharokka search against AMR database)
+    - Whether any virulence factors were found (Pharokka search against virulence gene database)
+    - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
+
+
+## FAQ
 1. **"Failed during assembly":**
    - This message indicates that the assembly process was unsuccessful. It suggests that the assembler could not generate contigs, which are contiguous sequences of DNA, typically representing segments of a genome. 
    - To confirm this, you can check the logs located at `sphae.out/PROCESSING/assembly/flye/<sample name>/assembly_info.txt` or `sphae.out/PROCESSING/assembly/megahit/<sample name>/log`. These logs should provide details about the error or the step at which the assembly failed.
@@ -263,7 +285,15 @@ Genome summary file includes the following information to help,
     This copies the config file within the workflow to the current directory. Open this file and update the line `bases: 10000000` to for instance `bases: 300000`
     Then run sphae run with the command `sphae run --input tests/data/illumina-subset --output example -k --config <path to the config file with the change>`
    
-   
+9. The intermedidate files are saved to `example/PROCESSING`. Here there should be the following folders
+   - fastp: Quality control of reads 
+   - assembly: megahit or flye assemblies for each sample 
+   - genome:  contains the genomes identified in each sample. If there are multiple genomes identified, they will be listed in the sample folder here
+   - annotate: pharokka, phold and phynteny outputs 
+   - phylogeny: the terL and portal genes identified and their nwk files 
+   - phageterm: phageterm outputs for each sample. 
+
+
 ## Citation
 To cite sphae, doi: https://doi.org/10.1101/2024.11.18.624194
 

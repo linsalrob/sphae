@@ -64,9 +64,9 @@ rule phageterm_long:
             --report_title {params.sample} \
                 -c {threads}
             
-            mv sphaeoutPROCESSINGph_PhageTerm_report.pdf {params.outdir}/{params.sample}_report.pdf
-            mv sphaeoutPROCESSINGph_sequence.fasta {params.outdir}/{params.sample}_phageterm.fasta
-            mv sphaeoutPROCESSINGph_statistics.csv {params.outdir}/{params.sample}_phageterm_stats.csv
+            mv {sample}_PhageTerm_report.pdf {params.outdir}/{params.sample}_report.pdf
+            mv {sample}_sequence.fasta {params.outdir}/{params.sample}_phageterm.fasta
+            mv {sample}_statistics.csv {params.outdir}/{params.sample}_phageterm_stats.csv
             pdftotext {params.outdir}/"$base"_report.pdf {params.outdir}/{params.sample}_report.txt
         done
         touch {output}
