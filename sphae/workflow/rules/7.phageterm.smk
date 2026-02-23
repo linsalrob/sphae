@@ -37,37 +37,3 @@ rule phageterm_short:
         done
         touch {output}
         """
-
-rule phageterm_long:
-    input:
-        reads = os.path.join(dir_nanopore, "{sample}_filt.fastq.gz"),
-        contigs = os.path.join(dir_flye, "{sample}-sr", "assembly.fasta"),
-    output:
-        os.path.join(dir_phageterm, "{sample}_sr_phageterm", "done.txt")
-    params:
-        outdir=os.path.join(dir_phageterm, "{sample}_sr_phageterm"),
-        sample="{sample}",
-        db=os.path.join(config['args']['db_dir'], "phagetermvirome-4.3", "phagetermvirome"),
-    conda:
-        os.path.join(dir_env, "phageterm.yaml")
-    threads:
-        config['resources']['smalljob']['threads']
-    resources:
-        mem_mb = config['resources']['smalljob']['mem_mb'],
-        runtime = config['resources']['smalljob']['runtime']
-    shell:
-        """
-        mkdir -p {params.outdir}
-        export PYTHONPATH={params.db}:${{PYTHONPATH:-}}
-        
-        phageterm -r {input.contigs} -f {input.reads} \
-            --report_title {params.sample} \
-                -c {threads}
-            
-            mv {sample}_PhageTerm_report.pdf {params.outdir}/{params.sample}_report.pdf
-            mv {sample}_sequence.fasta {params.outdir}/{params.sample}_phageterm.fasta
-            mv {sample}_statistics.csv {params.outdir}/{params.sample}_phageterm_stats.csv
-            pdftotext {params.outdir}/"$base"_report.pdf {params.outdir}/{params.sample}_report.txt
-        done
-        touch {output}
-        """

@@ -249,7 +249,6 @@ rule copy_accessory_sr:
         pseudo=os.path.join(dir_final, "{sample}-sr", "{sample}_tmp"),
     params:
         outdir=os.path.join(dir_final, "{sample}-sr"),
-        ptv=os.path.join(dir_phageterm, "{sample}_sr_phageterm"),
         indir=os.path.join(dir_annot, "phold-sr"),
         s="{sample}"
     shell:
@@ -273,7 +272,6 @@ rule copy_accessory_sr:
             cp "$f/sub_db_tophits/vfdb_cds_predictions.tsv" \
                "{params.outdir}/"$base"_phold_vfdb.tsv"
         done
-        mv {params.ptv} {params.outdir}/.
         touch {output.pseudo}
         """
 

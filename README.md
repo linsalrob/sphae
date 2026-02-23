@@ -197,7 +197,7 @@ Output for `sphae run`, is saved to `example/RESULTS` directory. In this directo
   - trees folder; Not this folder might be meaningful only if you have tailed phages
    - all_portal.nwk: Tree using all proteins annotated as "portal protein:
    - all_terL.nwk: Tree using all proteins annotated as "terminase large subunit"
-  - PhageTerm results saved to a directory - <sample name>_phageterm
+  - PhageTerm results saved to a directory - <sample name>_phageterm (only for paired end sequencing)
  
 Genome summary file includes the following information to help, 
   - Sample name
