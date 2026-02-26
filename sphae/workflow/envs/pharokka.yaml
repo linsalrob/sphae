@@ -4,6 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - python=3.12
   - biopython>=1.80,<1.87
   - pharokka=1.9.1
   - requests>=2.25.1
