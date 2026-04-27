@@ -6,4 +6,4 @@ channels:
 dependencies:
     - python=3.10
     - setuptools<70
-    - phynteny_transformer>=0.1.2
+    - phynteny_transformer>=0.1.3

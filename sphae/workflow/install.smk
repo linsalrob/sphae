@@ -30,7 +30,7 @@ targets.db.append(os.path.join(dir_db, 'checkv-db-v1.5', 'README.txt'))
 targets.db.append(os.path.join(dir_db, 'models', 'category_mapping.pkl'))
 targets.db.append(os.path.join(dir_db, "phold", "phold_annots.tsv"))
 targets.db.append(os.path.join(dir_db, "medaka_models", "medaka.flag"))
-targets.db.append(os.path.join(dir_db, "phagetermvirome-4.3", "PKG-INFO"))
+#targets.db.append(os.path.join(dir_db, "phagetermvirome-4.3", "PKG-INFO"))
 
 """RUN SNAKEMAKE"""
 rule all:
@@ -111,6 +111,7 @@ rule download_medaka_models:
             touch {output.out}
         """
 
+"""
 rule phageterm_install:
     params:
         db=os.path.join(dir_db, "phagetermvirome-4.3"),
@@ -121,8 +122,9 @@ rule phageterm_install:
     conda:
         os.path.join(dir_env, "phageterm.yaml")
     shell:
-        """
+        ""
             curl -Lo {params.tar} https://files.pythonhosted.org/packages/ef/89/50321c714580c79d431cd9eb12aa62dc49e6f44afbe4e3efae282c9138ff/phagetermvirome-4.3.tar.gz
             tar -xvzf {params.tar} -C {params.dir_db}
             cd {params.db} && poetry install && poetry shell
-        """
+        ""
+"""
