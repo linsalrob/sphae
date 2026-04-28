@@ -144,7 +144,7 @@ rule phynteny_plotter:
         prefix="{sample}",
         output=os.path.join(dir_annot, "{sample}-phynteny", "plots")
     output:
-        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png")
+        plot=directory(os.path.join(dir_annot, "{sample}-phynteny", "plots"))
     resources:
         mem_mb =config['resources']['smalljob']['mem_mb'],
         runtime = config['resources']['smalljob']['runtime']
@@ -155,19 +155,8 @@ rule phynteny_plotter:
         if [[ -s {input.gbk} ]] ; then
             genbank_to -g {input.gbk} --gff3 {params.gff3}
             phold plot -i {input.gbk} -f -p {params.prefix} -o {params.output}
-            
-            #counting the number of files
-            files=({params.output}/*.svg)
-            count=${#files[@]}
-
-            if (( count > 1 )); then
-                echo "Multiple contigs, so multiple plots generated in the directory"
-            elif (( count == 1 )); then
-                cp {params.output}/*.svg {output.plot}
-            else
-                echo "Something is wrong, so plot generated"
         else
-            cp {params.output}/*.svg {output.plot}
+            mkdir -p {output.plot}
         fi
         """
 
