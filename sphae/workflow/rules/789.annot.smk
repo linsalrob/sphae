@@ -207,9 +207,20 @@ rule annotate_summary:
     script:
         os.path.join(dir_script, "summary_annot_functions.py")
 
+def resolve_input(wc):
+    genome = os.path.join(input_dir, PATTERN_LONG).format(sample=wc.sample)
+    protein = os.path.join(input_dir, PATTERN_PROT).format(sample=wc.sample)
+
+    if Path(genome).exists():
+        return genome
+    elif Path(protein).exists():
+        return protein
+    else:
+        raise ValueError(f"No input found for {wc.sample}")
+
 rule summarize:
     input:
-        genome=os.path.join(input_dir, PATTERN_LONG),
+        genome=resolve_input,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
@@ -225,7 +236,7 @@ rule summarize:
     output:
         summary=os.path.join(dir_final, "{sample}", "{sample}_summary.txt")
     params:
-        genomes= os.path.join(dir_final, "{sample}", "{sample}_genome.fasta"),
+        genomes= os.path.join(dir_final, "{sample}", "{sample}_input.fasta"),
         gbks=os.path.join(dir_final, "{sample}", "{sample}.gbk"),
         plots=os.path.join(dir_final, "{sample}", "phynteny_plots"),
         outdir=os.path.join(dir_final),
