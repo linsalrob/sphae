@@ -6,92 +6,44 @@ import glob
 import os
 
 """
-RESOLVER FUNCTION (USES PREFLIGHT VALUES)
+RESOLVER FUNCTION 
 """
 
-# This will store the sample->file mapping
-_sample_to_file = {}
-
-def _init_sample_mapping():
-    """Initialize the sample to file mapping from preflight or config."""
-    global _sample_to_file
-    
-    # First, try to import variables from preflight if available
-    try:
-        # These should be available from 1.preflight-annot.smk since it's included first
-        if 'genome_paths' in dir():
-            for fp in genome_paths:
-                sample_name = os.path.splitext(os.path.basename(fp))[0]
-                _sample_to_file[sample_name] = fp
-        
-        if 'prot_paths' in dir():
-            for fp in prot_paths:
-                basename = os.path.splitext(os.path.basename(fp))[0]
-                sample_name = re.sub(r'[-_]protein$', '', basename)
-                if sample_name not in _sample_to_file:
-                    _sample_to_file[sample_name] = fp
-    except:
-        pass
-    
-    # If still empty, build from config
-    if not _sample_to_file:
-        genome_dir = config['args'].get('genome')
-        protein_dir = config['args'].get('proteins')
-        
-        if genome_dir:
-            genome_paths_local = (
-                glob.glob(os.path.join(genome_dir, '*.fasta')) +
-                glob.glob(os.path.join(genome_dir, '*.fa')) +
-                glob.glob(os.path.join(genome_dir, '*.fna'))
-            )
-            for fp in genome_paths_local:
-                sample_name = os.path.splitext(os.path.basename(fp))[0]
-                _sample_to_file[sample_name] = fp
-        
-        if protein_dir:
-            prot_paths_local = glob.glob(os.path.join(protein_dir, '*.faa'))
-            for fp in prot_paths_local:
-                basename = os.path.splitext(os.path.basename(fp))[0]
-                sample_name = re.sub(r'[-_]protein$', '', basename)
-                if sample_name not in _sample_to_file:
-                    _sample_to_file[sample_name] = fp
-
 def resolve_input_file(wc):
-    """Resolve input file for a sample."""
-    global _sample_to_file
-    
-    # Initialize on first call if not already done
-    if not _sample_to_file:
-        _init_sample_mapping()
-    
-    if wc.sample in _sample_to_file:
-        return _sample_to_file[wc.sample]
-    else:
-        available = ", ".join(_sample_to_file.keys()) if _sample_to_file else "NONE"
-        error_msg = f"\n[ERROR] Cannot find input file for sample: {wc.sample}\n"
-        error_msg += f"Available samples: {available}\n"
-        error_msg += f"\nSolutions:\n"
-        error_msg += f"1. Pass genome directory via command line:\n"
-        error_msg += f"   --config genome=/path/to/genomes\n"
-        error_msg += f"2. Or update config.yaml with:\n"
-        error_msg += f"   args:\n"
-        error_msg += f"     genome: /path/to/genomes\n"
-        raise FileNotFoundError(error_msg)
-
-
-def resolve_input_type(wc):
+    """Resolve input file for a sample (genome or protein)."""
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
+    
+    candidates = []
+    
+    if genome_dir:
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta"))
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa"))
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
+    
+    if protein_dir:
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa"))
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa"))
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
+    
+    if candidates:
+        return candidates[0]
+    else:
+        raise FileNotFoundError(f"No input file found for {wc.sample}. Check genome/protein config paths.")
 
+def resolve_input_type(wc):
+    """Determine if input is genome or protein."""
+    genome_dir = config['args'].get('genome')
+    protein_dir = config['args'].get('proteins')
+    
     if genome_dir:
         if glob.glob(os.path.join(genome_dir, f"{wc.sample}*")):
             return "genome"
-
+    
     if protein_dir:
         if glob.glob(os.path.join(protein_dir, f"{wc.sample}*")):
             return "protein"
-
-    print(f"[WARNING] No input type found for {wc.sample}")
+    
     return "unknown"
 
 """
@@ -282,21 +234,9 @@ rule summarize_annotations:
         fi
         """
 
-rule copy_input_genome:
-    """Copy or create symlink to input genome for summary rule."""
-    input:
-        genome=resolve_input_file
-    output:
-        genome_copy=os.path.join(dir_final, "{sample}", "{sample}_input.fasta")
-    shell:
-        """
-        mkdir -p $(dirname {output.genome_copy})
-        cp {input.genome} {output.genome_copy}
-        """
-
 rule summarize:
     input:
-        genome=rules.copy_input_genome.output.genome_copy,
+        genome=resolve_input_file,
         input_type=resolve_input_type,
         gbk = os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots = os.path.join(dir_annot, "{sample}-phynteny", "plots"),
