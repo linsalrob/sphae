@@ -33,13 +33,15 @@ def resolve_input(wc):
             return protein_candidates[0], "protein"
 
     raise ValueError(f"No input found for {wc.sample}")
+return path, "protein"
 
 """
 RULES
 """
 rule pharokka:
     input:
-        lambda wc: resolve_input(wc)[0]
+        infile=lambda wc: resolve_input(wc)[0],
+        input_type=lambda wc: resolve_input(wc)[1]
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=config['args']['pharokka_db'],
@@ -66,8 +68,8 @@ rule pharokka:
         import os
         from pathlib import Path
 
-        infile = input[0]
-        input_type = input[1]
+        infile = input.infile
+        input_type = input.input_type
 
         if not Path(infile).exists() or Path(infile).stat().st_size == 0:
             shell("""
