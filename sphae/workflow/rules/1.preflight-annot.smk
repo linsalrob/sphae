@@ -4,6 +4,7 @@ import yaml
 import re
 import shutil
 import sys
+from pathlib import Path
 
 """
 CONFIG FILE
@@ -14,6 +15,65 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 DIRECTORIES
 """
 dir = {}
+
+"""
+INPUT DIRECTORIES
+"""
+genome_dir = config['args'].get('genome')
+protein_dir = config['args'].get('proteins')  # add this in config
+
+"""
+READ GENOME FILES
+"""
+genome_paths = []
+samples_genome = []
+
+if genome_dir:
+    genome_paths = (
+        glob.glob(os.path.join(genome_dir, '*.fasta')) +
+        glob.glob(os.path.join(genome_dir, '*.fa')) +
+        glob.glob(os.path.join(genome_dir, '*.fna'))
+    )
+
+    samples_genome = [
+        os.path.splitext(os.path.basename(fp))[0]
+        for fp in genome_paths
+    ]
+
+"""
+READ PROTEIN FILES
+"""
+prot_paths = []
+samples_prot = []
+
+if protein_dir:
+    prot_paths = glob.glob(os.path.join(protein_dir, '*.faa'))
+
+    samples_prot = [
+        re.sub(r'[-_]protein$', '',
+               os.path.splitext(os.path.basename(fp))[0])
+        for fp in prot_paths
+    ]
+
+
+"""
+DEBUG
+"""
+print(f"Genome samples: {samples_genome}")
+print(f"Protein samples: {samples_prot}")
+
+
+"""
+PATTERNS
+"""
+PATTERN_LONG = "{sample}.fasta"
+PATTERN_PROT = "{sample}.faa"
+
+
+"""
+MERGE SAMPLE SPACE
+"""
+samples_names = sorted(set(samples_genome) | set(samples_prot))
 
 try:
     if config['args']['output'] is None:
@@ -31,59 +91,6 @@ dir_log = os.path.join(dir_out, 'logs')
 dir_env = os.path.join(workflow.basedir, "envs")
 dir_script = os.path.join(workflow.basedir, "scripts")
 
-"""
-INPUT DIRECTORY
-"""
-try:
-    input_dir = config['args']['genome']
-except KeyError:
-    input_dir = None
-
-"""
-READ GENOME FILES
-"""
-if input_dir:
-    genome_paths = glob.glob(os.path.join(input_dir, '*.fasta*'))
-
-    if genome_paths:
-        samples_genome = [
-            os.path.splitext(os.path.basename(fp))[0]
-            for fp in genome_paths
-        ]
-    else:
-        samples_genome = []
-else:
-    genome_paths = []
-    samples_genome = []
-
-"""
-READ PROTEIN FILES
-"""
-if input_dir:
-    prot_paths = glob.glob(os.path.join(input_dir, '*.faa*'))
-
-    if prot_paths:
-        samples_prot = [
-            os.path.splitext(os.path.basename(fp))[0]
-            for fp in prot_paths
-        ]
-    else:
-        samples_prot = []
-else:
-    prot_paths = []
-    samples_prot = []
-
-"""
-DEBUG
-"""
-print(f"Genome samples: {samples_genome}")
-print(f"Protein samples: {samples_prot}")
-
-"""
-PATTERNS (SAFE + DETERMINISTIC)
-"""
-PATTERN_LONG = "{sample}.fasta"
-PATTERN_PROT = "{sample}.faa"
 
 """
 MERGE SAMPLE SPACE
