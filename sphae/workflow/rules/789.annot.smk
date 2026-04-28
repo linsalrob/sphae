@@ -13,7 +13,7 @@ PATTERN_PROT = "{sample}.faa"
 """
 RESOLVER FUNCTION (FIXED)
 """
-def resolve_input(wc):
+def resolve_input_file(wc):
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
 
@@ -22,24 +22,42 @@ def resolve_input(wc):
                             glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) + \
                             glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
         if genome_candidates:
-            return genome_candidates[0], "genome"
+            return genome_candidates[0]
 
     if protein_dir:
         protein_candidates = glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) + \
                               glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) + \
                               glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
-
         if protein_candidates:
-            return protein_candidates[0], "protein"
+            return protein_candidates[0]
 
     raise ValueError(f"No input found for {wc.sample}")
 
+
+def resolve_input_type(wc):
+    genome_dir = config['args'].get('genome')
+    protein_dir = config['args'].get('proteins')
+
+    if genome_dir:
+        if glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta")) or \
+           glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) or \
+           glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna")):
+            return "genome"
+
+    if protein_dir:
+        if glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) or \
+           glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) or \
+           glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa")):
+            return "protein"
+
+    raise ValueError(f"No input type found for {wc.sample}")
 """
 RULES
 """
 rule pharokka:
     input:
-        resolve=lambda wc: resolve_input(wc)
+        infile=resolve_input_file,
+        input_type=resolve_input_type
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=config['args']['pharokka_db'],
@@ -66,7 +84,9 @@ rule pharokka:
         import os
         from pathlib import Path
 
-        infile, input_type = input.resolve
+        infile = input.infile
+        input_type = input.input_type
+
 
         if not Path(infile).exists() or Path(infile).stat().st_size == 0:
             shell("""
