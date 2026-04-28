@@ -1,12 +1,15 @@
-rule pharokka_annotate:
-    """Annotate genomes with Pharokka for annotate function"""
+rule pharokka:
     input:
-        os.path.join(input_dir, PATTERN_LONG)
+        lambda wildcards: (
+            os.path.join(input_dir, PATTERN_LONG).format(sample=wildcards.sample)
+            if Path(os.path.join(input_dir, PATTERN_LONG).format(sample=wildcards.sample)).exists()
+            else os.path.join(input_dir, PATTERN_PROT).format(sample=wildcards.sample)
+        )
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
-        db = config['args']['pharokka_db'],
+        db=config['args']['pharokka_db'],
         sp="{sample}",
-        genes= config['params']['gene-predict'],
+        genes=config['params']['gene-predict'],
     output:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
         card=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
@@ -20,93 +23,54 @@ rule pharokka_annotate:
     threads:
         config['resources']['smalljob']['threads']
     resources:
-        mem_mb = config['resources']['smalljob']['mem_mb'],
-        runtime = config['resources']['smalljob']['runtime']
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        runtime=config['resources']['smalljob']['runtime']
     log:
         os.path.join(dir_log, "pharokka.{sample}.log")
-    shell:
-        """
-        if [[ -s {input} ]] ; then
-            PYTHONWARNINGS="ignore" pharokka.py \
-                -i {input} \
-                -o {params.o} \
-                -d {params.db} \
-                -g {params.genes} \
-                -t {threads} \
-                -f -p {params.sp}\
-                2> {log}
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
-        else
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
-        fi
-        """
+    run:
+        import os
+        from pathlib import Path
 
-rule pharokka_protein:
-    """Annotate proteins with Pharokka for annotate function"""
-    input:
-        faa=os.path.join(input_dir, PATTERN_PROT)
-    params:
-        o=os.path.join(dir_annot, "{sample}-pharokka"),
-        db = config['args']['pharokka_db'],
-        sp="{sample}",
-        genes= config['params']['gene-predict'],
-    output:
-        gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
-        card=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv")
-    conda:
-        os.path.join(dir_env, "pharokka.yaml")
-    threads:
-        config['resources']['smalljob']['threads']
-    resources:
-        mem_mb = config['resources']['smalljob']['mem_mb'],
-        runtime = config['resources']['smalljob']['runtime']
-    log:
-        os.path.join(dir_log, "pharokka.{sample}.log")
-    shell:
-        """
-        if [[ -s {input} ]] ; then
-            pharokka_proteins.py \
-                -i {input} \
+        infile = input[0]
+
+        if not Path(infile).exists() or Path(infile).stat().st_size == 0:
+            shell("""
+                touch {output.gbk} {output.card} {output.vfdb} {output.spacers} \
+                      {output.taxa} {output.cdden} {output.cds}
+            """)
+            return
+
+        # decide which mode
+        if infile.endswith((".fa", ".fasta", ".fna")):
+            cmd = f"""
+            PYTHONWARNINGS="ignore" pharokka.py \
+                -i {infile} \
                 -o {params.o} \
                 -d {params.db} \
                 -g {params.genes} \
                 -t {threads} \
-                -f -p {params.sp}\
+                -f -p {wildcards.sample} \
                 2> {log}
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
-        else
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
-        fi
-        """
+            """
+        else:
+            cmd = f"""
+            pharokka_proteins.py \
+                -i {infile} \
+                -o {params.o} \
+                -d {params.db} \
+                -g {params.genes} \
+                -t {threads} \
+                -f -p {wildcards.sample} \
+                2> {log}
+            """
+
+        shell(cmd)
+
+        # ensure outputs exist for Snakemake
+        shell("""
+            touch {output.gbk} {output.card} {output.vfdb} {output.spacers} \
+                  {output.taxa} {output.cdden} {output.cds}
+        """)
 
 
 rule phold_run:
