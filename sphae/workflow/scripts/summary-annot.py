@@ -23,9 +23,9 @@ def copy_files(input_files, params):
         for f in plot_files:
             shutil.copy(f, params['plots'])
 
-def count_hypothetical_proteins(input_files):
+def count_hypothetical_proteins(params):
     count = 0
-    for record in SeqIO.parse(input_files['gbk'], "genbank"):
+    for record in SeqIO.parse(params['gbk'], "genbank"):
         for feature in record.features:
             if feature.type == "CDS":
                 if "product" in feature.qualifiers:
