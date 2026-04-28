@@ -99,10 +99,6 @@ rule pharokka:
                 2> {log}
             """
 
-        shell(cmd)
-        """)
-
-
 rule phold_run:
     input:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
