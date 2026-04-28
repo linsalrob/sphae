@@ -33,6 +33,3 @@ args:
   phynteny_db: $PHYNTENYDB
   phold_db: $PHOLDDB
   medaka: $MEDAKAMODEL
-  genome:   # Must point to where your FASTA files are
-  proteins: #or
-  output: 

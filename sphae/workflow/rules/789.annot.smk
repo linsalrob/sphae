@@ -37,12 +37,16 @@ def resolve_input_file(wc):
         return candidates[0]
     else:
         # If no file found, raise an error with helpful information
-        error_msg = f"[ERROR] No input file found for {wc.sample}\n"
-        if genome_dir:
-            error_msg += f"  Checked genome_dir: {genome_dir}\n"
-        if protein_dir:
-            error_msg += f"  Checked protein_dir: {protein_dir}\n"
-        error_msg += f"  Looking for patterns: {wc.sample}*.fasta, {wc.sample}*.fa, {wc.sample}*.fna, {wc.sample}*.faa\n"
+        error_msg = f"\n[ERROR] Cannot find input genome/protein file for sample: {wc.sample}\n"
+        error_msg += f"\nThe 'genome' and 'proteins' directories in your config are not set or empty.\n"
+        error_msg += f"Current values:\n"
+        error_msg += f"  genome_dir: {genome_dir if genome_dir else '[NOT SET]'}\n"
+        error_msg += f"  protein_dir: {protein_dir if protein_dir else '[NOT SET]'}\n"
+        error_msg += f"\n[SOLUTION] Pass the directory with your genomes via command line:\n"
+        error_msg += f"  snakemake ... --config genome=/path/to/genomes\n"
+        error_msg += f"\nOr update your config.yaml file to include:\n"
+        error_msg += f"  args:\n"
+        error_msg += f"    genome: /path/to/your/genome/directory\n"
         raise FileNotFoundError(error_msg)
 
 
