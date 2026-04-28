@@ -92,7 +92,6 @@ rule pharokka:
                 -i {infile} \
                 -o {params.o} \
                 -d {params.db} \
-                -g {params.genes} \
                 -t {threads} \
                 -f -p {wildcards.sample} \
                 2> {log}
