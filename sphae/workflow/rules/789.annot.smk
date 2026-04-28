@@ -39,7 +39,7 @@ RULES
 """
 rule pharokka:
     input:
-        resolve_input
+        lambda wc: resolve_input(wc)[0]
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=config['args']['pharokka_db'],
