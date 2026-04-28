@@ -2,8 +2,10 @@
 ##1.5.5
 - phageterm removed, need a better way to integrate this. For now best to run this tool as an additional step after the workflow
 - phyntney transformer testing the new version
-- testing the `sphae annotate` on vMAGS that not only inlclude complete genomes, but fragmented (NO ISSUES)
-- Adding the feature to provide proteins as input to `sphae annotate` instead of genomes ONLY
+- `sphae annotate` updates
+  - testing on vMAGS that not only inlclude complete genomes, but fragmented files.
+  - Adding the feature to provide proteins as input to `sphae annotate` instead of genomes ONLY
+  - Update the summary to include number of contigs, total genome length to summary
 
 ## v1.5.4
 - phynteny_transformer error with python v3.11.4, missing package request. Updating the yaml file. Fixed the yaml file for this 

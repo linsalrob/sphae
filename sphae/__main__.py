@@ -145,7 +145,12 @@ def install(output, temp_dir, db_dir, configfile, **kwargs):
 @click.command(epilog=help_msg_annotate, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
 @common_options
 @click.option('--genome', 'genome', help='Input genome assembled or downloaded', type=click.Path(), required=False)
-def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
+@click.option('--proteins', 'proteins',help='Input predicted proteins (FAA file)',type=click.Path(),required=False)
+def annotate(genome, proteins, output, db_dir, temp_dir, configfile, **kwargs):
+    if (genome is None and proteins is None) or (genome and proteins):
+        raise click.UsageError(
+            "Provide exactly one of --genome or --proteins (not both, not neither)."
+        )
     """Annotate option"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
     
@@ -154,6 +159,7 @@ def annotate(genome, output, db_dir, temp_dir, configfile, **kwargs):
             "db_dir": db_dir, 
             "output": output, 
             "genome": genome, 
+            "proteins": proteins,
             "temp_dir": temp_dir,
             "configfile": configfile 
         }
