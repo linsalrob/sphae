@@ -14,7 +14,7 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 DIRECTORIES
 """
 dir = {}
-#declaring output file
+
 try:
     if config['args']['output'] is None:
         dir_out = os.path.join('sphae.out')
@@ -23,41 +23,80 @@ try:
 except KeyError:
     dir_out = os.path.join('sphae.out')
 
-dir_annot = os.path.join(dir_out,'PROCESSING', "genome-annotate")
-dir_tree = os.path.join(dir_out,'PROCESSING', "trees")
-dir_final = os.path.join(dir_out,'final-annotate')
+dir_annot = os.path.join(dir_out, 'PROCESSING', "genome-annotate")
+dir_tree = os.path.join(dir_out, 'PROCESSING', "trees")
+dir_final = os.path.join(dir_out, 'final-annotate')
 dir_log = os.path.join(dir_out, 'logs')
 
 dir_env = os.path.join(workflow.basedir, "envs")
 dir_script = os.path.join(workflow.basedir, "scripts")
 
-#reading the input files
-#print (config)
+"""
+INPUT DIRECTORY
+"""
 try:
     input_dir = config['args']['genome']
 except KeyError:
-    input_dir = None 
+    input_dir = None
 
-#reading the sample names
+"""
+READ GENOME FILES
+"""
 if input_dir:
-    # Reading the sample names
-    file_paths = glob.glob(os.path.join(input_dir, '*.fasta*'))
-    if file_paths:
-        samples_names, extn = zip(*(os.path.splitext(os.path.basename(file_path)) if '.' in os.path.basename(file_path) else (os.path.basename(file_path), '') for file_path in file_paths))
+    genome_paths = glob.glob(os.path.join(input_dir, '*.fasta*'))
+
+    if genome_paths:
+        samples_genome = [
+            os.path.splitext(os.path.basename(fp))[0]
+            for fp in genome_paths
+        ]
     else:
-        samples_names, extn = [], []
+        samples_genome = []
 else:
-    file_paths = []
-    samples_names, extn = [], []
-    
-print(f"Samples are {samples_names}")
-print(f"Extensions are {extn}")
+    genome_paths = []
+    samples_genome = []
 
-FQEXTN = extn[0]
-PATTERN_LONG='{sample}'+FQEXTN
+"""
+READ PROTEIN FILES
+"""
+if input_dir:
+    prot_paths = glob.glob(os.path.join(input_dir, '*.faa*'))
 
-"""ONSTART/END/ERROR
-Tasks to perform at various stages the start and end of a run.
+    if prot_paths:
+        samples_prot = [
+            os.path.splitext(os.path.basename(fp))[0]
+            for fp in prot_paths
+        ]
+    else:
+        samples_prot = []
+else:
+    prot_paths = []
+    samples_prot = []
+
+"""
+DEBUG
+"""
+print(f"Genome samples: {samples_genome}")
+print(f"Protein samples: {samples_prot}")
+
+"""
+PATTERNS (SAFE + DETERMINISTIC)
+"""
+PATTERN_LONG = "{sample}.fasta"
+PATTERN_PROT = "{sample}.faa"
+
+"""
+MERGE SAMPLE SPACE
+"""
+samples_names = sorted(set(samples_genome) | set(samples_prot))
+
+"""
+LOG DIRECTORY
+"""
+dir = {'log': os.path.join(dir_out, 'logs')}
+
+"""
+LOG HELPER
 """
 def copy_log_file():
     files = glob.glob(os.path.join(".snakemake", "log", "*.snakemake.log"))
@@ -67,16 +106,17 @@ def copy_log_file():
     target_log = os.path.join(dir['log'], os.path.basename(current_log))
     shutil.copy(current_log, target_log)
 
-dir = {'log': os.path.join(dir_out, 'logs')}
+"""
+ONSTART / SUCCESS / ERROR
+"""
 onstart:
-    """Cleanup old log files before starting"""
     if os.path.isdir(dir["log"]):
         oldLogs = filter(re.compile(r'.*.log').match, os.listdir(dir["log"]))
         for logfile in oldLogs:
             os.unlink(os.path.join(dir["log"], logfile))
+
 onsuccess:
-    """Print a success message"""
     sys.stderr.write('\n\nSphae ran successfully!\n\n')
+
 onerror:
-    """Print an error message"""
     sys.stderr.write('\n\nSphae run failed\n\n')

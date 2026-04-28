@@ -53,6 +53,62 @@ rule pharokka_annotate:
         fi
         """
 
+rule pharokka_protein:
+    """Annotate proteins with Pharokka for annotate function"""
+    input:
+        faa=os.path.join(input_dir, PATTERN_PROT)
+    params:
+        o=os.path.join(dir_annot, "{sample}-pharokka"),
+        db = config['args']['pharokka_db'],
+        sp="{sample}",
+        genes= config['params']['gene-predict'],
+    output:
+        gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
+        card=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
+        vfdb=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_vfdb.tsv"),
+        spacers=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
+        taxa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
+        cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv")
+    conda:
+        os.path.join(dir_env, "pharokka.yaml")
+    threads:
+        config['resources']['smalljob']['threads']
+    resources:
+        mem_mb = config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    log:
+        os.path.join(dir_log, "pharokka.{sample}.log")
+    shell:
+        """
+        if [[ -s {input} ]] ; then
+            pharokka_proteins.py \
+                -i {input} \
+                -o {params.o} \
+                -d {params.db} \
+                -g {params.genes} \
+                -t {threads} \
+                -f -p {params.sp}\
+                2> {log}
+            touch {output.gbk}
+            touch {output.card}
+            touch {output.vfdb}
+            touch {output.spacers}
+            touch {output.taxa}
+            touch {output.cdden}
+            touch {output.cds}
+        else
+            touch {output.gbk}
+            touch {output.card}
+            touch {output.vfdb}
+            touch {output.spacers}
+            touch {output.taxa}
+            touch {output.cdden}
+            touch {output.cds}
+        fi
+        """
+
+
 rule phold_run:
     input:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
@@ -135,7 +191,17 @@ rule phynteny_plotter:
         if [[ -s {input.gbk} ]] ; then
             genbank_to -g {input.gbk} --gff3 {params.gff3}
             phold plot -i {input.gbk} -f -p {params.prefix} -o {params.output}
-            cp {params.output}/*.svg {output.plot}
+            
+            #counting the number of files
+            files=({params.output}/*.svg)
+            count=${#files[@]}
+
+            if (( count > 1 )); then
+                echo "Multiple contigs, so multiple plots generated in the directory"
+            elif (( count == 1 )); then
+                cp {params.output}/*.svg {output.plot}
+            else
+                echo "Something is wrong, so plot generated"
         else
             cp {params.output}/*.svg {output.plot}
         fi
@@ -193,7 +259,7 @@ rule summarize:
     input:
         genome=os.path.join(input_dir, PATTERN_LONG),
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png"),
+        plots=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
         cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
@@ -209,7 +275,7 @@ rule summarize:
     params:
         genomes= os.path.join(dir_final, "{sample}", "{sample}_genome.fasta"),
         gbks=os.path.join(dir_final, "{sample}", "{sample}.gbk"),
-        plots=os.path.join(dir_final, "{sample}", "{sample}_phynteny_plot.png"),
+        plots=os.path.join(dir_final, "{sample}", "phynteny_plots"),
         outdir=os.path.join(dir_final),
         sample="{sample}",
     localrule: True

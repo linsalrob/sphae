@@ -6,9 +6,24 @@ from Bio import SeqIO
 def copy_files(input_files, params):
     shutil.copy(input_files['genome'], params['genomes'])
     shutil.copy(input_files['gbk'], params['gbks'])
-    shutil.copy(input_files['plot'], params['plots'])
 
-def count_hypothetical_proteins(params):
+    import glob, os
+    os.makedirs(params['plots'], exist_ok=True)
+
+    plot_files = glob.glob(os.path.join(input_files['plots'], "*.svg")) + \
+                 glob.glob(os.path.join(input_files['plots'], "*.png"))
+
+    if len(plot_files) == 0:
+        print("Warning: No plot files found")
+
+    elif len(plot_files) == 1:
+        shutil.copy(plot_files[0], params['plots'])
+
+    else:
+        for f in plot_files:
+            shutil.copy(f, params['plots'])
+
+def count_hypothetical_proteins(input_files):
     count = 0
     for record in SeqIO.parse(input_files['gbk'], "genbank"):
         for feature in record.features:
@@ -100,7 +115,7 @@ def generate_summary(input_files, output_summary, params):
 input_files = {
         'genome': snakemake.input.genome,
         'gbk': snakemake.input.gbk,
-        'plot': snakemake.input.plot,
+        'plots': snakemake.input.plots,
         'taxa': snakemake.input.ph_taxa,
         'cdden': snakemake.input.cdden,
         'cds': snakemake.input.cds,
