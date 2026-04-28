@@ -153,7 +153,7 @@ export PHOLDDB=sphae/workflow/databases/phold
 
 Sphae is developed to be modular: 
 - `sphae run` will run QC, assembly and annotation
-- `sphae annotate` will run only annotation steps
+- `sphae annotate` will run only annotation steps, here is this an option to provide a genome directory or protein directory
   
 **Commands to run**
 
@@ -185,6 +185,10 @@ This step reruns
 #the genomes directory has the already assembled complete genomes
 #run the export commands to set the database paths 
 sphae annotate --genome <genomes directory> --output example -k
+
+#Alternative
+#in the case that there is already a prefered protein predictions
+sphae annotate --protein <protein directory> --output example -k
 ```
 
 **Output**
@@ -274,8 +278,8 @@ Genome summary file includes the following information to help,
    These files are being saved in `sphae.out/PROCESSING`. If you need more information on the file structure here, or have ideas of better organization then leave an issue and I will make a note to have more documentation. 
 
 7. **Just run annotation on already assembled genomes?**
-   
-    `sphae annotate --input <input genomes>`
+
+    `sphae annotate --genome <input genomes>`
     This command runs only Pharokka, Phold and Phynteny to annotate the assembled genomes. The results are saved to a new directory labeled `sphae.out/annotation`. 
 
     Note: Currently, Sphae runs Phold in CPU mode, but efforts are underway to support Phold GPU mode for faster processing of this step.

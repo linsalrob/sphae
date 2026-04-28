@@ -1,7 +1,7 @@
 # Changes being added
 ##1.5.5
-- phageterm removed, need a better way to integrate this. For now best to run this tool as an additional step after the workflow
-- phyntney transformer testing the new version
+- phageterm REMOVEF, need a better way to integrate this. For now best to run this tool as an additional step after the workflow
+- phyntney transformer new conda version tested and added
 - `sphae annotate` updates
   - testing on vMAGS that not only inlclude complete genomes, but fragmented files.
   - Adding the feature to provide proteins as input to `sphae annotate` instead of genomes ONLY

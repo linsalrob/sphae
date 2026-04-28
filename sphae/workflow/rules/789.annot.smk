@@ -17,25 +17,26 @@ def resolve_input(wc):
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
 
-    # genome patterns
     if genome_dir:
         genome_candidates = glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta")) + \
                             glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) + \
                             glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
         if genome_candidates:
-            return genome_candidates[0]
+            return genome_candidates[0], "genome"
 
-    # protein patterns (IMPORTANT FIX)
     if protein_dir:
         protein_candidates = glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) + \
                               glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) + \
                               glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
 
         if protein_candidates:
-            return protein_candidates[0]
+            return protein_candidates[0], "protein"
 
     raise ValueError(f"No input found for {wc.sample}")
 
+"""
+RULES
+"""
 rule pharokka:
     input:
         resolve_input
@@ -66,6 +67,7 @@ rule pharokka:
         from pathlib import Path
 
         infile = input[0]
+        input_type = input[1]
 
         if not Path(infile).exists() or Path(infile).stat().st_size == 0:
             shell("""
@@ -98,11 +100,6 @@ rule pharokka:
             """
 
         shell(cmd)
-
-        # ensure outputs exist for Snakemake
-        shell("""
-            touch {output.gbk} {output.card} {output.vfdb} {output.spacers} \
-                  {output.taxa} {output.cdden} {output.cds}
         """)
 
 
@@ -263,6 +260,7 @@ rule summarize:
         plots=os.path.join(dir_final, "{sample}", "phynteny_plots"),
         outdir=os.path.join(dir_final),
         sample="{sample}",
+
     localrule: True
     script:
         os.path.join(dir_script, 'summary-annot.py')

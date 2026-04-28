@@ -106,6 +106,11 @@ ANNOTATE EXAMPLES
 \b
 sphae anntoate --genome <genomes>  
 sphae annotate --genome <genomes> --output <output> #define output directory
+
+or 
+
+sphae anntoate --proteins <proteins>
+sphae annotate --proteins <proteins> --output <output> #define output
 """
 
 @click.command(epilog=help_msg_install, context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True))
