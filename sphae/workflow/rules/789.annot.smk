@@ -17,13 +17,22 @@ def resolve_input(wc):
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
 
-    genome = os.path.join(genome_dir, f"{wc.sample}.fasta") if genome_dir else None
-    protein = os.path.join(protein_dir, f"{wc.sample}.faa") if protein_dir else None
+    # genome patterns
+    if genome_dir:
+        genome_candidates = glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta")) + \
+                            glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) + \
+                            glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
+        if genome_candidates:
+            return genome_candidates[0]
 
-    if genome and Path(genome).exists():
-        return genome
-    if protein and Path(protein).exists():
-        return protein
+    # protein patterns (IMPORTANT FIX)
+    if protein_dir:
+        protein_candidates = glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) + \
+                              glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) + \
+                              glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
+
+        if protein_candidates:
+            return protein_candidates[0]
 
     raise ValueError(f"No input found for {wc.sample}")
 
