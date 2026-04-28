@@ -16,38 +16,70 @@ RESOLVER FUNCTION (USES PREFLIGHT VALUES)
 import glob
 import os
 
-def resolve_input_file(wc):
-    # Try to find genome files using the same patterns as preflight
+# Build genome/protein lookup from glob patterns (mirroring preflight)
+def build_input_dict():
+    """Build a dictionary mapping sample names to their input files."""
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
-
-    candidates = []
-
+    
+    input_dict = {}
+    
     if genome_dir:
-        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta"))
-        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa"))
-        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
-
+        genome_paths = (
+            glob.glob(os.path.join(genome_dir, '*.fasta')) +
+            glob.glob(os.path.join(genome_dir, '*.fa')) +
+            glob.glob(os.path.join(genome_dir, '*.fna'))
+        )
+        for fp in genome_paths:
+            sample_name = os.path.splitext(os.path.basename(fp))[0]
+            input_dict[sample_name] = fp
+    
     if protein_dir:
-        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa"))
-        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa"))
-        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
+        prot_paths = glob.glob(os.path.join(protein_dir, '*.faa'))
+        for fp in prot_paths:
+            basename = os.path.splitext(os.path.basename(fp))[0]
+            sample_name = re.sub(r'[-_]protein$', '', basename)
+            if sample_name not in input_dict:  # protein is fallback
+                input_dict[sample_name] = fp
+    
+    return input_dict
 
-    if candidates:
-        return candidates[0]
+# Cache the input dictionary
+_input_cache = build_input_dict()
+
+def resolve_input_file(wc):
+    """Resolve input file for a sample using cached dictionary."""
+    if wc.sample in _input_cache:
+        return _input_cache[wc.sample]
     else:
-        # If no file found, raise an error with helpful information
-        error_msg = f"\n[ERROR] Cannot find input genome/protein file for sample: {wc.sample}\n"
-        error_msg += f"\nThe 'genome' and 'proteins' directories in your config are not set or empty.\n"
-        error_msg += f"Current values:\n"
-        error_msg += f"  genome_dir: {genome_dir if genome_dir else '[NOT SET]'}\n"
-        error_msg += f"  protein_dir: {protein_dir if protein_dir else '[NOT SET]'}\n"
-        error_msg += f"\n[SOLUTION] Pass the directory with your genomes via command line:\n"
-        error_msg += f"  snakemake ... --config genome=/path/to/genomes\n"
-        error_msg += f"\nOr update your config.yaml file to include:\n"
-        error_msg += f"  args:\n"
-        error_msg += f"    genome: /path/to/your/genome/directory\n"
-        raise FileNotFoundError(error_msg)
+        # If not found in cache, try glob fallback
+        genome_dir = config['args'].get('genome')
+        protein_dir = config['args'].get('proteins')
+        
+        candidates = []
+        if genome_dir:
+            candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta"))
+            candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa"))
+            candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
+        if protein_dir:
+            candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa"))
+            candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa"))
+            candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
+        
+        if candidates:
+            return candidates[0]
+        else:
+            error_msg = f"\n[ERROR] Cannot find input genome/protein file for sample: {wc.sample}\n"
+            error_msg += f"\nThe 'genome' and 'proteins' directories in your config are not set or empty.\n"
+            error_msg += f"Current values:\n"
+            error_msg += f"  genome_dir: {genome_dir if genome_dir else '[NOT SET]'}\n"
+            error_msg += f"  protein_dir: {protein_dir if protein_dir else '[NOT SET]'}\n"
+            error_msg += f"\n[SOLUTION] Pass the directory with your genomes via command line:\n"
+            error_msg += f"  snakemake ... --config genome=/path/to/genomes\n"
+            error_msg += f"\nOr update your config.yaml file to include:\n"
+            error_msg += f"  args:\n"
+            error_msg += f"    genome: /path/to/your/genome/directory\n"
+            raise FileNotFoundError(error_msg)
 
 
 def resolve_input_type(wc):
