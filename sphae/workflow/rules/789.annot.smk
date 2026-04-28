@@ -137,8 +137,7 @@ rule phynteny_run:
 
 rule phynteny_plotter:
     input:
-        gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        fasta=os.path.join(input_dir, PATTERN_LONG)
+        gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk")
     params:
         gff3=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gff3"),
         prefix="{sample}",
