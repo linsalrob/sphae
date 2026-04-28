@@ -36,7 +36,13 @@ def resolve_input_file(wc):
         return candidates[0]
     else:
         print(f"[WARNING] No input file found for {wc.sample}")
-        return []   # <-- CRITICAL: don't crash Snakemake
+        # Return expected path pattern so Snakemake can report it as missing
+        if genome_dir:
+            return os.path.join(genome_dir, f"{wc.sample}.fasta")
+        elif protein_dir:
+            return os.path.join(protein_dir, f"{wc.sample}.faa")
+        else:
+            return f"{wc.sample}.fasta"
 
 
 def resolve_input_type(wc):
