@@ -1,10 +1,35 @@
+import re
+import shutil
+import sys
+from pathlib import Path
+
+
+"""
+PATTERNS
+"""
+PATTERN_LONG = "{sample}.fasta"
+PATTERN_PROT = "{sample}.faa"
+
+"""
+RESOLVER FUNCTION (FIXED)
+"""
+def resolve_input(wc):
+    genome_dir = config['args'].get('genome')
+    protein_dir = config['args'].get('proteins')
+
+    genome = os.path.join(genome_dir, f"{wc.sample}.fasta") if genome_dir else None
+    protein = os.path.join(protein_dir, f"{wc.sample}.faa") if protein_dir else None
+
+    if genome and Path(genome).exists():
+        return genome
+    if protein and Path(protein).exists():
+        return protein
+
+    raise ValueError(f"No input found for {wc.sample}")
+
 rule pharokka:
     input:
-        lambda wildcards: (
-            os.path.join(input_dir, PATTERN_LONG).format(sample=wildcards.sample)
-            if Path(os.path.join(input_dir, PATTERN_LONG).format(sample=wildcards.sample)).exists()
-            else os.path.join(input_dir, PATTERN_PROT).format(sample=wildcards.sample)
-        )
+        resolve_input
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=config['args']['pharokka_db'],
@@ -206,17 +231,6 @@ rule annotate_summary:
     localrule: True
     script:
         os.path.join(dir_script, "summary_annot_functions.py")
-
-def resolve_input(wc):
-    genome = os.path.join(input_dir, PATTERN_LONG).format(sample=wc.sample)
-    protein = os.path.join(input_dir, PATTERN_PROT).format(sample=wc.sample)
-
-    if Path(genome).exists():
-        return genome
-    elif Path(protein).exists():
-        return protein
-    else:
-        raise ValueError(f"No input found for {wc.sample}")
 
 rule summarize:
     input:
