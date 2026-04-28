@@ -11,12 +11,13 @@ PATTERN_LONG = "{sample}.fasta"
 PATTERN_PROT = "{sample}.faa"
 
 """
-RESOLVER FUNCTION (FIXED)
+RESOLVER FUNCTION (USES PREFLIGHT VALUES)
 """
 import glob
 import os
 
 def resolve_input_file(wc):
+    # Try to find genome files using the same patterns as preflight
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
 
@@ -35,14 +36,14 @@ def resolve_input_file(wc):
     if candidates:
         return candidates[0]
     else:
-        print(f"[WARNING] No input file found for {wc.sample}")
-        # Return expected path pattern so Snakemake can report it as missing
+        # If no file found, raise an error with helpful information
+        error_msg = f"[ERROR] No input file found for {wc.sample}\n"
         if genome_dir:
-            return os.path.join(genome_dir, f"{wc.sample}.fasta")
-        elif protein_dir:
-            return os.path.join(protein_dir, f"{wc.sample}.faa")
-        else:
-            return f"{wc.sample}.fasta"
+            error_msg += f"  Checked genome_dir: {genome_dir}\n"
+        if protein_dir:
+            error_msg += f"  Checked protein_dir: {protein_dir}\n"
+        error_msg += f"  Looking for patterns: {wc.sample}*.fasta, {wc.sample}*.fa, {wc.sample}*.fna, {wc.sample}*.faa\n"
+        raise FileNotFoundError(error_msg)
 
 
 def resolve_input_type(wc):
