@@ -33,7 +33,6 @@ def resolve_input(wc):
             return protein_candidates[0], "protein"
 
     raise ValueError(f"No input found for {wc.sample}")
-return path, "protein"
 
 """
 RULES
