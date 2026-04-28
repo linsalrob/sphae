@@ -25,7 +25,7 @@ def copy_files(input_files, params):
 
 def count_hypothetical_proteins(params):
     count = 0
-    for record in SeqIO.parse(params['gbk'], "genbank"):
+    for record in SeqIO.parse(params['gbks'], "genbank"):
         for feature in record.features:
             if feature.type == "CDS":
                 if "product" in feature.qualifiers:
