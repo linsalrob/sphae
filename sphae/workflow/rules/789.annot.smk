@@ -282,9 +282,21 @@ rule summarize_annotations:
         fi
         """
 
+rule copy_input_genome:
+    """Copy or create symlink to input genome for summary rule."""
+    input:
+        genome=resolve_input_file
+    output:
+        genome_copy=os.path.join(dir_final, "{sample}", "{sample}_input.fasta")
+    shell:
+        """
+        mkdir -p $(dirname {output.genome_copy})
+        cp {input.genome} {output.genome_copy}
+        """
+
 rule summarize:
     input:
-        genome=resolve_input_file,
+        genome=rules.copy_input_genome.output.genome_copy,
         input_type=resolve_input_type,
         gbk = os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots = os.path.join(dir_annot, "{sample}-phynteny", "plots"),
