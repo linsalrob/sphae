@@ -255,7 +255,7 @@ rule annotate_summary:
 
 rule summarize:
     input:
-        genome=resolve_input,
+        genome=resolve_input_file,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
