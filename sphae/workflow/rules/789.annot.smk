@@ -13,25 +13,30 @@ PATTERN_PROT = "{sample}.faa"
 """
 RESOLVER FUNCTION (FIXED)
 """
+import glob
+import os
+
 def resolve_input_file(wc):
     genome_dir = config['args'].get('genome')
     protein_dir = config['args'].get('proteins')
 
+    candidates = []
+
     if genome_dir:
-        genome_candidates = glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta")) + \
-                            glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) + \
-                            glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
-        if genome_candidates:
-            return genome_candidates[0]
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta"))
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa"))
+        candidates += glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna"))
 
     if protein_dir:
-        protein_candidates = glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) + \
-                              glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) + \
-                              glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
-        if protein_candidates:
-            return protein_candidates[0]
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa"))
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa"))
+        candidates += glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa"))
 
-    raise ValueError(f"No input found for {wc.sample}")
+    if candidates:
+        return candidates[0]
+    else:
+        print(f"[WARNING] No input file found for {wc.sample}")
+        return []   # <-- CRITICAL: don't crash Snakemake
 
 
 def resolve_input_type(wc):
@@ -39,18 +44,15 @@ def resolve_input_type(wc):
     protein_dir = config['args'].get('proteins')
 
     if genome_dir:
-        if glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fasta")) or \
-           glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fa")) or \
-           glob.glob(os.path.join(genome_dir, f"{wc.sample}*.fna")):
+        if glob.glob(os.path.join(genome_dir, f"{wc.sample}*")):
             return "genome"
 
     if protein_dir:
-        if glob.glob(os.path.join(protein_dir, f"{wc.sample}*.faa")) or \
-           glob.glob(os.path.join(protein_dir, f"{wc.sample}*protein.faa")) or \
-           glob.glob(os.path.join(protein_dir, f"{wc.sample}*_protein.faa")):
+        if glob.glob(os.path.join(protein_dir, f"{wc.sample}*")):
             return "protein"
 
-    raise ValueError(f"No input type found for {wc.sample}")
+    print(f"[WARNING] No input type found for {wc.sample}")
+    return "unknown"
 
 """
 RULES
@@ -85,11 +87,10 @@ rule pharokka:
         import os
         from pathlib import Path
 
-        infile = input.infile
+        infile = input.infile[0] if isinstance(input.infile, list) else input.infile
         input_type = input.input_type
 
-
-        if not Path(infile).exists() or Path(infile).stat().st_size == 0:
+        if not infile or not Path(infile).exists() or Path(infile).stat().st_size == 0:
             shell("""
                 touch {output.gbk} {output.card} {output.vfdb} {output.spacers} \
                       {output.taxa} {output.cdden} {output.cds}
@@ -241,48 +242,33 @@ rule summarize_annotations:
         fi
         """
 
-rule annotate_summary:
-    input:
-        pharokka_func=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_pharokka.functions"),
-        phold_func=os.path.join(dir_annot,"{sample}-phold","{sample}_phold.functions"),
-        pkl_func=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.functions"),
-    output:
-        summary_gbk=os.path.join(dir_final, "{sample}", "{sample}_summary.functions")
-    params:
-        tmp=os.path.join(dir_annot, "{sample}-phynteny", "temp")
-    localrule: True
-    script:
-        os.path.join(dir_script, "summary_annot_functions.py")
-
 rule summarize:
     input:
-        genome=resolve_input_file,
-        input_type=resolve_input_type,
-        gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        plots=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
-        ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
-        amr =os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
-        acr=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
-        card=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
-        defense=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
-        vfdb_phold=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv"),
+        genome = resolve_input_file,
+        input_type = resolve_input_type,
+        gbk = os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
+        plots = os.path.join(dir_annot, "{sample}-phynteny", "plots"),
+        ph_taxa = os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
+        cdden = os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
+        cds = os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
+        amr = os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
+        vfdb = os.path.join(dir_annot, "{sample}-pharokka", "top_hits_vfdb.tsv"),
+        spacers = os.path.join(dir_annot, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
+        acr = os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card = os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense = os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb_phold = os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv"),
     output:
-        summary=os.path.join(dir_final, "{sample}", "{sample}_summary.txt")
+        summary = os.path.join(dir_final, "{sample}", "{sample}_summary.txt")
     params:
-        genomes= os.path.join(dir_final, "{sample}", "{sample}_input.fasta"),
-        gbks=os.path.join(dir_final, "{sample}", "{sample}.gbk"),
-        plots=os.path.join(dir_final, "{sample}", "phynteny_plots"),
-        outdir=os.path.join(dir_final),
-        sample="{sample}",
-        input_type=resolve_input_type,
+        genomes = os.path.join(dir_final, "{sample}", "{sample}_input.fasta"),
+        gbks = os.path.join(dir_final, "{sample}", "{sample}.gbk"),
+        plots = os.path.join(dir_final, "{sample}", "phynteny_plots"),
+        sample = "{sample}",
+        input_type = resolve_input_type
     localrule: True
     script:
         os.path.join(dir_script, 'summary-annot.py')
-
 
 rule accessory_files:
     input:
