@@ -51,6 +51,7 @@ def resolve_input_type(wc):
             return "protein"
 
     raise ValueError(f"No input type found for {wc.sample}")
+
 """
 RULES
 """
@@ -256,6 +257,7 @@ rule annotate_summary:
 rule summarize:
     input:
         genome=resolve_input_file,
+        input_type=resolve_input_type,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
@@ -276,7 +278,7 @@ rule summarize:
         plots=os.path.join(dir_final, "{sample}", "phynteny_plots"),
         outdir=os.path.join(dir_final),
         sample="{sample}",
-
+        input_type=resolve_input_type,
     localrule: True
     script:
         os.path.join(dir_script, 'summary-annot.py')
