@@ -39,8 +39,7 @@ RULES
 """
 rule pharokka:
     input:
-        infile=lambda wc: resolve_input(wc)[0],
-        input_type=lambda wc: resolve_input(wc)[1]
+        resolve=lambda wc: resolve_input(wc)
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db=config['args']['pharokka_db'],
@@ -67,8 +66,7 @@ rule pharokka:
         import os
         from pathlib import Path
 
-        infile = input.infile
-        input_type = input.input_type
+        infile, input_type = input.resolve
 
         if not Path(infile).exists() or Path(infile).stat().st_size == 0:
             shell("""
@@ -78,7 +76,7 @@ rule pharokka:
             return
 
         # decide which mode
-        if infile.endswith((".fa", ".fasta", ".fna")):
+        if input_type == "genome":
             cmd = f"""
             PYTHONWARNINGS="ignore" pharokka.py \
                 -i {infile} \
@@ -99,6 +97,7 @@ rule pharokka:
                 -f -p {wildcards.sample} \
                 2> {log}
             """
+         shell(cmd)
 
 rule phold_run:
     input:
