@@ -97,7 +97,7 @@ rule pharokka:
                 -f -p {wildcards.sample} \
                 2> {log}
             """
-         shell(cmd)
+        shell(cmd)
 
 rule phold_run:
     input:
