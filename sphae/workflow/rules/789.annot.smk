@@ -256,7 +256,7 @@ rule summarize_annotations:
 rule summarize:
     input:
         genome=resolve_input_file,
-        input_type=resolve_input_type
+        input_type=resolve_input_type,
         gbk = os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         plots = os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa = os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
@@ -275,7 +275,7 @@ rule summarize:
         genomes = os.path.join(dir_final, "{sample}", "{sample}_input.fasta"),
         gbks = os.path.join(dir_final, "{sample}", "{sample}.gbk"),
         plots = os.path.join(dir_final, "{sample}", "phynteny_plots"),
-        sample = "{sample}",
+        sample = "{sample}"
     localrule: True
     script:
         os.path.join(dir_script, 'summary-annot.py')
