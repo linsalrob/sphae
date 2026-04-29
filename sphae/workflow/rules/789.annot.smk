@@ -1,7 +1,35 @@
+import re
+import shutil
+import sys
+from pathlib import Path
+
+"""
+PATTERNS
+"""
+PATTERN_LONG = "{sample}.fasta"
+PATTERN_PROT = "{sample}.faa"
+
+"""
+RESOLVER FUNCTION (FIXED)
+"""
+def resolve_input(wc):
+    genome_dir = config['args'].get('genome')
+    protein_dir = config['args'].get('proteins')
+
+    genome = os.path.join(genome_dir, f"{wc.sample}.fasta") if genome_dir else None
+    protein = os.path.join(protein_dir, f"{wc.sample}.faa") if protein_dir else None
+
+    if genome and Path(genome).exists():
+        return genome
+    if protein and Path(protein).exists():
+        return protein
+
+    raise ValueError(f"No input found for {wc.sample}")
+
 rule pharokka_annotate:
     """Annotate genomes with Pharokka for annotate function"""
     input:
-        os.path.join(input_dir, PATTERN_LONG)
+        resolve_input
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db = config['args']['pharokka_db'],
