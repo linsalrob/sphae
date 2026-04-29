@@ -57,6 +57,8 @@ rule pharokka_annotate_prot:
         fi
         """
 
+rule pharokka_tsv2gbk:
+    
 rule phold_run:
     input:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
