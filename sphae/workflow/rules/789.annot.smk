@@ -52,7 +52,7 @@ def get_outputs(wc):
 
     return base
 
-rule pharokka_annotate_genome:
+rule pharokka_annotate:
     """Annotate genomes with Pharokka for annotate function"""
     input:
         resolve_input
