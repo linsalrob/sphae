@@ -218,7 +218,7 @@ rule summarize:
     input:
         genome=resolve_input,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots", "{sample}.png"),
+        plot=directory(os.path.join(dir_annot, "{sample}-phynteny", "plots")),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
         cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
@@ -234,7 +234,7 @@ rule summarize:
     params:
         genomes= os.path.join(dir_final, "{sample}", "{sample}_genome.fasta"),
         gbks=os.path.join(dir_final, "{sample}", "{sample}.gbk"),
-        plots=os.path.join(dir_final, "{sample}", "{sample}_phynteny_plot.png"),
+        plots=directory(os.path.join(dir_final, "{sample}", "{sample}_phynteny")),
         outdir=os.path.join(dir_final),
         sample="{sample}",
     localrule: True
