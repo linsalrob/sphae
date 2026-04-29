@@ -87,6 +87,13 @@ rule pharokka_annotate_genome:
                     -t {threads} \
                     -f -p {params.sp} \
                     2> {log}
+                touch {output.gbk}
+                touch {output.card}
+                touch {output.vfdb}
+                touch {output.spacers}
+                touch {output.taxa}
+                touch {output.cdden}
+                touch {output.cds}
             fi
         fi
         """
@@ -228,7 +235,7 @@ rule summarize:
     input:
         genome=resolve_input,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
-        plot=directory(os.path.join(dir_annot, "{sample}-phynteny", "plots")),
+        plot=os.path.join(dir_annot, "{sample}-phynteny", "plots"),
         ph_taxa =os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
         cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
         cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"),
