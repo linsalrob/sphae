@@ -8,7 +8,10 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 """Rules"""
 include: os.path.join("rules", "1.preflight-annot.smk")
 include: os.path.join("rules", "2.targets-annot.smk")
-include: os.path.join("rules", "789.annot.smk")
+if config['args'].get('genome'):
+    include: os.path.join("rules", "789.genome.annot.smk")
+elif config['args'].get('proteins'):
+    include: os.path.join("rules", "789.prot.annot.smk")
 include: os.path.join("rules", "10.trees.smk")
 
 

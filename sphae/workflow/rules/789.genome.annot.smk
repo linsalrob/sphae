@@ -7,31 +7,18 @@ from pathlib import Path
 PATTERNS
 """
 PATTERN_LONG = "{sample}.fasta"
-PATTERN_PROT = "{sample}.faa"
 
 """
 RESOLVER FUNCTION
 """
 def resolve_input(wc):
     genome_dir = config['args'].get('genome')
-    protein_dir = config['args'].get('proteins')
 
     genome = os.path.join(genome_dir, f"{wc.sample}.fasta") if genome_dir else None
-    protein = os.path.join(protein_dir, f"{wc.sample}.faa") if protein_dir else None
-
+=
     if genome and Path(genome).exists():
         return genome
-    if protein and Path(protein).exists():
-        return protein
-
     raise ValueError(f"No input found for {wc.sample}")
-
-if config['args'].get('genome'):
-    input_type = "genome"
-elif config['args'].get('proteins'):
-    input_type = "proteins"
-else:
-    raise ValueError("Please provide either a genome directory or a protein directory, but not both.")
 
 """
 FUNCTION to get the outputs for pharokka since this is dependent on the input type
@@ -39,9 +26,8 @@ FUNCTION to get the outputs for pharokka since this is dependent on the input ty
 rule pharokka_annotate_genome:
     """Annotate genomes with Pharokka for annotate function"""
     input:
-        resolve_input
+        input=resolve_input,
     params:
-        itype=input_type,
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db = config['args']['pharokka_db'],
         sp="{sample}",
@@ -66,52 +52,25 @@ rule pharokka_annotate_genome:
     shell:
         """
         if [[ -s {input} ]] ; then
-            if [[ "{params.itype}" == "genome" ]]; then
-                PYTHONWARNINGS="ignore" pharokka.py \
-                    -i {input} \
-                    -o {params.o} \
-                    -d {params.db} \
-                    -g {params.genes} \
-                    -t {threads} \
-                    -f -p {params.sp}\
-                    2> {log}
-                touch {output.gbk}
-                touch {output.card}
-                touch {output.vfdb}
-                touch {output.spacers}
-                touch {output.taxa}
-                touch {output.cdden}
-                touch {output.cds}
-            else
-                PYTHONWARNINGS="ignore" pharokka_proteins.py \
-                    -i {input} \
-                    -o {params.o} \
-                    -d {params.db} \
-                    -t {threads} \
-                    -f -p {params.sp} \
-                    2> {log}
-                python - << EOF
-            from Bio import SeqIO
-
-            records = []
-            for rec in SeqIO.parse("{input}", "fasta"):
-                rec.annotations["molecule_type"] = "protein"
-                records.append(rec)
-
-            SeqIO.write(records, "{params.o}/{wildcards.sample}.gbk", "genbank")
-            EOF
-            fi
-                touch {output.card}
-                touch {output.vfdb}
-                touch {output.spacers}
-                touch {output.taxa}
-                touch {output.cdden}
-                touch {output.cds}
-            fi
+            PYTHONWARNINGS="ignore" pharokka.py \
+                -i {input} \
+                -o {params.o} \
+                -d {params.db} \
+                -g {params.genes} \
+                -t {threads} \
+                -f -p {params.sp}\
+                2> {log}
+            touch {output.gbk}
+            touch {output.card}
+            touch {output.vfdb}
+            touch {output.spacers}
+            touch {output.taxa}
+            touch {output.cdden}
+            touch {output.cds}
         fi
         """
 
-rule phold_run:
+rule phold_run_genome:
     input:
         gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
     params:
@@ -144,7 +103,7 @@ rule phold_run:
         fi
         """
 
-rule phynteny_run:
+rule phynteny_run_genome:
     input:
         gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk")
     params:
@@ -173,7 +132,7 @@ rule phynteny_run:
         fi
         """
 
-rule phynteny_plotter:
+rule phynteny_plotter_genomes:
     input:
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
         fasta=resolve_input
@@ -196,7 +155,7 @@ rule phynteny_plotter:
         fi
         """
 
-rule summarize_annotations:
+rule summarize_annotations_genome:
     input: 
         pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
         phold=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk"),
@@ -231,7 +190,7 @@ rule summarize_annotations:
         fi
         """
 
-rule annotate_summary:
+rule annotate_summary_genome:
     input:
         pharokka_func=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_pharokka.functions"),
         phold_func=os.path.join(dir_annot,"{sample}-phold","{sample}_phold.functions"),
@@ -272,7 +231,7 @@ rule summarize:
         os.path.join(dir_script, 'summary-annot.py')
 
 
-rule accessory_files:
+rule accessory_files_genome:
     input:
         summary=os.path.join(dir_final, "{sample}", "{sample}_summary.txt"),
         acr=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
