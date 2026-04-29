@@ -10,7 +10,7 @@ PATTERN_LONG = "{sample}.fasta"
 PATTERN_PROT = "{sample}.faa"
 
 """
-RESOLVER FUNCTION (FIXED)
+RESOLVER FUNCTION
 """
 def resolve_input(wc):
     genome_dir = config['args'].get('genome')
@@ -26,11 +26,19 @@ def resolve_input(wc):
 
     raise ValueError(f"No input found for {wc.sample}")
 
-rule pharokka_annotate:
+if config['args'].get('genome'):
+    input_type = "genome"
+elif config['args'].get('proteins'):
+    input_type = "proteins"
+else:
+    raise ValueError("Please provide either a genome directory or a protein directory, but not both.")
+
+rule pharokka_annotate_genome:
     """Annotate genomes with Pharokka for annotate function"""
     input:
         resolve_input
     params:
+        itype=input_type
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db = config['args']['pharokka_db'],
         sp="{sample}",
@@ -55,29 +63,31 @@ rule pharokka_annotate:
     shell:
         """
         if [[ -s {input} ]] ; then
-            PYTHONWARNINGS="ignore" pharokka.py \
-                -i {input} \
-                -o {params.o} \
-                -d {params.db} \
-                -g {params.genes} \
-                -t {threads} \
-                -f -p {params.sp}\
-                2> {log}
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
-        else
-            touch {output.gbk}
-            touch {output.card}
-            touch {output.vfdb}
-            touch {output.spacers}
-            touch {output.taxa}
-            touch {output.cdden}
-            touch {output.cds}
+            if [[ "{params.itype}" == "genome" ]]; then
+                PYTHONWARNINGS="ignore" pharokka.py \
+                    -i {input} \
+                    -o {params.o} \
+                    -d {params.db} \
+                    -g {params.genes} \
+                    -t {threads} \
+                    -f -p {params.sp}\
+                    2> {log}
+                touch {output.gbk}
+                touch {output.card}
+                touch {output.vfdb}
+                touch {output.spacers}
+                touch {output.taxa}
+                touch {output.cdden}
+                touch {output.cds}
+            else
+                PYTHONWARNINGS="ignore" pharokka_proteins.py \
+                    -i {input} \
+                    -o {params.o} \
+                    -d {params.db} \
+                    -t {threads} \
+                    -f -p {params.sp} \
+                    2> {log}
+            fi
         fi
         """
 
