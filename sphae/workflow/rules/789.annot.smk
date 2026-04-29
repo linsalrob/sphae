@@ -33,6 +33,25 @@ elif config['args'].get('proteins'):
 else:
     raise ValueError("Please provide either a genome directory or a protein directory, but not both.")
 
+"""
+FUNCTION to get the outputs for pharokka since this is dependent on the input type
+"""
+def get_outputs(wc):
+    base = {}
+
+    if input_type == "genome":
+        base["gbk"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}.gbk")
+        base["card"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", "top_hits_card.tsv")
+        base["vfdb"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", "top_hits_vfdb.tsv")
+        base["spacers"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}_minced_spacers.txt")
+        base["taxa"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}_top_hits_mash_inphared.tsv")
+        base["cdden"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}_length_gc_cds_density.tsv")
+        base["cds"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}_cds_functions.tsv")
+    else:
+        base["gbk"] = os.path.join(dir_annot, f"{wc.sample}-pharokka", f"{wc.sample}.gbk")
+
+    return base
+
 rule pharokka_annotate_genome:
     """Annotate genomes with Pharokka for annotate function"""
     input:
@@ -44,13 +63,7 @@ rule pharokka_annotate_genome:
         sp="{sample}",
         genes= config['params']['gene-predict'],
     output:
-        gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
-        card=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_card.tsv"),
-        vfdb=os.path.join(dir_annot, "{sample}-pharokka", "top_hits_vfdb.tsv"),
-        spacers=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_minced_spacers.txt"),
-        taxa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_top_hits_mash_inphared.tsv"),
-        cdden=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"),
-        cds=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv")
+       get_outputs,
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:
@@ -80,20 +93,26 @@ rule pharokka_annotate_genome:
                 touch {output.cdden}
                 touch {output.cds}
             else
-                PYTHONWARNINGS="ignore" pharokka_proteins.py \
-                    -i {input} \
-                    -o {params.o} \
-                    -d {params.db} \
-                    -t {threads} \
-                    -f -p {params.sp} \
-                    2> {log}
+            PYTHONWARNINGS="ignore" pharokka_proteins.py \
+                -i {input} \
+                -o {params.o} \
+                -d {params.db} \
+                -t {threads} \
+                -f -p {params.sp} \
+                2> {log}
+
+            python - << EOF
+        from Bio import SeqIO
+
+        records = []
+        for rec in SeqIO.parse("{input}", "fasta"):
+            rec.annotations["molecule_type"] = "protein"
+            records.append(rec)
+
+        SeqIO.write(records, "{params.o}/{wildcards.sample}.gbk", "genbank")
+        EOF
+        fi
                 touch {output.gbk}
-                touch {output.card}
-                touch {output.vfdb}
-                touch {output.spacers}
-                touch {output.taxa}
-                touch {output.cdden}
-                touch {output.cds}
             fi
         fi
         """
