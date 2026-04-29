@@ -10,8 +10,8 @@ def copy_files(input_files, params):
 
     os.makedirs(params['plots'], exist_ok=True)
 
-    plot_files = glob.glob(os.path.join(input_files['plots'], "*.svg")) + \
-                 glob.glob(os.path.join(input_files['plots'], "*.png"))
+    plot_files = glob.glob(os.path.join(input_files['plot'], "*.svg")) + \
+                 glob.glob(os.path.join(input_files['plot'], "*.png"))
 
     if len(plot_files) == 0:
         print("Warning: No plot files found")
@@ -128,7 +128,7 @@ def generate_summary(input_files, output_summary, params):
 input_files = {
     'genome': snakemake.input.genome,
     'gbk': snakemake.input.gbk,
-    'plots': snakemake.input.plots,
+    'plot': snakemake.input.plot,
     'taxa': snakemake.input.ph_taxa,
     'cdden': snakemake.input.cdden,
     'cds': snakemake.input.cds,
