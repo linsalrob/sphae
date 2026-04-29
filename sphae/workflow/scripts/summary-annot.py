@@ -148,7 +148,7 @@ params = {
     'genomes': snakemake.params.genomes,
     'gbks': snakemake.params.gbks,
     'plots': snakemake.params.plots,
-    'input_type': snakemake.params.input_type
+    #'input_type': snakemake.params.input_type
 }
 
 generate_summary(input_files, output_summary, params)
