@@ -15,7 +15,7 @@ def resolve_input(wc):
     genome_dir = config['args'].get('genome')
 
     genome = os.path.join(genome_dir, f"{wc.sample}.fasta") if genome_dir else None
-=
+
     if genome and Path(genome).exists():
         return genome
     raise ValueError(f"No input found for {wc.sample}")
