@@ -38,7 +38,7 @@ rule pharokka_annotate_genome:
     input:
         resolve_input
     params:
-        itype=input_type
+        itype=input_type,
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db = config['args']['pharokka_db'],
         sp="{sample}",
