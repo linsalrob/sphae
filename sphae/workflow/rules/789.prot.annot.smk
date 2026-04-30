@@ -66,7 +66,7 @@ rule phold_run_protein:
         prefix="{sample}",
         db = config['args']['phold_db']
     output:
-        out=os.path.join(dir_annot, "{sample}-phold","{sample}._aa.fasta"),
+        out=os.path.join(dir_annot, "{sample}-phold","{sample}_aa.fasta"),
     threads: 
         config['resources']['smalljob']['threads']
     conda:
