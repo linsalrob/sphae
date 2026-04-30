@@ -141,7 +141,7 @@ rule accessory_files_proteins:
     localrule: True
     shell:
         """
-        cp -r {input.inputs} {params.output}/.
+        cp -r {input.inputs} {params.output_dir}/.
         cp -r {input.pharokka} {output.pharokka}
         cp -r {input.phold} {output.phold}
         cp -r {input.acr} {output.acr}
