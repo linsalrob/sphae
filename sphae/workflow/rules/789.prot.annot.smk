@@ -67,6 +67,11 @@ rule phold_run_protein:
         db = config['args']['phold_db']
     output:
         out=os.path.join(dir_annot, "{sample}-phold","{sample}_aa.fasta"),
+        tsv=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv"),
+        acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
     threads: 
         config['resources']['smalljob']['threads']
     conda:
@@ -84,4 +89,32 @@ rule phold_run_protein:
         else
             touch {output.out}
         fi
+        """
+
+rule summarise:
+    input:
+        pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"),
+        phold=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv")
+        acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
+    output:
+        os.path.join(dir_annot, "{sample}-summary.txt")
+    params:
+        samples="{sample}"
+    localrule: True
+    shell:
+        """
+        echo "Sample: {params.samples}"" > {output}
+        echo "Sequence type: protein" >> {output}
+        echo Number of proteins: $(( $(wc -l < {input.pharokka}) -1 )) >> {output}
+        echo Number of CDS annotated as "hypothetical protein": $(grep -c "hypothetical protein" {input.phold}) >> {output}
+        echo "Integrases: $(grep -c "integrase" {input.phold})" >> {output}
+        echo "Recombinases: $(grep -c "recombinase" {input.phold})" >> {output}
+        echo "Transposases: $(grep -c "transposase" {input.phold})" >> {output}
+        echo "Virulence factors: $(grep -c "vfdb" {input.vfdb})" >> {output}
+        echo "Antimicrobial resistance genes: $(grep -c "card" {input.card})" >> {output}
+        echo "Defense systems: $(grep -c "defensefinder" {input.defense})" >> {output}
+        echo "Anti-CRISPRs: $(grep -c "acr" {input.acr})" >> {output}
         """

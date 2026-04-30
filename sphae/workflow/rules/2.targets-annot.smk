@@ -25,4 +25,9 @@ elif config['args'].get('proteins'):
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}.faa"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold","{sample}_aa.fasta"),sample=samples_names))
-
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "acr_cds_predictions.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "card_cds_predictions.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-summary.txt"), sample=samples_names))

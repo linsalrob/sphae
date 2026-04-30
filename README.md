@@ -190,6 +190,7 @@ sphae annotate --genome <genomes directory> --output example -k
 
 #Alternative
 #in the case that there is already a prefered protein predictions
+#Note: This version doesnt run Phynteny since genbank file is never generated. 
 sphae annotate --protein <protein directory> --output example -k
 ```
 
