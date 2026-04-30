@@ -221,6 +221,8 @@ Genome summary file includes the following information to help,
     - Whether any virulence factors were found (Pharokka search against virulence gene database)
     - Whether any CRISPR spacers were found (Pharokka search against MinCED database) 
 
+   Note: This lines in the file does change when `sphae annotate` is run. In these cases too, depending on `--genome` or `--protein` is used as the input parameter.  
+
 Output for `sphae annotate` is saved to `example/final-annotate` directory. In this directory there will be; 
   - Genome annotations in GenBank format (Phynteny output)
   - Genome in fasta format (either the reoriented to terminase output from Pharokka, or assembled viral contigs)
