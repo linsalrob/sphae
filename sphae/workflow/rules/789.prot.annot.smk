@@ -142,7 +142,7 @@ rule phynteny_plotter:
         fi
         """
 
-rule summarize_annotations:
+rule summarize_annotations_proteins:
     input: 
         pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk"),
         phold=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk"),
@@ -177,7 +177,7 @@ rule summarize_annotations:
         fi
         """
 
-rule annotate_summary:
+rule annotate_summary_proteins:
     input:
         pharokka_func=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_pharokka.functions"),
         phold_func=os.path.join(dir_annot,"{sample}-phold","{sample}_phold.functions"),
@@ -190,7 +190,7 @@ rule annotate_summary:
     script:
         os.path.join(dir_script, "summary_annot_functions.py")
 
-rule summarize:
+rule summarize_proteins:
     input:
         genome=resolve_input,
         gbk=os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"),
@@ -218,7 +218,7 @@ rule summarize:
         os.path.join(dir_script, 'summary-annot.py')
 
 
-rule accessory_files:
+rule accessory_files_proteins:
     input:
         summary=os.path.join(dir_final, "{sample}", "{sample}_summary.txt"),
         acr=os.path.join(dir_annot,"{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
