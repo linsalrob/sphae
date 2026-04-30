@@ -181,6 +181,8 @@ This step reruns
    - Pharokka, Phold, Phynteny
    - Phylogenetic tree with terminase large subunit, portal protein
    
+Here I have also added the option to allow for multiple contigs in a file (multiple phages or frgamented phage genome). 
+
 ```bash
 #the genomes directory has the already assembled complete genomes
 #run the export commands to set the database paths 
