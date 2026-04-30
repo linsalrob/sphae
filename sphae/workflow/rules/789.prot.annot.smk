@@ -106,10 +106,10 @@ rule summarise_proteins:
     localrule: True
     shell:
         """
-        echo "Sample: {params.samples}"" > {output}
+        echo "Sample: {params.samples}" > {output}
         echo "Sequence type: protein" >> {output}
-        echo Number of proteins: $(( $(wc -l < {input.pharokka}) -1 )) >> {output}
-        echo Number of CDS annotated as "hypothetical protein": $(grep -c "hypothetical protein" {input.phold}) >> {output}
+        echo "Number of proteins: $(( $(wc -l < {input.pharokka}) - 1 ))" >> {output}
+        echo "Number of CDS annotated as \"hypothetical protein\": $(grep -c "hypothetical protein" {input.phold})" >> {output}
         echo "Integrases: $(grep -c "integrase" {input.phold})" >> {output}
         echo "Recombinases: $(grep -c "recombinase" {input.phold})" >> {output}
         echo "Transposases: $(grep -c "transposase" {input.phold})" >> {output}
