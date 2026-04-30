@@ -91,7 +91,7 @@ rule phold_run_protein:
         fi
         """
 
-rule summarise:
+rule summarise_proteins:
     input:
         pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"),
         phold=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv")
