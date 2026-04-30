@@ -82,6 +82,6 @@ rule phold_run_protein:
             phold proteins-predict -i {input.faa} -o {params.predict} -p {params.prefix} -t {threads} --cpu -d {params.db} -f 2> {log}
             phold proteins-compare -i {input.faa} --predictions_dir {params.predict} -p {params.prefix} -o {params.o} -t {threads} -d {params.db} -f 2> {log}
         else
-            touch {output.gbk}
+            touch {output.out}
         fi
         """
