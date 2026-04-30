@@ -27,7 +27,7 @@ FUNCTION to get the outputs for pharokka since this is dependent on the input ty
 rule pharokka_annotate_prot:
     """Annotate genomes with Pharokka for annotate function"""
     input:
-        input=resolve_input,
+        resolve_input,
     params:
         o=os.path.join(dir_annot, "{sample}-pharokka"),
         db = config['args']['pharokka_db'],
@@ -57,9 +57,9 @@ rule pharokka_annotate_prot:
         fi
         """
 
-rule phold_run:
+rule phold_run_protein:
     input:
-        gbk=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.gbk")
+        faa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins.faa"),
     params:
         predict=os.path.join(dir_annot, "{sample}-predict"),
         o=os.path.join(dir_annot, "{sample}-phold"),
@@ -83,14 +83,14 @@ rule phold_run:
     shell:
         """
         if [[ -s {input.gbk} ]] ; then
-            phold predict -i {input.gbk} -o {params.predict} -p {params.prefix} -t {threads} --cpu -d {params.db} -f 2> {log}
-            phold compare -i {input.gbk} --predictions_dir {params.predict} -p {params.prefix} -o {params.o} -t {threads} -d {params.db} -f 2> {log}
+            phold proteins-predict -i {input.faa} -o {params.predict} -p {params.prefix} -t {threads} --cpu -d {params.db} -f 2> {log}
+            phold proteins-compare -i {input.faa} --predictions_dir {params.predict} -p {params.prefix} -o {params.o} -t {threads} -d {params.db} -f 2> {log}
         else
             touch {output.gbk}
         fi
         """
 
-rule phynteny_run:
+rule phynteny_run_proteins:
     input:
         gbk=os.path.join(dir_annot, "{sample}-phold","{sample}.gbk")
     params:
