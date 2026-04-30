@@ -118,3 +118,28 @@ rule summarise_proteins:
         echo "Defense systems: $(grep -c "defensefinder" {input.defense})" >> {output}
         echo "Anti-CRISPRs: $(grep -c "acr" {input.acr})" >> {output}
         """
+
+rule accessory_files_proteins:
+    input:
+        inputs=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.faa"),
+        pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"),
+        phold=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv"),
+        acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
+        card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
+        defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
+        vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
+    output:
+        directory(os.path.join(dir_final, "{sample}"))
+    params:
+        sample="{sample}"
+    localrule: True
+    shell:
+        """
+        cp -r {input.inputs} {output}/.
+        cp -r {input.pharokka} {output}/{params.sample}_pharokka_annot_output.tsv
+        cp -r {input.phold} {output}/{params.sample}_phold_annot_output.tsv
+        cp -r {input.acr} {output}/{params.sample}_phold_acr_output.tsv
+        cp -r {input.card} {output}/{params.sample}_phold_card_output.tsv
+        cp -r {input.defense} {output}/{params.sample}_phold_defense_output.tsv
+        cp -r {input.vfdb} {output}/{params.sample}_phold_vfdb_output.tsv
+        """
