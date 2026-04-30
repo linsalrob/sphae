@@ -94,7 +94,7 @@ rule phold_run_protein:
 rule summarise_proteins:
     input:
         pharokka=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"),
-        phold=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv")
+        phold=os.path.join(dir_annot, "{sample}-phold","{sample}_per_cds_predictions.tsv"),
         acr=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "acr_cds_predictions.tsv"),
         card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
         defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
