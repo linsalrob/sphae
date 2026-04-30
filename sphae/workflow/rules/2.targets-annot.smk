@@ -20,7 +20,7 @@ targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub
 targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phynteny", "phynteny.gbk"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phynteny", "plots"),sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_summary.txt"), sample=samples_names))
-targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_summary.functions"), sample=samples_names))
+#targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_summary.functions"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_phold_amr.tsv"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_phold_vfdb.tsv"), sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}_phold_acr.tsv"), sample=samples_names))
