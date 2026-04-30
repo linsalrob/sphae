@@ -33,8 +33,8 @@ rule pharokka_annotate_prot:
         db = config['args']['pharokka_db'],
         sp="{sample}",
     output:
-        faa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins.faa"),
-        merged=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins_full_merged_output.tsv")
+        faa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.faa"),
+        merged=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv")
     conda:
         os.path.join(dir_env, "pharokka.yaml")
     threads:

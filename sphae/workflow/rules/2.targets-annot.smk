@@ -9,8 +9,8 @@ if config['args'].get('genome'):
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_length_gc_cds_density.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_cds_functions.tsv"), sample=samples_names))
 elif config['args'].get('proteins'):
-    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins.faa"), sample=samples_names))
-    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins_full_merged_output.tsv"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}.faa"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-pharokka", "{sample}_full_merged_output.tsv"), sample=samples_names))
 
 targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "{sample}.gbk"),sample=samples_names))
 targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "acr_cds_predictions.tsv"), sample=samples_names))
