@@ -50,7 +50,7 @@ if protein_dir:
     prot_paths = glob.glob(os.path.join(protein_dir, '*.faa'))
 
     samples_prot = [
-        os.path.splitext(os.path.basename(fp))[0])
+        os.path.splitext(os.path.basename(fp))[0]
         for fp in prot_paths
     ]
 
