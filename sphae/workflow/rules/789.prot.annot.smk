@@ -47,7 +47,7 @@ rule pharokka_annotate_prot:
     shell:
         """
         if [[ -s {input} ]] ; then
-            PYTHONWARNINGS="ignore" pharokka_proteins.py -i \
+            PYTHONWARNINGS="ignore" pharokka_proteins.py \
                 -i {input} \
                 -o {params.o} \
                 -d {params.db} \
