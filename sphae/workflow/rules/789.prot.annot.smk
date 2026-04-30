@@ -59,7 +59,7 @@ rule pharokka_annotate_prot:
 
 rule phold_run_protein:
     input:
-        faa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}_proteins.faa"),
+        faa=os.path.join(dir_annot, "{sample}-pharokka", "{sample}.faa"),
     params:
         predict=os.path.join(dir_annot, "{sample}-predict"),
         o=os.path.join(dir_annot, "{sample}-phold"),
