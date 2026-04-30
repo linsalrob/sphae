@@ -128,18 +128,24 @@ rule accessory_files_proteins:
         card=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "card_cds_predictions.tsv"),
         defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
         vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
-    output:
-        directory(os.path.join(dir_final, "{sample}"))
     params:
-        sample="{sample}"
+        samples="{sample}",
+        output_dir=os.path.join(dir_final, "{sample}")
+    output:
+        pharokka=os.path.join(dir_final, "{sample}", "{sample}_pharokka_annot_output.tsv"),
+        phold=os.path.join(dir_final, "{sample}", "{sample}_phold_annot_output.tsv"), 
+        acr=os.path.join(dir_final, "{sample}", "{sample}_phold_acr_output.tsv"), 
+        card=os.path.join(dir_final, "{sample}", "{sample}_phold_card_output.tsv"), 
+        defense=os.path.join(dir_final, "{sample}", "{sample}_phold_defense_output.tsv"), 
+        vfdb=os.path.join(dir_final, "{sample}", "{sample}_phold_vfdb_output.tsv"),
     localrule: True
     shell:
         """
-        cp -r {input.inputs} {output}/.
-        cp -r {input.pharokka} {output}/{params.sample}_pharokka_annot_output.tsv
-        cp -r {input.phold} {output}/{params.sample}_phold_annot_output.tsv
-        cp -r {input.acr} {output}/{params.sample}_phold_acr_output.tsv
-        cp -r {input.card} {output}/{params.sample}_phold_card_output.tsv
-        cp -r {input.defense} {output}/{params.sample}_phold_defense_output.tsv
-        cp -r {input.vfdb} {output}/{params.sample}_phold_vfdb_output.tsv
+        cp -r {input.inputs} {params.output}/.
+        cp -r {input.pharokka} {output.pharokka}
+        cp -r {input.phold} {output.phold}
+        cp -r {input.acr} {output.acr}
+        cp -r {input.card} {output.card}
+        cp -r {input.defense} {output.defense}
+        cp -r {input.vfdb} {output.vfdb}
         """
