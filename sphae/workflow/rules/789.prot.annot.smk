@@ -100,7 +100,7 @@ rule summarise_proteins:
         defense=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "defensefinder_cds_predictions.tsv"),
         vfdb=os.path.join(dir_annot, "{sample}-phold","sub_db_tophits", "vfdb_cds_predictions.tsv")
     output:
-        os.path.join(dir_annot, "{sample}-summary.txt")
+        os.path.join(dir_final, "{sample}", "{sample}-summary.txt")
     params:
         samples="{sample}"
     localrule: True

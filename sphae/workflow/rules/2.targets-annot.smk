@@ -30,4 +30,4 @@ elif config['args'].get('proteins'):
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "card_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "defensefinder_cds_predictions.tsv"), sample=samples_names))
     targets['annotate'].append(expand(os.path.join(dir_annot, "{sample}-phold", "sub_db_tophits", "vfdb_cds_predictions.tsv"), sample=samples_names))
-    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}-summary.txt"), sample=samples_names))
+    targets['annotate'].append(expand(os.path.join(dir_final, "{sample}", "{sample}-summary.txt"), sample=samples_names))
