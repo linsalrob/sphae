@@ -4,7 +4,8 @@
 - phyntney transformer new conda version tested and added
 - `sphae annotate` updates
   - testing on vMAGS that not only inlclude complete genomes, but fragmented files.
-  - Adding the feature to provide PROTEINS as input to `sphae annotate` instead of genomes ONLY
+  - Adding the feature to provide PROTEINS as input to `sphae annotate` instead of genomes ONLY. These results will not generate genbank files.
+    - Annotations generated are in table format
   - Update the summary to include number of contigs, total genome length to summary
 
 ## v1.5.4
