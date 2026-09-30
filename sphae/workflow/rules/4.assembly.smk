@@ -16,7 +16,6 @@ rule flye:
     params:
         out= os.path.join(dir_flye, "{sample}-sr"),
         model = config['params']['flye'],
-        g = config['params']['genomeSize']
     log:
         os.path.join(dir_log, "flye.{sample}.log")
     conda:
@@ -32,8 +31,6 @@ rule flye:
             {params.model} \
             {input} \
             --threads {threads}  \
-            --asm-coverage 50 \
-            --genome-size {params.g} \
             --out-dir {params.out} \
             2> {log}; then
                 touch {output.fasta}
