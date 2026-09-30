@@ -1,5 +1,8 @@
 # Changes being added
-##1.5.5
+## 1.5.6 
+- Flye updated to remove the --genomse size parameter, fix to issue https://github.com/linsalrob/sphae/issues/46#issue-5495765678
+  
+## 1.5.5
 - phageterm REMOVEF, need a better way to integrate this. For now best to run this tool as an additional step after the workflow
 - phyntney transformer new conda version tested and added
 - `sphae annotate` updates
