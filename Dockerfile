@@ -27,7 +27,7 @@ RUN (if [ -e /tmp/build ]; then rm -rf /tmp/build; fi;) \
       && make -j 16 \ 
       && make install
 
-ARG SPHAE_VERSION=1.5.2
+ARG SPHAE_VERSION=1.5.6
 
 #
 # Install miniforge
